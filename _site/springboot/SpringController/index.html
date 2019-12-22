@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en" class="h-100 w-100">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+     <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <title>DevNotes | SpringBoot</title>
+  </head>
+  <body class="h-100 w-100">
+    <!-- Navbar -->
+    <div class="container-fluid fixed-top">
+      <div class="row">
+        <div class="col-md-12 p-2 bg-dark text-light">
+          <p class="lead d-inline ml-2">Spring Boot</p>
+          <a href="/" class="float-right lead text-decoration-none mr-2 text-warning">Home</a>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid h-90 mt-5">
+    	<div class="row h-90">
+        <div class="col-md-2" id="navbar">
+          <!-- Side Navbar -->
+          <a href="/springboot/Setup/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Setup</a>
+           <a href="/springboot/SpringController/" class="text-decoration-none d-block mb-1 p-1 mt-1  activepage ">Controller</a>
+          <a href="/springboot/RESTAPIs/" class="text-decoration-none d-block mb-1 p-1  ">REST APIs</a>
+          <a href="#" class="text-decoration-none d-block mb-1 p-1">Microservices</a>
+          <a href="#" class="text-decoration-none d-block mb-1 p-1">Security</a>
+          <a href="#" class="text-decoration-none d-block mb-1 p-1">Consuming REST</a>
+          <a href="#" class="text-decoration-none d-block mb-1 p-1">Documentation</a>
+          <a href="#" class="text-decoration-none d-block mb-1 p-1">Testing</a>
+        </div>
+        <!-- Content -->
+    		<div class="col-md-10 mx-auto p-3">
+				  <h2 id="spring-controller">Spring Controller</h2>
+
+<p>In any Spring web application, a Controller is a Java object who’s job is to handle requests to certain URIs. We will use annotations to methods in this class to indicate which URI each method should handle.</p>
+
+<ol>
+  <li>Let’s first create a controller package within com.teamtreehouse.giflib</li>
+  <li>Within the controller package, create the Java class for the controller and give is a name, say GifController.</li>
+  <li>To indicate that this class is a Spring Controller, we are using the <code class="highlighter-rouge">@Controller</code> annotation on the class itself.</li>
+  <li>In a Spring controller, we can add as many methods as we like. We’ve added a method to handle request to our applications home page.</li>
+  <li>To execute the method when anyone visits the home page, we’ve added the <code class="highlighter-rouge">@RequestMapping()</code> annotation, which maps a URI to a controller method.</li>
+  <li>The  <code class="highlighter-rouge">@ResponseBody</code> annotation indicates that the String we are returning from the method should be used as the response without any further processing.</li>
+  <li>In order for Spring to automatically scan packages for controllers, we need to add the <code class="highlighter-rouge">@ComponentScan</code> annotation to our AppConfig class.</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">teamtreehouse</span><span class="o">.</span><span class="na">giflib</span><span class="o">.</span><span class="na">controller</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Controller</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.ResponseBody</span><span class="o">;</span>
+
+<span class="nd">@Controller</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GifController</span> <span class="o">{</span>
+
+    <span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"/"</span><span class="o">)</span>
+    <span class="nd">@ResponseBody</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">listGifs</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="s">"List of all the GIF's"</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<h2 id="thymeleaf">Thymeleaf</h2>
+
+<p>Thymeleaf is a templating engine that allows us to write HTML while allowing placeholders for data that will come from Java objects. These placeholders will leverage the <strong>Spring Expression Language</strong> to access the fields of the Java objects from it’s getters and setters.</p>
+
+<ol>
+  <li>Add the dependency in build.grade: <code class="highlighter-rouge">org.springframework.boot:spring-boot-starter-thymeleaf:2.2.2.RELEASE</code></li>
+  <li>Create your templates (with .html extension) under <code class="highlighter-rouge">src/main/resources/templates</code></li>
+  <li>Thymeleaf expects HTML to be XML compliant, which means all opening tags must have a closing tag or must be self closing.</li>
+  <li>In our controller method remove the @ResponseBody annotation, as we do need further processing by Thymeleaf before the response is sent to the client.</li>
+  <li>In the controller, return the HTML file name without the filename extension.</li>
+</ol>
+
+<p>That’s all we need to serve HTML templates!. Below is the high level workflow of how our application is working:</p>
+
+<ul>
+  <li>The server’s dispatcher servlet receives the request from the client.</li>
+  <li>The dispatcher servlet examines the URI, and determines which controller and which of it’s methods is mapped to the URI by using the @RequestMapping annotation.</li>
+  <li>The mapped controller method is executed and puts together a response to the original HTTP request.</li>
+  <li>This response is now fed to the view resolver. Since our application is configured to use Thymeleaf, all the data is passed on to the Thymeleaf template and final response is handed over the dispatcher servlet.</li>
+  <li>The dispatcher servlet hands it back to the web server. The web server creates an HTTP response with a status code of 200 and includes the HTML from our application in the response body.</li>
+  <li>The entire response is then sent in response to the original HTTP request.</li>
+</ul>
+
+<h2 id="adding-static-assets">Adding Static Assets</h2>
+
+<ol>
+  <li>Create a home for static assets (css, images, javascript, fonts, videos etc). A standard location is <code class="highlighter-rouge">resources/static</code> which is where Thymeleaf will expect to find it.</li>
+  <li></li>
+</ol>
+
+    		</div>
+    	</div>
+    </div>
+    <a id="button"></a>
+    <script>
+      $(document).ready(function(){
+        var btn = $('#button');
+
+        $(window).scroll(function() {
+          if ($(window).scrollTop() > 300) {
+            btn.addClass('show');
+          } else {
+            btn.removeClass('show');
+          }
+        });
+
+        btn.on('click', function(e) {
+          e.preventDefault();
+          $('html, body').animate({scrollTop:0}, '300');
+        });
+      })
+    </script>
+  </body>
+</html>

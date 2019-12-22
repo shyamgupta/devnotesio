@@ -1,0 +1,36 @@
+I"U<h2 id="spring-controller">Spring Controller</h2>
+
+<p>In any Spring web application, a Controller is a Java object who’s job is to handle requests to certain URIs. We will use annotations to methods in this class to indicate which URI each method should handle.</p>
+
+<ol>
+  <li>Let’s first create a controller package within com.teamtreehouse.giflib</li>
+  <li>Within the controller package, create the Java class for the controller and give is a name, say GifController.</li>
+  <li>To indicate that this class is a Spring Controller, we are using the <code class="highlighter-rouge">@Controller</code> annotation on the class itself.</li>
+  <li>In a Spring controller, we can add as many methods as we like. We’ve added a method to handle request to our applications home page.</li>
+  <li>To execute the method when anyone visits the home page, we’ve added the <code class="highlighter-rouge">@RequestMapping()</code> annotation, which maps a URI to a controller method.</li>
+  <li>The  <code class="highlighter-rouge">@ResponseBody</code> annotation indicates that the String we are returning from the method should be used as the response without any further processing.</li>
+  <li>In order for Spring to automatically scan packages for controllers, we need to add the <code class="highlighter-rouge">@ComponentScan</code> annotation to our AppConfig class.</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">teamtreehouse</span><span class="o">.</span><span class="na">giflib</span><span class="o">.</span><span class="na">controller</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Controller</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.ResponseBody</span><span class="o">;</span>
+
+<span class="nd">@Controller</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GifController</span> <span class="o">{</span>
+
+    <span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"/"</span><span class="o">)</span>
+    <span class="nd">@ResponseBody</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">listGifs</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="s">"List of all the GIF's"</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<h2 id="thymeleaf">Thymeleaf</h2>
+
+<p>Thymeleaf is a templating engine that allows us to write HTML while allowing placeholders for data that will come from Java objects. These placeholders will leverage the <strong>Spring Expression Language</strong> to access the fields of the Java objects from it’s getters and setters.</p>
+:ET

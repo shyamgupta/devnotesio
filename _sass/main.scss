@@ -1,0 +1,77 @@
+body{
+  font-family: 'IBM Plex Sans', sans-serif;
+}
+
+.highlight{
+  padding: 2px;
+  border-radius: 2px;
+}
+
+#navbar a{
+  color: black;
+}
+
+#navbar{
+  background-color: #E3F2FD;
+}
+
+#navbar a:hover{
+  background-color: #BA324F;
+  color: #FFFFFF;
+}
+
+#navbar .activepage{
+  background-color: #DB5461;
+  color: #FFFFFF;
+  border-radius: 5px;
+}
+
+h2{
+  background-color: #4E4A59;
+  color: #FFFFFF;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+strong{
+	color: #F26430;
+}
+
+//back to-top button
+
+#button {
+  display: inline-block;
+  background-color: #FF9800;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  border-radius: 4px;
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  transition: background-color .3s, 
+  opacity .5s, visibility .5s;
+  opacity: 0;
+  visibility: hidden;
+  z-index: 1000;
+}
+#button::after {
+  content: "\f077";
+  font-family: FontAwesome;
+  font-weight: normal;
+  font-style: normal;
+  font-size: 2em;
+  line-height: 50px;
+  color: #fff;
+}
+#button:hover {
+  cursor: pointer;
+  background-color: #333;
+}
+#button:active {
+  background-color: #555;
+}
+#button.show {
+  opacity: 1;
+  visibility: visible;
+}
