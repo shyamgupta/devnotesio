@@ -54,5 +54,14 @@ That's all we need to serve HTML templates!. Below is the high level workflow of
 
 ## Adding Static Assets
 
-1. Create a home for static assets (css, images, javascript, fonts, videos etc). A standard location is `resources/static` which is where Thymeleaf will expect to find it.
-2. 
+1. Create a home for static assets (css, images, javascript, fonts, videos etc). A standard location is `/src/main/resources/static` which is where Thymeleaf will expect to find them while processing our templates.
+2. Let's say we want to add a CSS file, style.css - in order to add this in our HTML template, we need to create a self closing `<link>` tag. In the href attribute, instead of adding an absolute path to the CSS file, we can have Thymeleaf discover it by using a link URL expression. To do this, we will prefix the href attribute with `th`. In XML, this th is called a namespace - and may show as an error (name is not bound) by the IDE. To fix this, we have defined the namespace in the html tag as shown below. In the href attribute, the @ sign indicates that a URL should be generated here.
+
+```html
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+...
+
+<link rel="stylesheet" th:href="@{/style.css}"   />
+```
+<br>
+

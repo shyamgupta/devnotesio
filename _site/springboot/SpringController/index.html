@@ -36,6 +36,7 @@
           <!-- Side Navbar -->
           <a href="/springboot/Setup/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Setup</a>
            <a href="/springboot/SpringController/" class="text-decoration-none d-block mb-1 p-1 mt-1  activepage ">Controller</a>
+           <a href="/springboot/ModelingData/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Modeling Data</a>
           <a href="/springboot/RESTAPIs/" class="text-decoration-none d-block mb-1 p-1  ">REST APIs</a>
           <a href="#" class="text-decoration-none d-block mb-1 p-1">Microservices</a>
           <a href="#" class="text-decoration-none d-block mb-1 p-1">Security</a>
@@ -103,9 +104,17 @@
 <h2 id="adding-static-assets">Adding Static Assets</h2>
 
 <ol>
-  <li>Create a home for static assets (css, images, javascript, fonts, videos etc). A standard location is <code class="highlighter-rouge">resources/static</code> which is where Thymeleaf will expect to find it.</li>
-  <li></li>
+  <li>Create a home for static assets (css, images, javascript, fonts, videos etc). A standard location is <code class="highlighter-rouge">/src/main/resources/static</code> which is where Thymeleaf will expect to find them while processing our templates.</li>
+  <li>Let’s say we want to add a CSS file, style.css - in order to add this in our HTML template, we need to create a self closing <code class="highlighter-rouge">&lt;link&gt;</code> tag. In the href attribute, instead of adding an absolute path to the CSS file, we can have Thymeleaf discover it by using a link URL expression. To do this, we will prefix the href attribute with <code class="highlighter-rouge">th</code>. In XML, this th is called a namespace - and may show as an error (name is not bound) by the IDE. To fix this, we have defined the namespace in the html tag as shown below. In the href attribute, the @ sign indicates that a URL should be generated here.</li>
 </ol>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span> <span class="na">xmlns:th=</span><span class="s">"http://www.thymeleaf.org"</span><span class="nt">&gt;</span>
+...
+
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">th:href=</span><span class="s">"@{/style.css}"</span>   <span class="nt">/&gt;</span>
+</code></pre></div></div>
+<p><br /></p>
+
 
     		</div>
     	</div>

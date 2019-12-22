@@ -1,0 +1,150 @@
+I"�;<h2 id="modeling-data-with-pojos">Modeling Data with POJOs</h2>
+
+<p>In this example, we are developing a web application that will display GIF’s. Our GIF’s will be represented as POJO’s with the following attributes:</p>
+
+<ul>
+  <li>Name (String),</li>
+  <li>Date uploaded (Date object),</li>
+  <li>Username who uploade the GIF(String)</li>
+  <li>Whether or not the GIF is marked as a favorite (Boolean)</li>
+</ul>
+
+<p>The Java class we will use to represent each GIF object is referred to as a model. To organize all potential models, we can create a model package within the root package of our project. Within the model package, we have created the below model Java class:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//Gif.class</span>
+<span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">teamtreehouse</span><span class="o">.</span><span class="na">giflib</span><span class="o">.</span><span class="na">model</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.time.LocalDate</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Gif</span> <span class="o">{</span>
+
+    <span class="c1">//fields</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">LocalDate</span> <span class="n">dateUploaded</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">username</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">favorite</span><span class="o">;</span>
+
+    <span class="c1">//Constructors</span>
+
+    <span class="kd">public</span> <span class="nf">Gif</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="nc">LocalDate</span> <span class="n">dateUploaded</span><span class="o">,</span> <span class="nc">String</span> <span class="n">username</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">favorite</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">dateUploaded</span> <span class="o">=</span> <span class="n">dateUploaded</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">username</span> <span class="o">=</span> <span class="n">username</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">favorite</span> <span class="o">=</span> <span class="n">favorite</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="c1">//Getters and Setters</span>
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">name</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setName</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">LocalDate</span> <span class="nf">getDateUploaded</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">dateUploaded</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setDateUploaded</span><span class="o">(</span><span class="nc">LocalDate</span> <span class="n">dateUploaded</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">dateUploaded</span> <span class="o">=</span> <span class="n">dateUploaded</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getUsername</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">username</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUsername</span><span class="o">(</span><span class="nc">String</span> <span class="n">username</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">username</span> <span class="o">=</span> <span class="n">username</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isFavorite</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">favorite</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setFavorite</span><span class="o">(</span><span class="kt">boolean</span> <span class="n">favorite</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">favorite</span> <span class="o">=</span> <span class="n">favorite</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<p>With our POJO model in place, we want to accomplish the following:</p>
+<ol>
+  <li>We want to store our GIF data (as static GIF files) in our GIF objects.</li>
+  <li>Feed the GIF objects to our Thymeleaf template.</li>
+  <li>Use the Spring Expression Language in the Thymeleaf templates to access the objects.</li>
+</ol>
+
+<p>To do this, we have added the gifDetails() method in our Controller:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/gif"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="nc">String</span> <span class="nf">gifDetails</span><span class="o">(</span><span class="nc">ModelMap</span> <span class="n">modelMap</span><span class="o">){</span>
+
+	<span class="c1">//Create a GIF object that we can make available to the view</span>
+	<span class="c1">//gif-name is the name of the GIF file in the static folder</span>
+	<span class="nc">Gif</span> <span class="n">gif</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Gif</span><span class="o">(</span><span class="s">"gif-name"</span><span class="o">,</span> <span class="nc">LocalDate</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2019</span><span class="o">,</span><span class="mi">12</span><span class="o">,</span><span class="mi">25</span><span class="o">),</span><span class="s">"Chris"</span><span class="o">,</span><span class="kc">true</span><span class="o">);</span>
+
+	<span class="c1">//Make our newly created object available to our gif-details view</span>
+	<span class="n">modelMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"gif"</span><span class="o">,</span> <span class="n">gif</span><span class="o">);</span>
+
+	<span class="c1">// we are returning the Thymeleaf template</span>
+	<span class="k">return</span> <span class="err">'</span><span class="n">gif</span><span class="o">-</span><span class="n">details</span><span class="err">'</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<p>To make our newly created GIF object available to the Thymeleaf template, we are making use of the <code class="highlighter-rouge">ModelMap</code> interface - it is used to pass values to render a view. The advantage of ModelMap is it gives us the ability to pass a collection of values and treat these values as if they were within a Map. There’s no need to add ModelMap in the return value, as the Spring framework will take care of making it available to Thymeleaf.</p>
+
+<p>Now, let’s turn our attention to the view:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">&lt;!-- gif-details.html in templates folder --&gt;</span>
+
+<span class="nt">&lt;img</span> <span class="na">th:src=</span><span class="s">"@{'/gifs/' +${gif.name} +'.gif'}"</span> <span class="na">alt=</span><span class="s">""</span><span class="nt">&gt;</span>
+
+</code></pre></div></div>
+<p><br /></p>
+
+<p>Note how we are accessing our object (available from the ModelMap) by using <code class="highlighter-rouge">${object_name.field_name}</code>. Here, Thymeleaf is “assuming” the name of the getter -  for our “name” field, the getter name is getName() which uses the default naming convention for getters and setters.</p>
+
+<h2 id="repository">Repository</h2>
+
+<p>So far our application displays only one GIF - lets update it to display a GIF based on the URI. A repository is a collection we have stored in memory or database.</p>
+
+<ol>
+  <li>Create a repository package within the root package of your project.</li>
+  <li>Within the repository package, create the GifRepository Java class. This class will act as both storage of GIF objects and methods for interacting with those objects.</li>
+  <li>We will store our GIF objects in a static Java list. In this example we are pre-defining our GIF’s (in a production app, they will come from a database). We are using the <code class="highlighter-rouge">asList()</code> method from the <code class="highlighter-rouge">Arrays</code> class to which we can add any number of GIF objects.</li>
+  <li>Since the list is private, we have included Getters to expose data</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="kn">import</span> <span class="nn">com.teamtreehouse.giflib.repository</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">GifRepository</span><span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Gif</span><span class="o">&gt;</span> <span class="no">ALL_GIFS</span> <span class="o">=</span> <span class="nc">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span>
+			<span class="k">new</span> <span class="nf">Gif</span><span class="o">(</span><span class="s">"android-explosion"</span><span class="o">,</span> <span class="nc">LocalDate</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2015</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">13</span><span class="o">),</span> <span class="s">"Chris Ramacciotti"</span><span class="o">,</span> <span class="kc">false</span><span class="o">),</span>
+			<span class="k">new</span> <span class="nf">Gif</span><span class="o">(</span><span class="s">"ben-and-mike"</span><span class="o">,</span> <span class="nc">LocalDate</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2015</span><span class="o">,</span><span class="mi">10</span><span class="o">,</span><span class="mi">30</span><span class="o">),</span> <span class="s">"Ben Jakuben"</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
+			<span class="k">new</span> <span class="nf">Gif</span><span class="o">(</span><span class="s">"book-dominos"</span><span class="o">,</span> <span class="nc">LocalDate</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2015</span><span class="o">,</span><span class="mi">9</span><span class="o">,</span><span class="mi">15</span><span class="o">),</span> <span class="s">"Craig Dennis"</span><span class="o">,</span> <span class="kc">false</span><span class="o">),</span>
+			<span class="k">new</span> <span class="nf">Gif</span><span class="o">(</span><span class="s">"compiler-bot"</span><span class="o">,</span> <span class="nc">LocalDate</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2015</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">13</span><span class="o">),</span> <span class="s">"Ada Lovelace"</span><span class="o">,</span> <span class="kc">true</span><span class="o">),</span>
+			<span class="k">new</span> <span class="nf">Gif</span><span class="o">(</span><span class="s">"cowboy-coder"</span><span class="o">,</span> <span class="nc">LocalDate</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2015</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">13</span><span class="o">),</span> <span class="s">"Grace Hopper"</span><span class="o">,</span> <span class="kc">false</span><span class="o">),</span>
+			<span class="k">new</span> <span class="nf">Gif</span><span class="o">(</span><span class="s">"infinite-andrew"</span><span class="o">,</span> <span class="nc">LocalDate</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2015</span><span class="o">,</span><span class="mi">8</span><span class="o">,</span><span class="mi">23</span><span class="o">),</span> <span class="s">"Marissa Mayer"</span><span class="o">,</span> <span class="kc">true</span><span class="o">)</span>
+	<span class="o">);</span>
+<span class="o">}</span>
+
+<span class="c1">//Getter</span>
+
+<span class="kd">public</span> <span class="nc">Gif</span> <span class="nf">findByName</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">){</span>
+
+	<span class="k">for</span> <span class="o">(</span><span class="nc">Gif</span> <span class="nl">gif:</span> <span class="no">ALL_GIFS</span><span class="o">){</span>
+		<span class="k">if</span><span class="o">(</span><span class="n">gif</span><span class="o">.</span><span class="na">getName</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="n">name</span><span class="o">)){</span>
+			<span class="k">return</span> <span class="n">gif</span><span class="o">;</span>
+		<span class="o">}</span>
+	<span class="o">}</span>
+
+	<span class="k">return</span> <span class="kc">null</span><span class="o">;</span> <span class="c1">//if GIF is not found</span>
+
+<span class="o">}</span>
+
+</code></pre></div></div>
+<p><br /></p>
+
+:ET

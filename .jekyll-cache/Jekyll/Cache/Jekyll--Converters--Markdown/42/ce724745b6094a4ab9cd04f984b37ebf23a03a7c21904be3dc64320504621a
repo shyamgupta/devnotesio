@@ -1,4 +1,4 @@
-I"%<h2 id="spring-controller">Spring Controller</h2>
+I"<h2 id="spring-controller">Spring Controller</h2>
 
 <p>In any Spring web application, a Controller is a Java object who’s job is to handle requests to certain URIs. We will use annotations to methods in this class to indicate which URI each method should handle.</p>
 
@@ -45,18 +45,26 @@
 <p>That’s all we need to serve HTML templates!. Below is the high level workflow of how our application is working:</p>
 
 <ul>
-  <li>The server’s dispatcher servlet receives the request from the client</li>
+  <li>The server’s dispatcher servlet receives the request from the client.</li>
   <li>The dispatcher servlet examines the URI, and determines which controller and which of it’s methods is mapped to the URI by using the @RequestMapping annotation.</li>
   <li>The mapped controller method is executed and puts together a response to the original HTTP request.</li>
   <li>This response is now fed to the view resolver. Since our application is configured to use Thymeleaf, all the data is passed on to the Thymeleaf template and final response is handed over the dispatcher servlet.</li>
-  <li>The dispatcher servlet hands is back to the web server. With its HTML, the web server creates an HTTP response with a status code of 200 and includes the HTML from our application in the response body.</li>
+  <li>The dispatcher servlet hands it back to the web server. The web server creates an HTTP response with a status code of 200 and includes the HTML from our application in the response body.</li>
   <li>The entire response is then sent in response to the original HTTP request.</li>
 </ul>
 
 <h2 id="adding-static-assets">Adding Static Assets</h2>
 
 <ol>
-  <li>Create a home for static assets (css, images, javascript, fonts, videos etc). A standard location is <code class="highlighter-rouge">resources/static</code> which is where Thymeleaf will expect to find it.</li>
-  <li></li>
+  <li>Create a home for static assets (css, images, javascript, fonts, videos etc). A standard location is <code class="highlighter-rouge">/src/main/resources/static</code> which is where Thymeleaf will expect to find them while processing our templates.</li>
+  <li>Let’s say we want to add a CSS file, style.css - in order to add this in our HTML template, we need to create a self closing <code class="highlighter-rouge">&lt;link&gt;</code> tag. In the href attribute, instead of adding an absolute path to the CSS file, we can have Thymeleaf discover it by using a link URL expression. To do this, we will prefix the href attribute with <code class="highlighter-rouge">th</code>. In XML, this th is called a namespace - and may show as an error (name is not bound) by the IDE. To fix this, we have defined the namespace in the html tag as shown below. In the href attribute, the @ sign indicates that a URL should be generated here.</li>
 </ol>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;html</span> <span class="na">lang=</span><span class="s">"en"</span> <span class="na">xmlns:th=</span><span class="s">"http://www.thymeleaf.org"</span><span class="nt">&gt;</span>
+...
+
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">th:href=</span><span class="s">"@{/style.css}"</span>   <span class="nt">/&gt;</span>
+</code></pre></div></div>
+<p><br /></p>
+
 :ET
