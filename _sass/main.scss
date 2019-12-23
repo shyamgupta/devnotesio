@@ -1,5 +1,6 @@
 body{
   font-family: 'IBM Plex Sans', sans-serif;
+  background-color: #F4F3F3;
 }
 
 .highlight{
@@ -8,11 +9,11 @@ body{
 }
 
 #navbar a{
-  color: black;
+  color: white;
 }
 
 #navbar{
-  background-color: #E3F2FD;
+  background-color: #8380B6;
 }
 
 #navbar a:hover{
@@ -23,32 +24,40 @@ body{
 #navbar .activepage{
   background-color: #DB5461;
   color: #FFFFFF;
-  border-radius: 5px;
 }
 
 h2{
-  background-color: #4E4A59;
-  color: #FFFFFF;
-  padding: 5px;
-  border-radius: 5px;
+  
+  color: #846075;
+  padding: 2px;
+  border-top: 2px solid #846075;
+  border-bottom: 2px solid #846075;
+}
+
+h4{
+  color: #ED474A;
+  border-bottom: 2px solid #ED474A;
 }
 
 strong{
-	color: #F26430;
+	color: #0D00A4;
+}
+
+img{
+  height: 400px;
 }
 
 //back to-top button
 
 #button {
   display: inline-block;
-  background-color: #FF9800;
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   text-align: center;
   border-radius: 4px;
   position: fixed;
-  bottom: 30px;
-  right: 30px;
+  bottom: 25px;
+  right: 25px;
   transition: background-color .3s, 
   opacity .5s, visibility .5s;
   opacity: 0;
@@ -62,14 +71,14 @@ strong{
   font-style: normal;
   font-size: 2em;
   line-height: 50px;
-  color: #fff;
+  color: #3590F3;
 }
 #button:hover {
   cursor: pointer;
-  background-color: #333;
+  background-color: #DADFF7;
 }
 #button:active {
-  background-color: #555;
+  background-color: #9C528B;
 }
 #button.show {
   opacity: 1;

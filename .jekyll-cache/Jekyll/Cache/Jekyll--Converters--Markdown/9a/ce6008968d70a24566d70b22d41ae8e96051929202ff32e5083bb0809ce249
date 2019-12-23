@@ -1,0 +1,9 @@
+I"�<h2 id="classpath-and-jar-files">Classpath and JAR Files</h2>
+
+<p>The concept of a path should be familiar to anyone who has worked on a DOS or Unix platform. It’s an environment variable that provides an application with a list of places to look for some resource. The most common example is a path for executable programs. The Java CLASSPATH environment variable, similarly, is a list of locations that can be searched for packages containing Java class files. Both the Java interpreter and the Java compiler use CLASSPATH when searching for packages and classes on the local host. A location on the class path can be a directory name or the name of a class archive file.</p>
+
+<p>A JAR (<strong>J</strong>ava <strong>Ar</strong>chive) file is a bundle of compiled Java code.  Java supports archives of class files in its own Java archive ( JAR) format, and in the conventional ZIP format. JAR and ZIP are really the same format, but JAR archives include extra files that describe each archive’s contents. JAR files are created with the SDK’s jar utility. The archive format enables large groups of classes to be distributed in a single file; the Java interpreter automatically extracts individual class files from an archive, as needed. Once the JAR file is downloaded, all we need to do is to add it to the classpath - we can then start interacting with the classes and objects defined in the JAR.</p>
+
+<h2 id="spring-boot">Spring Boot</h2>
+
+:ET

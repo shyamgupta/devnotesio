@@ -1,0 +1,8 @@
+I"$<h2 id="maven">Maven</h2>
+
+<p>Maven is a software project management and comprehension tool. With the help of Maven, Spring Boot will be able to configure and install dependencies, compile our Java code and run our class files. Below is how you can install it using Homebrew and check the version to verify for a successful installation.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>maven
+mvn <span class="nt">--version</span>
+</code></pre></div></div>
+:ET

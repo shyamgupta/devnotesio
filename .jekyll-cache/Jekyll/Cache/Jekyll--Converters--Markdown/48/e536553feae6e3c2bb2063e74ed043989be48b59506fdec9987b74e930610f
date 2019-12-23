@@ -1,0 +1,35 @@
+I"k
+<h2 id="thtext">th:text</h2>
+
+<p>th:text tells Thymeleaf to replace the content of this element with the value in quotes. Below is the syntax, variable_name and it’s value will be coming from the Controller’s ModelMap.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;p</span> <span class="na">th:text=</span><span class="s">"${variable_name}"</span><span class="nt">&gt;&lt;/p&gt;</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<h2 id="theach">th:each</h2>
+
+<p>Let’s say in our Controller, we have stored a list of Contacts - each contact has firstName and lastName attributes, and the “contacts” list is stored in ModelMap. In our Thymeleaf template, if we want to loop over “contacts”  and display it as an unordered list, below is how we will do it:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ul&gt;</span>
+	<span class="nt">&lt;li</span> <span class="na">th:each=</span><span class="s">"contact: ${contacts}"</span> <span class="na">th:text = </span><span class="s">"${contact.firstName}"</span><span class="nt">&gt;&lt;/li&gt;</span>
+<span class="nt">&lt;/ul&gt;</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<h2 id="thif">th:if</h2>
+
+<p>What if we want a certain HTML element/block to only be rendered under certain conditions? We can do so using conditional logic as shown below, where the &lt;p&gt; tag will show up if the contact attribute is empty:</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;p</span> <span class="na">th:if=</span><span class="s">"${contacts.size()==0}"</span><span class="nt">&gt;</span>No contacts found.<span class="nt">&lt;/p&gt;</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<h2 id="adding-static-resources">Adding static resources</h2>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;img</span> <span class="na">th:src=</span><span class="s">"@{/img/logo.png}"</span> <span class="na">alt=</span><span class="s">"Test image"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"stylesheet"</span> <span class="na">th:href=</span><span class="s">"@{/css/style.css}"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"text/javascript"</span> <span class="na">th:src=</span><span class="s">"@{/js/lib.js}"</span><span class="nt">&gt;&lt;/script&gt;</span>
+</code></pre></div></div>
+
+:ET

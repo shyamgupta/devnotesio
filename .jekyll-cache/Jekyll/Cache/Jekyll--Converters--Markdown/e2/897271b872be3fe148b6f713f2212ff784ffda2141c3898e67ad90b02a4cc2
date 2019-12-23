@@ -1,0 +1,27 @@
+I"\<h2 id="maven">Maven</h2>
+
+<p>Maven is a software project management and comprehension tool. With the help of Maven, Spring Boot will be able to configure and install dependencies, compile our Java code and run our class files. Below is how you can install it using Homebrew and check the version to verify for a successful installation.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>maven
+mvn <span class="nt">--version</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<h2 id="creating-a-spring-boot-application-in-spring-tool-suite">Creating a Spring Boot Application in Spring Tool Suite</h2>
+
+<p>Click New -&gt; Spring Starter Project and fill the below information:</p>
+<ul>
+  <li>Name: This will be your project name in lowercase</li>
+  <li>Group: This will be a reverse domain name, example com.johndoe.learn</li>
+  <li>Artifact: project_name</li>
+  <li>Description: Short project description</li>
+  <li>Package: Same as the group field</li>
+</ul>
+
+<p>Click Next and select ‘Spring Web’ under the Available column Click Finish.</p>
+
+<p>Our application will reside in <code class="highlighter-rouge">/src/main/java</code> , static files and templates will reside in <code class="highlighter-rouge">src/main/resources</code>.</p>
+
+<h2 id="hello-world">Hello World</h2>
+
+:ET
