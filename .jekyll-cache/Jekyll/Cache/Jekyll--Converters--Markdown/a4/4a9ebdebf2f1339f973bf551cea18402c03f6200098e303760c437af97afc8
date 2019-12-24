@@ -1,55 +1,4 @@
-<!doctype html>
-<html lang="en" class="h-100 w-100">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-     <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <title>DevNotes | SpringBoot</title>
-  </head>
-  <body class="h-100 w-100">
-    <!-- Navbar -->
-    <div class="container-fluid fixed-top">
-      <div class="row">
-        <div class="col-md-12 p-2 bg-dark text-light">
-          <p class="lead d-inline ml-2">Spring Boot</p>
-          <a href="/" class="float-right lead text-decoration-none mr-2 text-warning">Home</a>
-        </div>
-      </div>
-    </div>
-    <div class="container-fluid h-90 mt-5">
-    	<div class="row h-90">
-        <div class="col-md-2" id="navbar">
-          <!-- Side Navbar -->
-          <a href="/springboot/Fundamentals/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Fundamentals</a>
-          <a href="/springboot/Basics/" class="text-decoration-none d-block mb-1 p-1 mt-1  activepage ">Spring Boot Basics</a>
-          <a href="/springboot/Annotations/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Annotations</a>
-           <a href="/springboot/SpringController/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Controller</a>
-           <a href="/springboot/ModelingData/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Modeling Data</a>
-            <a href="/springboot/Hibernate/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Hibernate</a>
-          <a href="/springboot/RESTAPIs/" class="text-decoration-none d-block mb-1 p-1  ">REST APIs</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Microservices</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Security</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Consuming REST</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Documentation</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Testing</a>
-        </div>
-        <!-- Content -->
-    		<div class="col-md-10 mx-auto p-3">
-				  <h2 id="maven">Maven</h2>
+I"�f<h2 id="maven">Maven</h2>
 
 <p>Maven is a software project management and comprehension tool. With the help of Maven, Spring Boot will be able to configure and install dependencies, compile our Java code and run our class files. Below is how you can install it using Homebrew and check the version to verify for a successful installation.</p>
 
@@ -99,7 +48,7 @@ mvn <span class="nt">--version</span>
   <li>Second, the SpringApplication.run() does the actual job of booting the app and passing in the HelloWorldApplication class itself. Again, the work the app does is not apparent here.</li>
 </ul>
 
-<p>The @SpringBootApplication annotation wraps up a few standard annotations and tells Spring to look at the package where the main class exists for components - this would allow Spring to find all classes annotated with @Component and @Autowired. The process itself, called component scanning, is highly customizable.</p>
+<p>The @SpringBootApplication annotation wraps up a few standard annotations and tells Spring to look at the package where the main class exists for components - this would allow Spring to find all classes annotated with @Component and @Autowired.</p>
 
 <p>Make sure to import the dependencies <code class="highlighter-rouge">CMD + SHIFT + O</code> in Mac for the @RestController and @RequestMapping annotations to work. Once you run the application, visit localhost:8080 in the browser.</p>
 
@@ -115,11 +64,7 @@ mvn <span class="nt">--version</span>
   <li>Choosing the right view to display the data. It can also directly write into response stream by using @ResponseBody annotation and complete the request.</li>
 </ol>
 
-<p>The @Controller annotation identifies a class as a controller. A class marked as a controller is also automatically identified as a component class, which makes it a candidate for auto-wiring. Wherever this controller is needed, it will be plugged into the framework. In this case, we’ll plug it into the MVC system to handle requests.</p>
-
-<p>It is typically used in combination with annotated handler methods based on the @RequestMapping annotation. The handler method returns the response “view name” which is resolved to a view technology file (e.g. JSP) by view resolver. And then parsed view content is sent back to browser client.</p>
-
-<p>The controller is a specialized kind of component. It supports the @RequestMapping and @ResponseBody annotations. These annotations tell the framework how to map URL requests to the app.</p>
+<p>@Controller annotation marks a class as a Spring MVC controller, allowing for the class to be auto-detected through classpath scanning. It is typically used in combination with annotated handler methods based on the @RequestMapping annotation. A Spring MVC controller is used typically in UI based applications where response is generally HTML content. The handler method returns the response “view name” which is resolved to a view technology file (e.g. JSP) by view resolver. And then parsed view content is sent back to browser client.</p>
 
 <h4 id="restcontroller">@RestController</h4>
 <p>@RestController is a shortcut for  @Controller + @ResponseBody. It makes development of RESTful Web Services in Spring framework easier. Response from a web application consists of HTML + CSS + JavaScript, whereas a REST API will return data in form of JSON or XML. The job of @Controller is to create a Map of model object and find a view, but @RestController simply returns the object and it’s directly written into HTTP response as JSON or XML, and parsed by client to further process it either for modifying the existing view or for any other purpose.</p>
@@ -328,28 +273,4 @@ However, if we access our application without the query parameter now, it will c
 </code></pre></div></div>
 <p><br /></p>
 
-
-    		</div>
-    	</div>
-    </div>
-    <a id="button"></a>
-    <script>
-      $(document).ready(function(){
-        var btn = $('#button');
-
-        $(window).scroll(function() {
-          if ($(window).scrollTop() > 300) {
-            btn.addClass('show');
-          } else {
-            btn.removeClass('show');
-          }
-        });
-
-        btn.on('click', function(e) {
-          e.preventDefault();
-          $('html, body').animate({scrollTop:0}, '300');
-        });
-      })
-    </script>
-  </body>
-</html>
+:ET

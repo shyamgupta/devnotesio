@@ -1,55 +1,4 @@
-<!doctype html>
-<html lang="en" class="h-100 w-100">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-     <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <title>DevNotes | SpringBoot</title>
-  </head>
-  <body class="h-100 w-100">
-    <!-- Navbar -->
-    <div class="container-fluid fixed-top">
-      <div class="row">
-        <div class="col-md-12 p-2 bg-dark text-light">
-          <p class="lead d-inline ml-2">Spring Boot</p>
-          <a href="/" class="float-right lead text-decoration-none mr-2 text-warning">Home</a>
-        </div>
-      </div>
-    </div>
-    <div class="container-fluid h-90 mt-5">
-    	<div class="row h-90">
-        <div class="col-md-2" id="navbar">
-          <!-- Side Navbar -->
-          <a href="/springboot/Fundamentals/" class="text-decoration-none d-block mb-1 p-1 mt-1  activepage ">Fundamentals</a>
-          <a href="/springboot/Basics/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Spring Boot Basics</a>
-          <a href="/springboot/Annotations/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Annotations</a>
-           <a href="/springboot/SpringController/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Controller</a>
-           <a href="/springboot/ModelingData/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Modeling Data</a>
-            <a href="/springboot/Hibernate/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Hibernate</a>
-          <a href="/springboot/RESTAPIs/" class="text-decoration-none d-block mb-1 p-1  ">REST APIs</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Microservices</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Security</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Consuming REST</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Documentation</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Testing</a>
-        </div>
-        <!-- Content -->
-    		<div class="col-md-10 mx-auto p-3">
-				  <h2 id="classpath-and-jar-files">Classpath and JAR Files</h2>
+I"�A<h2 id="classpath-and-jar-files">Classpath and JAR Files</h2>
 
 <p>The concept of a path should be familiar to anyone who has worked on a DOS or Unix platform. It’s an environment variable that provides an application with a list of places to look for some resource. The most common example is a path for executable programs. The Java CLASSPATH environment variable, similarly, is a list of locations that can be searched for packages containing Java class files. Both the Java interpreter and the Java compiler use CLASSPATH when searching for packages and classes on the local host. A location on the class path can be a directory name or the name of a class archive file.</p>
 
@@ -168,32 +117,17 @@ Spring configuration consists of at least one and typically more than one bean d
 <h4 id="what-is-a-spring-bean">What is a Spring Bean?</h4>
 <p>Spring Bean is simply a Java object created by the Spring container. It is a Java object that is instantiated, assembled, and otherwise managed by a Spring IoC container. These beans are created with the configuration metadata that you supply to the container.</p>
 
+<p>Bean definition contains the information called configuration metadata, which is needed for the container to know the following:</p>
+
+<ul>
+  <li>How to create a bean</li>
+  <li>Bean’s lifecycle details</li>
+  <li>Bean’s dependencies</li>
+</ul>
+
 <p>A Spring application is composed of a set of beans that perform functionality specific to your application layers and are managed by the IoC container.</p>
 
 <p>Beans are uniquely identified by an id attribute, any of the values supplied to the (comma, semicolon, or space separated) name attribute of the bean definition, or even as an alias definition. You can refer to a bean anywhere in the application with id or any of the names or aliases specified in the bean definition. It’s not necessary that you always provide an id or name to the bean. If one isn’t provided, Spring will generate a unique bean name for it; however, if you want to refer to it with a name or an id, then you must provide one.</p>
-
-<p>In short, a Spring bean is an object which Spring framework manages at runtime - management of a Spring bean includes:</p>
-<ul>
-  <li>creating an object</li>
-  <li>providing dependencies</li>
-  <li>intercepting object method calls to provide additional framework features</li>
-  <li>destroying an object</li>
-</ul>
-
-<p>Spring is responsible for creating bean objects. But first, you need to tell the framework which objects it should create. We do this by prividing bean definitions. Bean definitions tell Spring \</p>
-<ul>
-  <li>which classes the framework should use as beans.</li>
-  <li>describe the properties of a bean.</li>
-</ul>
-
-<p>There are three different ways in which you can define a Spring bean:</p>
-<ol>
-  <li>Annotating your class with the stereotype @Component annotation (or its derivatives).</li>
-  <li>Writing a bean factory method annotated with the @Bean annotation in a custom Java configuration class.</li>
-  <li>Declaring a bean definition in an XML configuration file.</li>
-</ol>
-
-<p>In modern projects, you’re going to use only component annotations and bean factory methods. If it comes to the XML configuration, nowadays Spring allows it mainly for the backward compatibility.</p>
 
 <h2 id="spring-context">Spring Context</h2>
 
@@ -202,28 +136,4 @@ Spring configuration consists of at least one and typically more than one bean d
 <p>Once these beans are annotated they need to be registered with the Spring context, which Spring Boot does by performing a package scan of all classes in packages in your project.</p>
 
 <p>As the Spring context is being built, it implements the inversion-of-control (IoC) design pattern through dependency injection: when a Spring bean needs a dependency, such as a service or repository, the bean can either define a constructor that accepts the dependent bean or it can leverage the @Autowired annotation to tell Spring that it needs that dependency. Spring resolves all dependencies and “autowires” the application together.</p>
-
-    		</div>
-    	</div>
-    </div>
-    <a id="button"></a>
-    <script>
-      $(document).ready(function(){
-        var btn = $('#button');
-
-        $(window).scroll(function() {
-          if ($(window).scrollTop() > 300) {
-            btn.addClass('show');
-          } else {
-            btn.removeClass('show');
-          }
-        });
-
-        btn.on('click', function(e) {
-          e.preventDefault();
-          $('html, body').animate({scrollTop:0}, '300');
-        });
-      })
-    </script>
-  </body>
-</html>
+:ET

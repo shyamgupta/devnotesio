@@ -44,6 +44,13 @@ public class HelloWorldController{
 	}
 }
 ```
+<br>
+
+Note two things about the above code: 
+- First, all of the work is abstracted into the framework. The main class boots up the app, but it doesn't know anything about how the app works or delivers its functionality. 
+- Second, the SpringApplication.run() does the actual job of booting the app and passing in the HelloWorldApplication class itself. Again, the work the app does is not apparent here.
+
+The @SpringBootApplication annotation wraps up a few standard annotations and tells Spring to look at the package where the main class exists for components - this would allow Spring to find all classes annotated with @Component and @Autowired. The process itself, called component scanning, is highly customizable. 
 
 Make sure to import the dependencies `CMD + SHIFT + O` in Mac for the @RestController and @RequestMapping annotations to work. Once you run the application, visit localhost:8080 in the browser.
 
@@ -55,7 +62,11 @@ In the Spring framework, a Controller is a class which is responsible for:
 1. Prepare the model/data that needs to be displayed by the view 
 2. Choosing the right view to display the data. It can also directly write into response stream by using @ResponseBody annotation and complete the request.
 
-@Controller annotation marks a class as a Spring MVC controller, allowing for the class to be auto-detected through classpath scanning. It is typically used in combination with annotated handler methods based on the @RequestMapping annotation. A Spring MVC controller is used typically in UI based applications where response is generally HTML content. The handler method returns the response “view name” which is resolved to a view technology file (e.g. JSP) by view resolver. And then parsed view content is sent back to browser client.
+The @Controller annotation identifies a class as a controller. A class marked as a controller is also automatically identified as a component class, which makes it a candidate for auto-wiring. Wherever this controller is needed, it will be plugged into the framework. In this case, we'll plug it into the MVC system to handle requests. 
+
+It is typically used in combination with annotated handler methods based on the @RequestMapping annotation. The handler method returns the response “view name” which is resolved to a view technology file (e.g. JSP) by view resolver. And then parsed view content is sent back to browser client.
+
+The controller is a specialized kind of component. It supports the @RequestMapping and @ResponseBody annotations. These annotations tell the framework how to map URL requests to the app.
 
 #### @RestController
 @RestController is a shortcut for  @Controller + @ResponseBody. It makes development of RESTful Web Services in Spring framework easier. Response from a web application consists of HTML + CSS + JavaScript, whereas a REST API will return data in form of JSON or XML. The job of @Controller is to create a Map of model object and find a view, but @RestController simply returns the object and it's directly written into HTTP response as JSON or XML, and parsed by client to further process it either for modifying the existing view or for any other purpose.
