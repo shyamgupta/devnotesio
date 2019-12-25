@@ -1,4 +1,4 @@
-I"úh<h2 id="introduction">Introduction</h2>
+I"{“<h2 id="introduction">Introduction</h2>
 <p>Spring Data comes with a common programming model for persisting data in various types of database engine, ranging from traditional relational databases (SQL databases) to various types of NoSQL database engine, such as document databases (for example, MongoDB), key-value databases (for example, Redis), and graph databases (for example, Neo4J).</p>
 
 <p>The two core concepts of the programming model in Spring Data are entities and repositories. Entities and repositories generalize how data is stored and accessed from the various types of database.</p>
@@ -92,7 +92,9 @@
 
 <p><strong>Create Method</strong></p>
 <ul>
-  <li>Class_Name save(Class_Name object_variable)</li>
+  <li>
+    <pre>Class_Name save(Class_Name object_variable)</pre>
+  </li>
 </ul>
 
 <p><strong>Read Methods</strong></p>
@@ -165,9 +167,7 @@ spring.datasource.url=jdbc:h2:mem:dogdata
 
 <h4 id="entity">Entity</h4>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">shyamgupta</span><span class="o">.</span><span class="na">data</span><span class="o">;</span>
-
-<span class="kn">import</span> <span class="nn">javax.persistence.Entity</span><span class="o">;</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">javax.persistence.Entity</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">javax.persistence.GeneratedValue</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">javax.persistence.GenerationType</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">javax.persistence.Id</span><span class="o">;</span>
@@ -228,5 +228,112 @@ spring.datasource.url=jdbc:h2:mem:dogdata
 	
 <span class="o">}</span>
 </code></pre></div></div>
+<p><br /></p>
+
+<h4 id="repository-1">Repository</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.jpa.repository.Query</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.data.repository.CrudRepository</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">DogRepository</span> <span class="kd">extends</span> <span class="nc">CrudRepository</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">,</span> <span class="nc">Long</span><span class="o">&gt;</span> <span class="o">{</span>
+	
+	<span class="nd">@Query</span><span class="o">(</span><span class="s">"select d.id, d.breed from Dog d"</span><span class="o">)</span>
+	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">findAllBreed</span><span class="o">();</span>
+	
+	<span class="nd">@Query</span><span class="o">(</span><span class="s">"select d.id, d.breed from Dog d where d.id=:id"</span><span class="o">)</span>
+	<span class="nc">String</span> <span class="nf">findBreedById</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<h4 id="service-layer-1">Service Layer</h4>
+<p>Below is the Service interface:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">DogService</span> <span class="o">{</span>
+	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="nf">retrieveDogs</span><span class="o">();</span>
+	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">retrieveDogBreed</span><span class="o">();</span>
+	<span class="nc">String</span> <span class="nf">retrieveDogBreedById</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">);</span>
+	<span class="nc">Optional</span> <span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="nf">retrieveDogById</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Below is the implementation of the Service interface:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Service</span><span class="o">;</span>
+
+<span class="nd">@Service</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DogServiceImpl</span> <span class="kd">implements</span> <span class="nc">DogService</span> <span class="o">{</span>
+	<span class="nd">@Autowired</span>
+	<span class="kd">private</span> <span class="nc">DogRepository</span> <span class="n">dogRepository</span><span class="o">;</span>
+	
+	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="nf">retrieveDogs</span><span class="o">(){</span>
+		<span class="k">return</span> <span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;)</span> <span class="n">dogRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
+	<span class="o">}</span>
+	
+	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">retrieveDogBreed</span><span class="o">(){</span>
+		<span class="k">return</span> <span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;)</span> <span class="n">dogRepository</span><span class="o">.</span><span class="na">findAllBreed</span><span class="o">();</span>
+	<span class="o">};</span>
+	
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">retrieveDogBreedById</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="o">(</span><span class="nc">String</span><span class="o">)</span> <span class="n">dogRepository</span><span class="o">.</span><span class="na">findBreedById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+	<span class="o">};</span>
+	
+	<span class="kd">public</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="nf">retrieveDogById</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="o">(</span><span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;)</span> <span class="n">dogRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<h4 id="controller">Controller</h4>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PathVariable</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RestController</span><span class="o">;</span>
+
+<span class="nd">@RestController</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DogController</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="nc">DogService</span> <span class="n">dogService</span><span class="o">;</span>
+	
+	<span class="nd">@Autowired</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setDogService</span><span class="o">(</span><span class="nc">DogService</span> <span class="n">dogService</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">dogService</span> <span class="o">=</span> <span class="n">dogService</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/dogs"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="nf">getAllDogs</span><span class="o">(){</span>
+		<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="n">dogs</span> <span class="o">=</span> <span class="n">dogService</span><span class="o">.</span><span class="na">retrieveDogs</span><span class="o">();</span>
+		<span class="k">return</span> <span class="n">dogs</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/dogs/breed"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">retrieveDogBreed</span><span class="o">(){</span>
+		<span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">breed</span> <span class="o">=</span> <span class="n">dogService</span><span class="o">.</span><span class="na">retrieveDogBreed</span><span class="o">();</span>
+		<span class="k">return</span> <span class="n">breed</span><span class="o">;</span>
+	<span class="o">};</span>
+	
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/{id}/breed"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">retrieveDogBreedById</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+		<span class="nc">String</span> <span class="n">breed</span> <span class="o">=</span> <span class="n">dogService</span><span class="o">.</span><span class="na">retrieveDogBreedById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+		<span class="k">return</span> <span class="n">breed</span><span class="o">;</span>
+	<span class="o">};</span>
+	
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/{id}"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="nc">Optional</span> <span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="nf">retrieveDogById</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">){</span>
+		<span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="n">dog</span> <span class="o">=</span> <span class="n">dogService</span><span class="o">.</span><span class="na">retrieveDogById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+		<span class="k">return</span> <span class="n">dog</span><span class="o">;</span>
+	<span class="o">};</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+<p><br /></p>
 
 :ET

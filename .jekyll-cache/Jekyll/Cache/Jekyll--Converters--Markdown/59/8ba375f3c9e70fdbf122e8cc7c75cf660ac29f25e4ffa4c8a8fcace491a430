@@ -1,4 +1,4 @@
-I"�U<h2 id="introduction">Introduction</h2>
+I"�V<h2 id="introduction">Introduction</h2>
 <p>Spring Data comes with a common programming model for persisting data in various types of database engine, ranging from traditional relational databases (SQL databases) to various types of NoSQL database engine, such as document databases (for example, MongoDB), key-value databases (for example, Redis), and graph databases (for example, Neo4J).</p>
 
 <p>The two core concepts of the programming model in Spring Data are entities and repositories. Entities and repositories generalize how data is stored and accessed from the various types of database.</p>
@@ -118,78 +118,282 @@
   <li>void deleteAll()</li>
 </ul>
 
-<h2 id="service-layer">Service Layer</h2>
-<p>Controllers are supposed to be “thin” and shouldn’t contain any real business logic. The controllers job is to simply handle the request and move the user into the correct view or return the response in an API call. We could have accessed the Repository from the Controller. However, as a best practice, it is much cleaner to have the Service Layer perform all of the access to the database. This practice refers to the Separation of Concerns pattern. The benefits a Service Layer provides is that it defines a common set of application operations available to different clients and coordinates the response in each operation.</p>
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">Operation</th>
+			<th scope="col">Methods</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Create</td>
+			<td>
+				Class_Name save(Class_Name object_variable)
+			</td>
+		</tr>
+		<tr>
+			<td>Read</td>
+			<td>
+				- Optional<Class_Name> findById(ID id)
+				- boolean existsById(ID id)
+				- Iterable<Class_Name> findAll()
+				- findOne(ID id)
+				- Iterable<Class_Name> findAllById(Iterable<ID> iterable)
+				- long count()
+			&lt;/td&gt;
+		&lt;/tr&gt;
+		<tr>
+			<td>Update</td>
+			<td>
+				- Iterable<Class_Name> saveAll(Iterable<Class_Name> iterable)
+			&lt;/td&gt;
+		&lt;/tr&gt;
+		<tr>
+			<td>Delete</td>
+			<td>
+				<code>void deleteById(ID id)</code>
+				<code>void delete (Class_Name object_Name)</code>
+				<code>void deleteAll(Iterable/<Class_Name /> iterable)</code>
+				<code>void deleteAll()</code>
+			</td>
+		</tr>
+	&lt;/tbody&gt;
+&lt;/table&gt;
+<br />
 
-<h2 id="example">Example</h2>
-<p>Let’s see all of the above concepts in action - our application will consist of Dog data stored in an in-memory H2 database.</p>
+## Service Layer
+Controllers are supposed to be "thin" and shouldn’t contain any real business logic. The controllers job is to simply handle the request and move the user into the correct view or return the response in an API call. We could have accessed the Repository from the Controller. However, as a best practice, it is much cleaner to have the Service Layer perform all of the access to the database. This practice refers to the Separation of Concerns pattern. The benefits a Service Layer provides is that it defines a common set of application operations available to different clients and coordinates the response in each operation.
 
-<h4 id="dependencies">Dependencies</h4>
+## Example
+Let's see all of the above concepts in action - our application will consist of Dog data stored in an in-memory H2 database.
 
-<h4 id="entity">Entity</h4>
+#### Dependencies
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">shyamgupta</span><span class="o">.</span><span class="na">data</span><span class="o">;</span>
+We've added Spring Web, JPA and H2 dependencies:
 
-<span class="kn">import</span> <span class="nn">javax.persistence.Entity</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">javax.persistence.GeneratedValue</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">javax.persistence.GenerationType</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">javax.persistence.Id</span><span class="o">;</span>
+```xml
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+<dependency>
+	<groupId>com.h2database</groupId>
+	<artifactId>h2</artifactId>
+	<scope>runtime</scope>
+</dependency>
+```
+<br />
 
-<span class="nd">@Entity</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Dog</span> <span class="o">{</span>
-	<span class="nd">@Id</span>
-	<span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span><span class="o">=</span><span class="nc">GenerationType</span><span class="o">.</span><span class="na">AUTO</span><span class="o">)</span>
-	<span class="kd">private</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">;</span>
+#### H2 database
+In our `application.properties` file, we've enabled H2 database console and the database location:
+
+```
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2
+spring.datasource.url=jdbc:h2:mem:dogdata
+```
+<br />
+
+We've created a `data.sql` file under `src/main/resources`:
+
+```sql
+INSERT INTO dog (id, name, breed, origin) VALUES (1, 'Fluffy', 'Pomeranian', 'Mountain View, CA');
+INSERT INTO dog (id, name, breed, origin) VALUES (2, 'Spot', 'Pit Bull', 'Austin, TX');
+INSERT INTO dog (id, name, breed, origin) VALUES (3, 'Ginger', 'Cocker Spaniel', 'Kansas City, KS');
+INSERT INTO dog (id, name, breed, origin) VALUES (4, 'Lady', 'Direwolf', 'The North');
+INSERT INTO dog (id, name, breed, origin) VALUES (5, 'Sasha', 'Husky', 'Buffalo, NY');
+```
+<br />
+
+#### Entity
+
+```java
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Dog {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
 	
-	<span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
-	<span class="kd">private</span> <span class="nc">String</span> <span class="n">breed</span><span class="o">;</span>
-	<span class="kd">private</span> <span class="nc">String</span> <span class="n">origin</span><span class="o">;</span>
+	private String name;
+	private String breed;
+	private String origin;
 	
-<span class="c1">//Constructors	</span>
-	<span class="kd">public</span> <span class="nf">Dog</span><span class="o">()</span> <span class="o">{}</span>
+//Constructors	
+	public Dog() {}
 	
-	<span class="kd">public</span> <span class="nf">Dog</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">,</span> <span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="nc">String</span> <span class="n">breed</span><span class="o">,</span> <span class="nc">String</span> <span class="n">origin</span><span class="o">)</span> <span class="o">{</span>
-		<span class="kd">super</span><span class="o">();</span>
-		<span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
-		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
-		<span class="k">this</span><span class="o">.</span><span class="na">breed</span> <span class="o">=</span> <span class="n">breed</span><span class="o">;</span>
-		<span class="k">this</span><span class="o">.</span><span class="na">origin</span> <span class="o">=</span> <span class="n">origin</span><span class="o">;</span>
-	<span class="o">}</span>
+	public Dog(Long id, String name, String breed, String origin) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.breed = breed;
+		this.origin = origin;
+	}
 
-<span class="c1">//Getters and Setters</span>
-	<span class="kd">public</span> <span class="nc">Long</span> <span class="nf">getId</span><span class="o">()</span> <span class="o">{</span>
-		<span class="k">return</span> <span class="n">id</span><span class="o">;</span>
-	<span class="o">}</span>
+//Getters and Setters
+	public Long getId() {
+		return id;
+	}
 
-	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setId</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
-		<span class="k">this</span><span class="o">.</span><span class="na">id</span> <span class="o">=</span> <span class="n">id</span><span class="o">;</span>
-	<span class="o">}</span>
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
-		<span class="k">return</span> <span class="n">name</span><span class="o">;</span>
-	<span class="o">}</span>
+	public String getName() {
+		return name;
+	}
 
-	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setName</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">)</span> <span class="o">{</span>
-		<span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
-	<span class="o">}</span>
+	public void setName(String name) {
+		this.name = name;
+	}
 
-	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getBreed</span><span class="o">()</span> <span class="o">{</span>
-		<span class="k">return</span> <span class="n">breed</span><span class="o">;</span>
-	<span class="o">}</span>
+	public String getBreed() {
+		return breed;
+	}
 
-	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setBreed</span><span class="o">(</span><span class="nc">String</span> <span class="n">breed</span><span class="o">)</span> <span class="o">{</span>
-		<span class="k">this</span><span class="o">.</span><span class="na">breed</span> <span class="o">=</span> <span class="n">breed</span><span class="o">;</span>
-	<span class="o">}</span>
+	public void setBreed(String breed) {
+		this.breed = breed;
+	}
 
-	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getOrigin</span><span class="o">()</span> <span class="o">{</span>
-		<span class="k">return</span> <span class="n">origin</span><span class="o">;</span>
-	<span class="o">}</span>
+	public String getOrigin() {
+		return origin;
+	}
 
-	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setOrigin</span><span class="o">(</span><span class="nc">String</span> <span class="n">origin</span><span class="o">)</span> <span class="o">{</span>
-		<span class="k">this</span><span class="o">.</span><span class="na">origin</span> <span class="o">=</span> <span class="n">origin</span><span class="o">;</span>
-	<span class="o">}</span>
+	public void setOrigin(String origin) {
+		this.origin = origin;
+	}
 	
-<span class="o">}</span>
-</code></pre></div></div>
+}
+```
+<br />
 
+#### Repository
+```java
+import java.util.List;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+public interface DogRepository extends CrudRepository&lt;Dog, Long&gt; {
+	
+	@Query("select d.id, d.breed from Dog d")
+	List<String> findAllBreed();
+	
+	@Query("select d.id, d.breed from Dog d where d.id=:id")
+	String findBreedById(Long id);
+}
+```
+<br />
+
+#### Service Layer
+Below is the Service interface:
+
+```java
+import java.util.List;
+import java.util.Optional;
+
+public interface DogService {
+	List<Dog> retrieveDogs();
+	List<String> retrieveDogBreed();
+	String retrieveDogBreedById(Long id);
+	Optional <Dog> retrieveDogById(Long id);
+}
+```
+
+Below is the implementation of the Service interface:
+
+```java
+import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class DogServiceImpl implements DogService {
+	@Autowired
+	private DogRepository dogRepository;
+	
+	public List<Dog> retrieveDogs(){
+		return (List<Dog>) dogRepository.findAll();
+	}
+	
+	public List<String> retrieveDogBreed(){
+		return (List<String>) dogRepository.findAllBreed();
+	};
+	
+	public String retrieveDogBreedById(Long id) {
+		return (String) dogRepository.findBreedById(id);
+	};
+	
+	public Optional<Dog> retrieveDogById(Long id) {
+		return (Optional<Dog>) dogRepository.findById(id);
+	}
+}
+```
+<br />
+
+#### Controller
+```java
+import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class DogController {
+	private DogService dogService;
+	
+	@Autowired
+	public void setDogService(DogService dogService) {
+		this.dogService = dogService;
+	}
+	
+	@RequestMapping("/dogs")
+	public List<Dog> getAllDogs(){
+		List<Dog> dogs = dogService.retrieveDogs();
+		return dogs;
+	}
+	
+	@RequestMapping("/dogs/breed")
+	public List<String> retrieveDogBreed(){
+		List<String> breed = dogService.retrieveDogBreed();
+		return breed;
+	};
+	
+	@RequestMapping("/{id}/breed")
+	public String retrieveDogBreedById(@PathVariable Long id) {
+		String breed = dogService.retrieveDogBreedById(id);
+		return breed;
+	};
+	
+	@RequestMapping("/{id}")
+	public Optional <Dog> retrieveDogById(@PathVariable Long id){
+		Optional<Dog> dog = dogService.retrieveDogById(id);
+		return dog;
+	};
+}
+
+```
+<br />
+
+
+
+
+
+
+
+
+
+
+</Dog></Dog></String></String></Dog></Dog></Dog></Dog></String></String></Dog></Dog></Dog></String></Dog></String></Class_Name></Class_Name></td></tr></ID></Class_Name></Class_Name></Class_Name></td></tr></tbody></table>
 :ET

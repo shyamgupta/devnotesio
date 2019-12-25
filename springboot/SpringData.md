@@ -111,6 +111,8 @@ By inheriting from CrudRepository, we can call many methods without the need to 
 - void deleteAll(Iterable<Class_Name> iterable)
 - void deleteAll()
 
+
+
 ## Service Layer
 Controllers are supposed to be "thin" and shouldn’t contain any real business logic. The controllers job is to simply handle the request and move the user into the correct view or return the response in an API call. We could have accessed the Repository from the Controller. However, as a best practice, it is much cleaner to have the Service Layer perform all of the access to the database. This practice refers to the Separation of Concerns pattern. The benefits a Service Layer provides is that it defines a common set of application operations available to different clients and coordinates the response in each operation.
 

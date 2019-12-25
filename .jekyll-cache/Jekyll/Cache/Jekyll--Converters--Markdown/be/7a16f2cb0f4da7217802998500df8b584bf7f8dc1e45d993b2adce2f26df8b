@@ -1,4 +1,4 @@
-I"dñ<h2 id="introduction">Introduction</h2>
+I"ˇì<h2 id="introduction">Introduction</h2>
 <p>Spring Data comes with a common programming model for persisting data in various types of database engine, ranging from traditional relational databases (SQL databases) to various types of NoSQL database engine, such as document databases (for example, MongoDB), key-value databases (for example, Redis), and graph databases (for example, Neo4J).</p>
 
 <p>The two core concepts of the programming model in Spring Data are entities and repositories. Entities and repositories generalize how data is stored and accessed from the various types of database.</p>
@@ -118,6 +118,17 @@
   <li>void deleteAll()</li>
 </ul>
 
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">Operation</th>
+			<th scope="col">Methods</th>
+		</tr>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+
 <h2 id="service-layer">Service Layer</h2>
 <p>Controllers are supposed to be ‚Äúthin‚Äù and shouldn‚Äôt contain any real business logic. The controllers job is to simply handle the request and move the user into the correct view or return the response in an API call. We could have accessed the Repository from the Controller. However, as a best practice, it is much cleaner to have the Service Layer perform all of the access to the database. This practice refers to the Separation of Concerns pattern. The benefits a Service Layer provides is that it defines a common set of application operations available to different clients and coordinates the response in each operation.</p>
 
@@ -165,9 +176,7 @@ spring.datasource.url=jdbc:h2:mem:dogdata
 
 <h4 id="entity">Entity</h4>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">shyamgupta</span><span class="o">.</span><span class="na">data</span><span class="o">;</span>
-
-<span class="kn">import</span> <span class="nn">javax.persistence.Entity</span><span class="o">;</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">javax.persistence.Entity</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">javax.persistence.GeneratedValue</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">javax.persistence.GenerationType</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">javax.persistence.Id</span><span class="o">;</span>
@@ -249,9 +258,7 @@ spring.datasource.url=jdbc:h2:mem:dogdata
 <h4 id="service-layer-1">Service Layer</h4>
 <p>Below is the Service interface:</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">shyamgupta</span><span class="o">.</span><span class="na">data</span><span class="o">;</span>
-
-<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
 
 <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">DogService</span> <span class="o">{</span>
@@ -264,11 +271,8 @@ spring.datasource.url=jdbc:h2:mem:dogdata
 
 <p>Below is the implementation of the Service interface:</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">shyamgupta</span><span class="o">.</span><span class="na">data</span><span class="o">;</span>
-
-<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
-
 <span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.stereotype.Service</span><span class="o">;</span>
 
@@ -297,11 +301,8 @@ spring.datasource.url=jdbc:h2:mem:dogdata
 <p><br /></p>
 
 <h4 id="controller">Controller</h4>
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">shyamgupta</span><span class="o">.</span><span class="na">data</span><span class="o">;</span>
-
-<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
-
 <span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.PathVariable</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
@@ -342,5 +343,6 @@ spring.datasource.url=jdbc:h2:mem:dogdata
 <span class="o">}</span>
 
 </code></pre></div></div>
+<p><br /></p>
 
 :ET
