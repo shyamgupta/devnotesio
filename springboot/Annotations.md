@@ -45,6 +45,13 @@ public class TransferServiceImpl implements TransferService {
 In Spring, you have to enable component scanning in your application, because it is not enabled by default. You have to create a configuration Java file, and annotate it with @Configuration and @ComponentScan. This class is used to search out classes annotated with @Component, and to create beans from them. Since these annotations are so frequently used together (especially if you follow the best practices above), Spring Boot provides a convenient @SpringBootApplication alternative.
 The @SpringBootApplication annotation is equivalent to using @Configuration, @EnableAutoConfiguration and @ComponentScan with their default attributes: [...]
 
+The @SpringBootApplication annotation includes the following annotations:
+- **@Configuration** informs Spring that our HelloWorldController class contains configuration information. (This annotation can be used to create beans that will get registered with the Spring context.) 
+- **@EnableAutoConfiguration** tells Spring to automatically configure resources from dependencies found in the CLASSPATH, such as H2 and Tomcat.
+- **@ComponentScan** tells Spring to scan packages in the CLASSPATH under the current package for Spring-annotated components such as @Service and @Controller.
+
+Spring scans the CLASSPATH and automatically creates components. It then populates the Spring context with the application components found in the package scan.
+
 ## @Autowired
 Spring provides support for automatic bean wiring. This means that Spring automatically resolves the dependencies that are required by the dependent bean by finding other collaborating beans in the application context. Bean Autowiring is another way of DI pattern configuration. 
 

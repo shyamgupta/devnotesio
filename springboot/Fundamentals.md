@@ -134,7 +134,7 @@ In short, a Spring bean is an object which Spring framework manages at runtime -
 - intercepting object method calls to provide additional framework features
 - destroying an object
 
-Spring is responsible for creating bean objects. But first, you need to tell the framework which objects it should create. We do this by prividing bean definitions. Bean definitions tell Spring \
+Spring is responsible for creating bean objects. But first, you need to tell the framework which objects it should create. We do this by prividing bean definitions. Bean definitions tell Spring: 
 - which classes the framework should use as beans.
 - describe the properties of a bean. 
 

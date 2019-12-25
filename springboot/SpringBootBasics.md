@@ -50,7 +50,12 @@ Note two things about the above code:
 - First, all of the work is abstracted into the framework. The main class boots up the app, but it doesn't know anything about how the app works or delivers its functionality. 
 - Second, the SpringApplication.run() does the actual job of booting the app and passing in the HelloWorldApplication class itself. Again, the work the app does is not apparent here.
 
-The @SpringBootApplication annotation wraps up a few standard annotations and tells Spring to look at the package where the main class exists for components - this would allow Spring to find all classes annotated with @Component and @Autowired. The process itself, called component scanning, is highly customizable. 
+The @SpringBootApplication annotation wraps up a few standard annotations and tells Spring to look at the package where the main class exists for components - this would allow Spring to find all classes annotated with @Component and @Autowired. The process itself, called component scanning, is highly customizable.
+
+The @SpringBootApplication annotation includes the following annotations:
+- **@Configuration** informs Spring that our HelloWorldController class contains configuration information. (This annotation can be used to create beans that will get registered with the Spring context.) 
+- **@EnableAutoConfiguration** tells Spring to automatically configure resources from dependencies found in the CLASSPATH, such as H2 and Tomcat.
+- **@ComponentScan** tells Spring to scan packages in the CLASSPATH under the current package for Spring-annotated components such as @Service and @Controller.
 
 Make sure to import the dependencies `CMD + SHIFT + O` in Mac for the @RestController and @RequestMapping annotations to work. Once you run the application, visit localhost:8080 in the browser.
 

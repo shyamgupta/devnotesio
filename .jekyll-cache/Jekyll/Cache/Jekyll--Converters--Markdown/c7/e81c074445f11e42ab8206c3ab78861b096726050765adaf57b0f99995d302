@@ -1,0 +1,11 @@
+I"Ÿ<h2 id="map-a-database-table-to-a-java-class">Map a Database Table to a Java Class</h2>
+<p>Letâ€™s start with a simple example, where we map one database table to one JPA entity: below we have a STUDENT table with 4 columns:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">student_id</span> <span class="nb">INT</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+<span class="n">student_name</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">student_fulltime</span> <span class="nb">TINYINT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">student_age</span> <span class="nb">INT</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+</code></pre></div></div>
+<p><br /></p>
+
+:ET

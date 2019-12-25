@@ -37,8 +37,8 @@
           <a href="/springboot/Fundamentals/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Fundamentals</a>
           <a href="/springboot/Basics/" class="text-decoration-none d-block mb-1 p-1 mt-1  activepage ">Spring Boot Basics</a>
           <a href="/springboot/Annotations/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Annotations</a>
-           <a href="/springboot/SpringController/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Controller</a>
            <a href="/springboot/ModelingData/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Modeling Data</a>
+           <a href="/springboot/SpringData/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Spring Data</a>
             <a href="/springboot/Hibernate/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Hibernate</a>
           <a href="/springboot/RESTAPIs/" class="text-decoration-none d-block mb-1 p-1  ">REST APIs</a>
           <a href="#" class="text-decoration-none d-block mb-1 p-1">Microservices</a>
@@ -100,6 +100,13 @@ mvn <span class="nt">--version</span>
 </ul>
 
 <p>The @SpringBootApplication annotation wraps up a few standard annotations and tells Spring to look at the package where the main class exists for components - this would allow Spring to find all classes annotated with @Component and @Autowired. The process itself, called component scanning, is highly customizable.</p>
+
+<p>The @SpringBootApplication annotation includes the following annotations:</p>
+<ul>
+  <li><strong>@Configuration</strong> informs Spring that our HelloWorldController class contains configuration information. (This annotation can be used to create beans that will get registered with the Spring context.)</li>
+  <li><strong>@EnableAutoConfiguration</strong> tells Spring to automatically configure resources from dependencies found in the CLASSPATH, such as H2 and Tomcat.</li>
+  <li><strong>@ComponentScan</strong> tells Spring to scan packages in the CLASSPATH under the current package for Spring-annotated components such as @Service and @Controller.</li>
+</ul>
 
 <p>Make sure to import the dependencies <code class="highlighter-rouge">CMD + SHIFT + O</code> in Mac for the @RestController and @RequestMapping annotations to work. Once you run the application, visit localhost:8080 in the browser.</p>
 
