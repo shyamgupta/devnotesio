@@ -1,5 +1,0 @@
-I"ú<h2 id="map-a-database-table-to-a-java-class">Map a Database Table to a Java Class</h2>
-<p>Letâ€™s start with a simple example, where we map one database table to one JPA entity:</p>
-
-<p><img src="/assets/img/dbtable.png" alt="Database Table" /></p>
-:ET

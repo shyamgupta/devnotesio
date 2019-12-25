@@ -20,7 +20,7 @@ Hibernate is the most popular Java-based JPA implementation, and it is used in S
 ## Layers of a Persistence Tier
 The application tier that deals with persistence is often called the persistence tier. Spring helps to enforce a modular architecture in which the persistence tier is divided into several core layers that contain the following:
 - **The domain model**: The domain model represents the key entities within an application, defining the manner in which they relate to one another. Each entity defines a series of properties, which designates its characteristics, as well as its relationships to other entities. Each class within the domain model contains the various properties and associations that correlate to columns and relationships within the database. Part of Hibernate’s job is to convert between domain model instances and rows in the database. 
-- **The Data Access Object (DAO) layer**: The DAO layer defines the means for CRUD operations on the domain model data. A DAO helps to abstract away those details specific to a particular database or persistence technology, providing an interface for persistence behavior from the perspective of the domain model, while encapsulating explicit features of the persistence technology. The goal of the DAO pattern is to completely abstract the underlying persistence technology and the manner in which it loads, saves, and manipulates the data represented by the domain model. For example, if I have a Person domain entity, we might create a PersonDao class to define all the application’s persistence needs related to the Person entity- we would likely have a methods like findById(Long id) for loading a Person entity from the database using its unique identifier.When defining a DAO, it is good practice to first write the interface and it's recommended to create separate DAOs for each persistent entity in your domain model.
+- **The Data Access Object (DAO) layer**:  DAO is a design pattern in which a data access object (DAO) is an object that provides an abstract interface to some type of database or other persistence mechanisms. The DAO layer defines the means for CRUD operations on the domain model data. A DAO helps to abstract away those details specific to a particular database or persistence technology, providing an interface for persistence behavior from the perspective of the domain model, while encapsulating explicit features of the persistence technology. The goal of the DAO pattern is to completely abstract the underlying persistence technology and the manner in which it loads, saves, and manipulates the data represented by the domain model. For example, if I have a Person domain entity, we might create a PersonDao class to define all the application’s persistence needs related to the Person entity- we would likely have a methods like findById(Long id) for loading a Person entity from the database using its unique identifier.When defining a DAO, it is good practice to first write the interface and it's recommended to create separate DAOs for each persistent entity in your domain model.
 - **The service layer**: The layer that handles the application business logic is called the service layer. The service layer typically defines an application’s public-facing API. Service layer provides the logic to operate on the data sent to and from the DAO and the client. If the DAO layer manages the persistence of data, the service layer, on the other hand, exposes all DAO transactions through its own set of interfaces and implementations.
 
 ## Entity: Mapping a Database Table to a Java Class
@@ -110,6 +110,233 @@ By inheriting from CrudRepository, we can call many methods without the need to 
 - void delete (Class_Name object_Name)
 - void deleteAll(Iterable<Class_Name> iterable)
 - void deleteAll()
+
+## Service Layer
+Controllers are supposed to be "thin" and shouldn’t contain any real business logic. The controllers job is to simply handle the request and move the user into the correct view or return the response in an API call. We could have accessed the Repository from the Controller. However, as a best practice, it is much cleaner to have the Service Layer perform all of the access to the database. This practice refers to the Separation of Concerns pattern. The benefits a Service Layer provides is that it defines a common set of application operations available to different clients and coordinates the response in each operation.
+
+## Example
+Let's see all of the above concepts in action - our application will consist of Dog data stored in an in-memory H2 database.
+
+#### Dependencies
+
+We've added Spring Web, JPA and H2 dependencies:
+
+```xml
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+<dependency>
+	<groupId>com.h2database</groupId>
+	<artifactId>h2</artifactId>
+	<scope>runtime</scope>
+</dependency>
+```
+<br>
+
+#### H2 database
+In our `application.properties` file, we've enabled H2 database console and the database location:
+
+```
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2
+spring.datasource.url=jdbc:h2:mem:dogdata
+```
+<br>
+
+We've created a `data.sql` file under `src/main/resources`:
+
+```sql
+INSERT INTO dog (id, name, breed, origin) VALUES (1, 'Fluffy', 'Pomeranian', 'Mountain View, CA');
+INSERT INTO dog (id, name, breed, origin) VALUES (2, 'Spot', 'Pit Bull', 'Austin, TX');
+INSERT INTO dog (id, name, breed, origin) VALUES (3, 'Ginger', 'Cocker Spaniel', 'Kansas City, KS');
+INSERT INTO dog (id, name, breed, origin) VALUES (4, 'Lady', 'Direwolf', 'The North');
+INSERT INTO dog (id, name, breed, origin) VALUES (5, 'Sasha', 'Husky', 'Buffalo, NY');
+```
+<br>
+
+#### Entity
+
+```java
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+public class Dog {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
+	
+	private String name;
+	private String breed;
+	private String origin;
+	
+//Constructors	
+	public Dog() {}
+	
+	public Dog(Long id, String name, String breed, String origin) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.breed = breed;
+		this.origin = origin;
+	}
+
+//Getters and Setters
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getBreed() {
+		return breed;
+	}
+
+	public void setBreed(String breed) {
+		this.breed = breed;
+	}
+
+	public String getOrigin() {
+		return origin;
+	}
+
+	public void setOrigin(String origin) {
+		this.origin = origin;
+	}
+	
+}
+```
+<br>
+
+#### Repository
+```java
+import java.util.List;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+public interface DogRepository extends CrudRepository<Dog, Long> {
+	
+	@Query("select d.id, d.breed from Dog d")
+	List<String> findAllBreed();
+	
+	@Query("select d.id, d.breed from Dog d where d.id=:id")
+	String findBreedById(Long id);
+}
+```
+<br>
+
+#### Service Layer
+Below is the Service interface:
+
+```java
+import java.util.List;
+import java.util.Optional;
+
+public interface DogService {
+	List<Dog> retrieveDogs();
+	List<String> retrieveDogBreed();
+	String retrieveDogBreedById(Long id);
+	Optional <Dog> retrieveDogById(Long id);
+}
+```
+
+Below is the implementation of the Service interface:
+
+```java
+import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+@Service
+public class DogServiceImpl implements DogService {
+	@Autowired
+	private DogRepository dogRepository;
+	
+	public List<Dog> retrieveDogs(){
+		return (List<Dog>) dogRepository.findAll();
+	}
+	
+	public List<String> retrieveDogBreed(){
+		return (List<String>) dogRepository.findAllBreed();
+	};
+	
+	public String retrieveDogBreedById(Long id) {
+		return (String) dogRepository.findBreedById(id);
+	};
+	
+	public Optional<Dog> retrieveDogById(Long id) {
+		return (Optional<Dog>) dogRepository.findById(id);
+	}
+}
+```
+<br>
+
+#### Controller
+```java
+import java.util.List;
+import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class DogController {
+	private DogService dogService;
+	
+	@Autowired
+	public void setDogService(DogService dogService) {
+		this.dogService = dogService;
+	}
+	
+	@RequestMapping("/dogs")
+	public List<Dog> getAllDogs(){
+		List<Dog> dogs = dogService.retrieveDogs();
+		return dogs;
+	}
+	
+	@RequestMapping("/dogs/breed")
+	public List<String> retrieveDogBreed(){
+		List<String> breed = dogService.retrieveDogBreed();
+		return breed;
+	};
+	
+	@RequestMapping("/{id}/breed")
+	public String retrieveDogBreedById(@PathVariable Long id) {
+		String breed = dogService.retrieveDogBreedById(id);
+		return breed;
+	};
+	
+	@RequestMapping("/{id}")
+	public Optional <Dog> retrieveDogById(@PathVariable Long id){
+		Optional<Dog> dog = dogService.retrieveDogById(id);
+		return dog;
+	};
+}
+
+```
+<br>
+
+
+
 
 
 
