@@ -47,6 +47,15 @@ img{
   height: 400px;
 }
 
+blockquote {
+  background: #7A9E7E;
+  border-left: 10px solid #31493C;
+  color: white;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  quotes: "\201C""\201D""\2018""\2019";
+}
+
 //back to-top button
 
 #button {

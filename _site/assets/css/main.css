@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body { font-family: 'IBM Plex Sans', sans-serif; background-color: #F4F3F3; }
 
 .highlight { padding: 2px; border-radius: 2px; }
@@ -17,6 +18,8 @@ h4 { color: #ED474A; border-bottom: 2px solid #ED474A; }
 strong { color: #0D00A4; }
 
 img { height: 400px; }
+
+blockquote { background: #7A9E7E; border-left: 10px solid #31493C; color: white; margin: 1.5em 10px; padding: 0.5em 10px; quotes: "“" "”" "‘" "’"; }
 
 #button { display: inline-block; width: 35px; height: 35px; text-align: center; border-radius: 4px; position: fixed; bottom: 25px; right: 25px; transition: background-color .3s,  opacity .5s, visibility .5s; opacity: 0; visibility: hidden; z-index: 1000; }
 
