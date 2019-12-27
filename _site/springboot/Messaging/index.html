@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en" class="h-100 w-100">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+     <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <title>DevNotes | SpringBoot</title>
+  </head>
+  <body class="h-100 w-100">
+    <!-- Navbar -->
+    <div class="container-fluid fixed-top">
+      <div class="row">
+        <div class="col-md-12 p-2 bg-dark text-light">
+          <p class="lead d-inline ml-2">Spring Boot</p>
+          <a href="/" class="float-right lead text-decoration-none mr-2 text-warning">Home</a>
+        </div>
+      </div>
+    </div>
+    <div class="container-fluid h-90 mt-5">
+    	<div class="row h-90">
+        <div class="col-md-2" id="navbar">
+          <!-- Side Navbar -->
+          <a href="/springboot/Fundamentals/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Fundamentals</a>
+          <a href="/springboot/Basics/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Spring Boot Basics</a>
+          <a href="/springboot/Annotations/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Annotations</a>
+          <a href="/springboot/Messaging/" class="text-decoration-none d-block mb-1 p-1 mt-1  activepage ">Messaging</a>
+           <a href="/springboot/SpringData/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Spring Data</a>
+            <a href="/springboot/Hibernate/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Hibernate</a>
+          <a href="#" class="text-decoration-none d-block mb-1 p-1">Microservices</a>
+          <a href="#" class="text-decoration-none d-block mb-1 p-1">Security</a>
+          <a href="#" class="text-decoration-none d-block mb-1 p-1">Consuming REST</a>
+          <a href="#" class="text-decoration-none d-block mb-1 p-1">Documentation</a>
+          <a href="#" class="text-decoration-none d-block mb-1 p-1">Testing</a>
+        </div>
+        <!-- Content -->
+    		<div class="col-md-10 mx-auto p-3">
+				  <h2 id="messaging">Messaging</h2>
+<p>Messaging solutions are designed to solve two types of architecture requirements: messaging from one point in an application to another known point, and messaging from one point in an application to many other unknown points. These patterns are the middleware equivalents of telling somebody something face to face and saying something over a loud speaker to a room of people, respectively.</p>
+
+<ul>
+  <li><strong>Topic</strong>: If you want messages sent on a message queue to be broadcast to an unknown set of clients who are “listening” for the message (as in the loud speaker analogy), you send the message on a topic. A topic is for the publish-subscribe communication model</li>
+  <li><strong>Queue</strong>: If you want the message sent to a single, known client, then you send it over a queue. A queue is for the point-to-point communication model</li>
+</ul>
+
+<h2 id="websockets">WebSockets</h2>
+<p>The web was built around the idea that a client’s job is to request data from a server, and a server’s job is to fulfill those requests. This paradigm went unchallenged for a number of years but with the introduction of AJAX, many people started to explore the possibilities of making connections between a client and server bidirectional.</p>
+
+<p>Web applications had grown up a lot and were now consuming more data than ever before. The biggest thing holding them back was the traditional HTTP model of client initiated transactions. To overcome this a number of different strategies were devised to allow servers to push data to the client.</p>
+
+<p>The problem with all of these solutions is that they carry the overhead of HTTP. Every time you make an HTTP request a bunch of headers and cookie data are transferred to the server. This can add up to a reasonably large amount of data that needs to be transferred, which in turn increases latency. If you’re building something like a chat application, reducing latency is crucial to keeping things running smoothly. The worst part of this is that a lot of these headers and cookies aren’t actually needed to fulfil the client’s request.</p>
+
+<p>What we really need is a way of creating a persistent, low latency connection that can support transactions initiated by either the client or server. This is exactly what WebSockets provide.</p>
+
+<p>WebSockets provide a persistent connection between a client and server that both parties can use to start sending data at any time.</p>
+
+<p>The client establishes a WebSocket connection through a process known as the WebSocket handshake. This process starts with the client sending a regular HTTP request to the server. An Upgrade header is included in this request that informs the server that the client wishes to establish a WebSocket connection. If the server supports the WebSocket protocol, it agrees to the upgrade and communicates this through an Upgrade header in the response. Now that the handshake is complete the initial HTTP connection is replaced by a WebSocket connection that uses the same underlying TCP/IP connection. At this point either party can starting sending data.</p>
+
+<p>With WebSockets you can transfer as much data as you like without incurring the overhead associated with traditional HTTP requests. Data is transferred through a WebSocket as messages, each of which consists of one or more frames containing the data you are sending (the payload).</p>
+
+<p>A WebSocket connection will only end when either the server or the client ends it. This makes WebSocket more preferred than HTTP, because when using HTTP, the connection will be closed once the server responds to the client, and the connection can be opened again by a request from the client only after waiting for some time interval.</p>
+
+<p>Like a web URI relies on HTTP or HTTPS, WebSocket URI uses <code class="highlighter-rouge">ws</code> or <code class="highlighter-rouge">wss</code> schemes (for example, ws://www.sample.org/ or wss://www.sample.org/) to communicate. WebSocket’s ws works in a similar way to HTTP by transmitting non-encrypted data over TCP/IP.</p>
+
+<p>WebSocket transmits data in the frame format, and apart from a single bit to distinguish between text and binary data, it is neutral to the message’s content. In order to handle the message’s format, the message needs some extra metadata, and the client and server should agree on an application-layer protocol, known as a subprotocol. The parties choose the subprotocol during the initial handshake. Spring supports Simple Text Orientated Messaging Protocol (STOMP) as a subprotocol—known as STOMP over WebSocket—in a WebSocket communication.</p>
+
+<h2 id="stomp">STOMP</h2>
+<p>WebSocket simply transforms bytes into messages and transports them between client and server. Those messages still need to be understood by the application itself, which is where subprotocols such as STOMP come into play. When working with WebSocket, typically a subprotocol such as STOMP will be used as a common format between the client and server so both ends know what to expect and react accordingly. STOMP is supported out of the box by the Spring Framework. Out of the box, the Spring Framework supports a simple broker that handles subscription requests and message broadcasting to connected clients in memory. Additionally, WebScoket protocol knows nothing about how to route a frame from the source to the destination, that’s why a WebSocket message does not contain any instructions about the frame routing process. To achieve this two-way communication and route the frames properly, we use STOMP, which is supported by Sprint Boot.</p>
+
+<p>STOMP is an application layer protocol that specifies many commands that help you handle text messages without worrying about which format is being exchanged between the client and the server (the “format” would be the STOMP specification itself). The client and server should specify the subprotocol to be used during the WebSocket connection in the handshake phase. Just keep in mind that you’re not required to use subprotocols, but using them makes your life much easier.</p>
+
+<p>Spring provides an annotation programming model for routing and  processing messages from WebSocket clients. This means that controller  methods can be used to process HTTP requests (when methods are annotated  with @RequestMapping) and can also be used to process WebSocket messages when methods are annotated with @MessageMapping. The complementary operation, sending the result of the method back to the client, is implemented using the @SendTo annotation, which is used to mark a subscription endpoint to which all the potential clients are registered; this way, they are identified as receivers of messages from the server.</p>
+
+<p>Clients can use the SEND or SUBSCRIBE commands to send or subscribe for messages along with a “destination” header that describes what the message is about and who should receive it. This enables a simple publish-subscribe mechanism that can be used to send messages through the broker to other connected clients or to send messages to the server to request that some work be performed.</p>
+
+<p>A STOMP client can do the following:</p>
+
+<ul>
+  <li>Produce messages with a destination header.</li>
+  <li>Consume messages by subscribing to a destination for messages that come from the server. In this case, the client sends a SUBSCRIBE frame where the destination header indicates what the client wants to subscribe to.</li>
+</ul>
+
+<p>The Spring Framework implements WebSocket communication with STOMP as the messaging protocol. The <code class="highlighter-rouge">spring-boot-starter-websocket</code> dependency includes the required libraries for server side implementation of WebSockets.</p>
+
+<h4 id="stomp-broker">STOMP Broker</h4>
+<p>To work with STOMP, you need a STOMP broker . Basically, this is the component that keeps track of subscriptions and that broadcasts messages to subscribed users. An in-memory STOMP broker is enabled by declaring two destinations, /queue/ and /topic/ - these are broker destinations, which means that any frame sent to a destination starting with these prefixes will be handled directly by the STOMP broker.</p>
+
+<p>Everything starting with /topic/ is a broker destination and any message sent to this destination is handled by the broker. The broker will receive this message and forward it to every subscribed user at this destination (including the user who sent the message because that user is also subscribed to this destination.</p>
+
+<p>The application destination prefix is /app. Basically, when a frame is sent to a destination that starts with /app, a class annotated with @Controller will handle the frame before forwarding it to the broker. More specifically, a method annotated with @MessageMapping inside the @Controller annotated class will handle it.</p>
+
+<p>Clients are going to connect to the STOMP endpoint using JavaScript (SockJS).</p>
+
+<h2 id="workflow">Workflow</h2>
+<p>When configuring and using STOMP with Spring WebSocket support, the WebSocket application acts as a broker for all connected clients. The broker can be an in-memory broker or an actual full-blown enterprise solution that supports the STOMP protocol (like RabbitMQ or ActiveMQ).</p>
+
+<p>To add messaging over the WebSocket protocol, Spring uses Spring Messaging. To be able to receive messages, you need to mark a method in an @Controller with @MessageMapping and tell it from which destination it will receive messages.</p>
+
+<p>The MessageBroker exposes an HTTP endpoint to which clients can use for establishing the WebSocket channel using SockJS. Once the channel is established, the server and client exchange messages over the channel. While the server listens to and responds to client messages, the client can also register a callback for “push” messages from the server. This allows the server to send notifications to the client as and when required without an explicit client request.</p>
+
+<p>Messages are routed to @Controller message-handling methods or to a simple, in-memory broker that keeps track of subscriptions and broadcasts messages to subscribed users.</p>
+
+<ul>
+  <li>Messages whose destination starts with “/app” are routed to message-handling methods (i.e. application work)</li>
+  <li>Messages whose destinations start with “/topic” or “/queue” will be routed to the message broker (i.e. broadcasting to other connected clients).</li>
+</ul>
+
+<p><img src="/assets/img/websocket.png" alt="WebSocket Workflow" class="img-fluid img-thumbnail" style="height: 400px;" /></p>
+
+<p>In our messaging architecture, channels decouple receivers and senders. The messaging architecture contains three channels:</p>
+
+<ul>
+  <li>Client Inbound (or Request) channel for request messages sent from the client side</li>
+  <li>Client Outbound (or Response) channel for messages sent to the client side</li>
+  <li>Broker channel for internal server messages to the broker</li>
+</ul>
+
+<p>Below is the message flow that utilizes a simple broker:</p>
+
+<ol>
+  <li>When you send a frame through WebSocket over STOMP, the message will first reach the client inbound channel.</li>
+  <li>The message will then be routed to a specific MessageHandler depending on the destination name:
+    <ul>
+      <li><strong>If the name starts with /app</strong>, a class annotated with @Controller will handle the frame before forwarding it to the broker. More specifically, a method annotated with @MessageMapping inside the @Controller annotated class will handle it. Then, from the @MessageMapping annotated method, the message will be forwarded to broker channel, which will send it to the simple broker message handler. Message is then forwarded to the client outbound channel, which will finally send the message to the client.</li>
+      <li><strong>If the name starts with /topic</strong>, then it will route it directly to the broker.</li>
+    </ul>
+  </li>
+</ol>
+
+<p>The “/app” prefix is arbitrary. You can pick any prefix. It’s simply meant to differentiate messages to be routed to message-handling methods to do application work vs messages to be routed to the broker to broadcast to subscribed clients. The “/topic” and “/queue” prefixes depend on the broker in use. In the case of the simple, in-memory broker the prefixes do not have any special meaning; it’s merely a convention that indicates how the destination is used. In the case of using a dedicated broker, most brokers use “/topic” as a prefix for destinations with pub-sub semantics and “/queue” for destinations with point-to-point semantics.</p>
+
+<h2 id="chat-application-using-websocket-stomp-and-sockjs">Chat Application using WebSocket, STOMP and SockJS</h2>
+<p>Our application will comprise of the following:</p>
+<ul>
+  <li>Login Page: The root URL will present a login page to the user.</li>
+  <li>Chat Page: Once the login is successful, user will be directed to <code class="highlighter-rouge">/chat</code> route where he will have the following functionalities available:
+    <ul>
+      <li>Displays the number of users online</li>
+      <li>Provides a common chatroom to all connected users</li>
+      <li>Displays messages when a user has joined or left the chatroom</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="dependencies">Dependencies</h4>
+<p>Our application will use Thymeleaf, Spring Web, WebSocket, jQuery, BootStrap, SockJS-Client dependencies:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-thymeleaf<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-web<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-websocket<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>org.webjars<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>jquery<span class="nt">&lt;/artifactId&gt;</span>
+	<span class="nt">&lt;version&gt;</span>3.4.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>org.webjars<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>bootstrap<span class="nt">&lt;/artifactId&gt;</span>
+	<span class="nt">&lt;version&gt;</span>4.3.1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>org.webjars<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>sockjs-client<span class="nt">&lt;/artifactId&gt;</span>
+	<span class="nt">&lt;version&gt;</span>1.1.2<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>org.webjars<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>stomp-websocket<span class="nt">&lt;/artifactId&gt;</span>
+	<span class="nt">&lt;version&gt;</span>2.3.3-1<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<h4 id="login-page">Login Page</h4>
+
+<p>Since we are using Thymeleaf as our temlate engine, the Login and Chat HTML pages will reside in <code class="highlighter-rouge">src/main/resources/templates</code> folder.</p>
+
+<p>Our login page consists of a form with the following attributes and fields:</p>
+<ul>
+  <li>Form submission will be handled by the <code class="highlighter-rouge">/login</code> route in our controller.</li>
+  <li><code class="highlighter-rouge">username</code> field will be sent the controller when the form is submitted.</li>
+  <li>We’ve also linked the SockJS, STOMP, jQuery and BootStrap libraries along with our custom CSS.</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"webjars/jquery/3.4.1/jquery.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"/webjars/bootstrap/4.3.1/css/bootstrap.min.css"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"https://fonts.googleapis.com/css?family=Solway&amp;display=swap"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span><span class="nt">&gt;</span> 
+<span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"main.css"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/webjars/sockjs-client/1.1.2/sockjs.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/webjars/stomp-websocket/2.3.3-1/stomp.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;title&gt;</span>Chat Room | Login<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">class=</span><span class="s">"bg-light"</span><span class="nt">&gt;</span>
+	<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container h-100 bg-light"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"row h-100 w-80 mx-auto"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col-md-6 mx-auto text-center my-auto bg-dark p-4 border-0 rounded"</span><span class="nt">&gt;</span>
+				<span class="nt">&lt;h2</span> <span class="na">class=</span><span class="s">"text-light"</span><span class="nt">&gt;</span>Chat Room<span class="nt">&lt;/h2&gt;</span>
+				<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"p-2 text-warning w-60 rounded"</span> <span class="na">id=</span><span class="s">"error"</span> <span class="na">data-th-text=</span><span class="s">"${error}"</span><span class="nt">&gt;&lt;/p&gt;</span>
+				<span class="nt">&lt;form</span> <span class="na">action=</span><span class="s">"/login"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+					<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group w-100"</span><span class="nt">&gt;</span>
+						<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">name=</span><span class="s">"username"</span> <span class="na">id=</span><span class="s">"username"</span> <span class="na">placeholder=</span><span class="s">"Username"</span> <span class="na">class=</span><span class="s">"text-center border-bottom-1 border-left-0 border-top-0 border-right-0 my-2 text-light"</span><span class="nt">&gt;&lt;br&gt;</span>
+						<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Submit"</span> <span class="na">class=</span><span class="s">"text-center bg-primary text-light border-0 rounded my-2 p-2"</span><span class="nt">&gt;</span>
+					<span class="nt">&lt;/div&gt;</span>
+				<span class="nt">&lt;/form&gt;</span>
+			<span class="nt">&lt;/div&gt;</span>
+		<span class="nt">&lt;/div&gt;</span>
+	<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<h4 id="chat-page">Chat Page</h4>
+<p>Our chat page consists of the following:</p>
+<ul>
+  <li>Form to handle logout, form submission is handled by the <code class="highlighter-rouge">/logout</code> route of our Controller.</li>
+  <li>Form to allow user’s to enter and submit chat messages.</li>
+  <li>A <code class="highlighter-rouge">&lt;div...&lt;/div&gt;</code> tag that displays the number of connected users, and chat messages broadcast to the chatroom.</li>
+</ul>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+<span class="nt">&lt;meta</span> <span class="na">charset=</span><span class="s">"UTF-8"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"webjars/jquery/3.4.1/jquery.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"/webjars/bootstrap/4.3.1/css/bootstrap.min.css"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"https://fonts.googleapis.com/css?family=Solway&amp;display=swap"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"main.css"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/webjars/sockjs-client/1.1.2/sockjs.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"/webjars/stomp-websocket/2.3.3-1/stomp.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"chat.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;title&gt;</span>Chat Room<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;body</span> <span class="na">class=</span><span class="s">"bg-light h-100 border"</span><span class="nt">&gt;</span>
+
+	<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"container h-100"</span><span class="nt">&gt;</span>
+		<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"row"</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col-md-12 bg-dark rounded mt-1 d-flex justify-content-between p-1"</span><span class="nt">&gt;</span>
+				<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"lead d-inline text-light my-auto ml-2"</span><span class="nt">&gt;</span>Chat Room<span class="nt">&lt;/p&gt;</span>
+				<span class="nt">&lt;form</span> <span class="na">class=</span><span class="s">"d-inline mt-1"</span> <span class="na">id=</span><span class="s">"logout"</span> <span class="na">action=</span><span class="s">"/logout"</span> <span class="na">method=</span><span class="s">"post"</span><span class="nt">&gt;</span>
+					<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group"</span><span class="nt">&gt;</span>
+						<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Logout"</span> <span class="na">class=</span><span class="s">"bg-danger border-0 rounded text-light p-2 mr-2"</span><span class="nt">&gt;</span>
+					<span class="nt">&lt;/div&gt;</span>
+				<span class="nt">&lt;/form&gt;</span>
+			<span class="nt">&lt;/div&gt;</span>	
+		<span class="nt">&lt;/div&gt;</span>
+		<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"row mt-2  d-flex justify-content-between "</span><span class="nt">&gt;</span>
+			<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col-md-5 ml-2 bg-secondary rounded"</span><span class="nt">&gt;</span>
+				<span class="nt">&lt;p</span> <span class="na">class=</span><span class="s">"text-warning mt-2 lead"</span><span class="nt">&gt;</span>Welcome <span class="nt">&lt;span</span> <span class="na">data-th-text=</span><span class="s">"${username}"</span> <span class="na">id=</span><span class="s">"username"</span><span class="nt">&gt;&lt;/span&gt;&lt;/p&gt;</span>
+				<span class="nt">&lt;form</span> <span class="na">id=</span><span class="s">"chatform"</span><span class="nt">&gt;</span>
+					<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"form-group p-2"</span><span class="nt">&gt;</span>
+						<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"text"</span> <span class="na">id=</span><span class="s">"chatmessage"</span> <span class="na">placeholder=</span><span class="s">"Send Text"</span> <span class="na">class=</span><span class="s">" w-100 border-left-0 border-top-0 border-right-0 text-light"</span><span class="nt">&gt;&lt;br&gt;</span>
+						<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"mt-3"</span><span class="nt">&gt;</span>
+							<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"submit"</span> <span class="na">value=</span><span class="s">"Send (Enter)"</span> <span class="na">class=</span><span class="s">"border-0 rounded p-2 bg-success text-light"</span><span class="nt">&gt;</span>
+							<span class="nt">&lt;input</span> <span class="na">type=</span><span class="s">"button"</span> <span class="na">value=</span><span class="s">"Clear"</span> <span class="na">id=</span><span class="s">"clear"</span> <span class="na">class=</span><span class="s">"border-0 rounded p-2 bg-danger text-light ml-5"</span><span class="nt">&gt;</span>
+						<span class="nt">&lt;/div&gt;</span>
+					<span class="nt">&lt;/div&gt;</span>
+				<span class="nt">&lt;/form&gt;</span>
+			<span class="nt">&lt;/div&gt;</span>				
+			<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"col-md-6 mr-2 bg-secondary rounded text-light ml-2 h-90"</span> <span class="na">id=</span><span class="s">"chatwall"</span><span class="nt">&gt;</span>
+				<span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"border-0 rounded bg-primary text-light p-2 mt-2"</span><span class="nt">&gt;</span>Online Users: <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">"usercount"</span><span class="nt">&gt;&lt;/span&gt;&lt;/button&gt;</span>
+				<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"onlineusers"</span> <span class="na">class=</span><span class="s">"bg-info p-2 mt-2 rounded"</span><span class="nt">&gt;&lt;/div&gt;</span>
+			<span class="nt">&lt;/div&gt;</span>
+		<span class="nt">&lt;/div&gt;</span>
+	<span class="nt">&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<h4 id="javascript">JavaScript</h4>
+<p>Our Javascript file resides in <code class="highlighter-rouge">src/main/resources/static</code> folder and we’ve linked it to Chat HTML page. All of our JavaScript code is within the document.ready function:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">stompClient</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
+
+	<span class="c1">//all JavaScript code goes here</span>
+
+<span class="p">})</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<p>When the login is successful and the chat.html is loaded, below code will:</p>
+<ul>
+  <li>Create a WebSocket connection, our WebSocket endpoint to which clients can connect is <code class="highlighter-rouge">ws-chat</code></li>
+  <li>Once WebSocket connenction is created:
+    <ul>
+      <li>Subscribe to <code class="highlighter-rouge">/topic/public</code> - this is where all chat, login and logout messages will be broadcast.</li>
+      <li>We are also sending the username captured from the login page to <code class="highlighter-rouge">/app/chat.register</code></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">socket</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SockJS</span><span class="p">(</span><span class="dl">"</span><span class="s2">/ws-chat</span><span class="dl">"</span><span class="p">);</span>
+<span class="nx">stompClient</span><span class="o">=</span> <span class="nx">Stomp</span><span class="p">.</span><span class="nx">over</span><span class="p">(</span><span class="nx">socket</span><span class="p">);</span>
+<span class="nx">stompClient</span><span class="p">.</span><span class="nx">connect</span><span class="p">({},</span><span class="nx">onConnected</span><span class="p">);</span>
+<span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#chatform</span><span class="dl">"</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">"</span><span class="s2">submit</span><span class="dl">"</span><span class="p">,</span><span class="nx">onSend</span><span class="p">);</span>
+
+<span class="kd">function</span> <span class="nx">onConnected</span><span class="p">(){</span>
+	<span class="nx">stompClient</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="dl">"</span><span class="s2">/topic/public</span><span class="dl">"</span><span class="p">,</span><span class="nx">onMessageReceived</span><span class="p">);</span>
+	<span class="nx">stompClient</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">/app/chat.register</span><span class="dl">'</span><span class="p">,{},</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="na">sender</span><span class="p">:</span><span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#username</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(),</span><span class="na">type</span><span class="p">:</span><span class="dl">'</span><span class="s1">JOIN</span><span class="dl">'</span><span class="p">}));</span>
+<span class="p">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<p>Below function is triggered when a user sends a chat message:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">onSend</span><span class="p">(){</span>
+	<span class="kd">var</span> <span class="nx">chatMessage</span> <span class="o">=</span> <span class="p">{</span>
+		<span class="na">sender</span><span class="p">:</span><span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#username</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(),</span>
+		<span class="na">content</span><span class="p">:</span> <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#chatmessage</span><span class="dl">"</span><span class="p">).</span><span class="nx">val</span><span class="p">(),</span>
+		<span class="na">type</span><span class="p">:</span><span class="dl">'</span><span class="s1">CHAT</span><span class="dl">'</span>
+	<span class="p">};</span>
+	<span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#chatmessage</span><span class="dl">"</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="dl">''</span><span class="p">);</span>
+	<span class="nx">stompClient</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">/app/chat.send</span><span class="dl">'</span><span class="p">,{},</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">chatMessage</span><span class="p">));</span>	
+<span class="p">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<p>Below function handles the messages received from the server:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">onMessageReceived</span><span class="p">(</span><span class="nx">message</span><span class="p">){</span>
+		 <span class="kd">var</span> <span class="nx">message</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">message</span><span class="p">.</span><span class="nx">body</span><span class="p">);</span>
+		 <span class="kd">var</span> <span class="nx">userList</span><span class="o">=</span><span class="dl">""</span><span class="p">;</span>
+		 <span class="k">for</span><span class="p">(</span><span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">message</span><span class="p">.</span><span class="nx">onlineUsers</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">){</span>
+			 <span class="nx">userList</span> <span class="o">+=</span> <span class="dl">"</span><span class="s2">&lt;p&gt;</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">onlineUsers</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">&lt;/p&gt;</span><span class="dl">"</span><span class="p">;</span>
+		 <span class="p">}</span>
+		 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">message</span><span class="p">);</span>
+		 <span class="k">if</span><span class="p">(</span><span class="nx">message</span><span class="p">.</span><span class="nx">type</span> <span class="o">==</span> <span class="dl">'</span><span class="s1">JOIN</span><span class="dl">'</span><span class="p">){</span>
+			 <span class="nx">message</span><span class="p">.</span><span class="nx">content</span> <span class="o">=</span> <span class="nx">message</span><span class="p">.</span><span class="nx">sender</span> <span class="o">+</span> <span class="dl">'</span><span class="s1"> joined</span><span class="dl">'</span><span class="p">;</span>
+			 <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#usercount</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">message</span><span class="p">.</span><span class="nx">onlineUsers</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+			 <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#onlineusers</span><span class="dl">"</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">userList</span><span class="p">);</span>
+			<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">userList</span><span class="p">);</span>
+			 <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#chatwall</span><span class="dl">"</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="dl">"</span><span class="s2">&lt;p class='text-warning rounded mt-1'&gt;</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">content</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">&lt;/p&gt;</span><span class="dl">"</span><span class="p">);</span>
+		 <span class="p">}</span> <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="nx">message</span><span class="p">.</span><span class="nx">type</span> <span class="o">==</span> <span class="dl">'</span><span class="s1">CHAT</span><span class="dl">'</span><span class="p">){</span>
+			 <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#chatwall</span><span class="dl">"</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="dl">"</span><span class="s2">&lt;p class='bg-info rounded mt-1 p-2'&gt;[</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">sender</span> <span class="o">+</span><span class="dl">"</span><span class="s2">]: </span><span class="dl">"</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">content</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">&lt;/p&gt;</span><span class="dl">"</span><span class="p">);</span>
+		 <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">message</span><span class="p">.</span><span class="nx">type</span> <span class="o">==</span> <span class="dl">'</span><span class="s1">LEAVE</span><span class="dl">'</span><span class="p">){</span>
+			 <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#usercount</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">message</span><span class="p">.</span><span class="nx">onlineUsers</span><span class="p">.</span><span class="nx">length</span><span class="p">);</span>
+			 <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#onlineusers</span><span class="dl">"</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">userList</span><span class="p">);</span>
+			 <span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#chatwall</span><span class="dl">"</span><span class="p">).</span><span class="nx">append</span><span class="p">(</span><span class="dl">"</span><span class="s2">&lt;p class='text-light rounded mt-1'&gt;</span><span class="dl">"</span> <span class="o">+</span> <span class="nx">message</span><span class="p">.</span><span class="nx">content</span> <span class="o">+</span> <span class="dl">"</span><span class="s2">&lt;/p&gt;</span><span class="dl">"</span><span class="p">);</span>
+		 <span class="p">}</span>
+		
+	<span class="p">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<p>Below function handles the logout feature:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">onLogout</span><span class="p">(){</span>
+		<span class="nx">stompClient</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="dl">'</span><span class="s1">/app/chat.leave</span><span class="dl">'</span><span class="p">,{},</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span><span class="na">sender</span><span class="p">:</span><span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#username</span><span class="dl">"</span><span class="p">).</span><span class="nx">text</span><span class="p">(),</span><span class="na">type</span><span class="p">:</span><span class="dl">'</span><span class="s1">LEAVE</span><span class="dl">'</span><span class="p">}));</span>
+		<span class="nx">stompClient</span><span class="p">.</span><span class="nx">disconnect</span><span class="p">()</span>
+		
+		<span class="nx">$</span><span class="p">.</span><span class="nx">ajax</span><span class="p">({</span>
+			<span class="na">type</span><span class="p">:</span><span class="dl">'</span><span class="s1">POST</span><span class="dl">'</span><span class="p">,</span>
+			<span class="na">url</span><span class="p">:</span><span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#logout</span><span class="dl">"</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="dl">'</span><span class="s1">action</span><span class="dl">'</span><span class="p">),</span>
+			<span class="na">success</span><span class="p">:</span><span class="kd">function</span><span class="p">(){</span>
+				<span class="nb">window</span><span class="p">.</span><span class="nx">location</span><span class="p">.</span><span class="nx">href</span><span class="o">=</span><span class="dl">"</span><span class="s2">/</span><span class="dl">"</span>
+			<span class="p">}</span>
+		<span class="p">})</span>
+		
+	<span class="p">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<p>Additionally, below functions handled the following:</p>
+<ul>
+  <li>Prevent default behavior of chat form submission</li>
+  <li>Toggle the list of online users</li>
+  <li>Clear the input field when the “Clear” button is clicked</li>
+  <li>Handle user logout when Logout button is clicked</li>
+</ul>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">form</span><span class="dl">"</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">"</span><span class="s2">submit</span><span class="dl">"</span><span class="p">,</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">){</span>
+		<span class="nx">e</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+	<span class="p">})</span>
+	
+	<span class="c1">//Toggle the list of online users</span>
+	<span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#onlineusers</span><span class="dl">"</span><span class="p">).</span><span class="nx">hide</span><span class="p">();</span>
+	
+	<span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">button</span><span class="dl">"</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">"</span><span class="s2">click</span><span class="dl">"</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#onlineusers</span><span class="dl">"</span><span class="p">).</span><span class="nx">toggle</span><span class="p">();</span>
+	<span class="p">})</span>
+		
+	<span class="c1">// Function clears the input typed in the chat window</span>
+	<span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#clear</span><span class="dl">"</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">"</span><span class="s2">click</span><span class="dl">"</span><span class="p">,</span><span class="kd">function</span><span class="p">(){</span>
+		<span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#chatmessage</span><span class="dl">"</span><span class="p">).</span><span class="nx">val</span><span class="p">(</span><span class="dl">""</span><span class="p">);</span>
+	<span class="p">})</span>
+	
+	<span class="c1">//Handle logout</span>
+	<span class="nx">$</span><span class="p">(</span><span class="dl">"</span><span class="s2">#logout</span><span class="dl">"</span><span class="p">).</span><span class="nx">on</span><span class="p">(</span><span class="dl">"</span><span class="s2">submit</span><span class="dl">"</span><span class="p">,</span> <span class="nx">onLogout</span><span class="p">)</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<h4 id="chat-message-model">Chat Message Model</h4>
+<p>We are modeling the chat message as a Java class (ChatMessage.java) which has the following fields:</p>
+<ul>
+  <li>sender represents the username.</li>
+  <li>content represents the actual chat message.</li>
+  <li>MessageType is an Enum that represents if a user has joined, left or chatting.</li>
+  <li>We also have an ArrayList where we are storing the list of all connected users. Note, this is a Class field.</li>
+  <li>Additionally, we have the standard getter and setter methods for these fields.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.ArrayList</span><span class="o">;</span>
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ChatMessage</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">sender</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="nc">String</span> <span class="n">content</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="nc">MessageType</span> <span class="n">type</span><span class="o">;</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">onlineUsers</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;();</span>
+
+	<span class="kd">public</span> <span class="nc">ArrayList</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">getOnlineUsers</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">onlineUsers</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">addUser</span><span class="o">(</span><span class="nc">String</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">onlineUsers</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">removeUser</span><span class="o">(</span><span class="nc">String</span> <span class="n">user</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">onlineUsers</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">user</span><span class="o">);</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kd">enum</span> <span class="nc">MessageType</span><span class="o">{</span><span class="no">CHAT</span><span class="o">,</span><span class="no">LEAVE</span><span class="o">,</span><span class="no">JOIN</span><span class="o">}</span>
+
+	<span class="c1">//Constructor</span>
+	<span class="kd">public</span> <span class="nf">ChatMessage</span><span class="o">()</span> <span class="o">{}</span>
+
+	<span class="c1">//Getters and Setters</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getSender</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">sender</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setSender</span><span class="o">(</span><span class="nc">String</span> <span class="n">sender</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">sender</span> <span class="o">=</span> <span class="n">sender</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">getContent</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">content</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setContent</span><span class="o">(</span><span class="nc">String</span> <span class="n">content</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">content</span> <span class="o">=</span> <span class="n">content</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="nc">MessageType</span> <span class="nf">getType</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">type</span><span class="o">;</span>
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">setType</span><span class="o">(</span><span class="nc">MessageType</span> <span class="n">type</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">this</span><span class="o">.</span><span class="na">type</span> <span class="o">=</span> <span class="n">type</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<h4 id="configuration">Configuration</h4>
+<p>Below is our WebSocketConfig.java:</p>
+
+<ul>
+  <li><strong>@EnableWebSocketMessageBroker</strong> enables WebSocket message handling, backed by a message broker  using a higher-level messaging sub-protocol (like STOMP).</li>
+  <li><strong>WebSocketMessageBrokerConfigurer</strong> interface defines methods for configuring message handling with simple messaging protocols (e.g. STOMP) from WebSocket clients. Here, we are implementing 2 methods from this interface:
+    <ul>
+      <li><strong>registerStompEndpoints</strong>: This method registers the /ws-chat endpoint, enabling SockJS fallback options so that alternate transports may be used if WebSocket is not available. The SockJS client will attempt to connect to this endpoint and use the best transport available (websocket, xhr-streaming, xhr-polling, etc).</li>
+      <li><strong>configureMessageBroker</strong>: It configures the message broker. It starts by calling enableSimpleBroker() to enable a simple memory-based message broker to carry the greeting messages back to the client on destinations prefixed with “/topic”. It also designates the “/app” prefix for messages that are bound for @MessageMapping-annotated methods.</li>
+    </ul>
+  </li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.messaging.simp.config.MessageBrokerRegistry</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.socket.config.annotation.StompEndpointRegistry</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableWebSocketMessageBroker</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebSocketConfig</span> <span class="kd">implements</span> <span class="nc">WebSocketMessageBrokerConfigurer</span> <span class="o">{</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">registerStompEndpoints</span><span class="o">(</span><span class="nc">StompEndpointRegistry</span> <span class="n">registry</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">registry</span><span class="o">.</span><span class="na">addEndpoint</span><span class="o">(</span><span class="s">"/ws-chat"</span><span class="o">).</span><span class="na">withSockJS</span><span class="o">();</span>
+	<span class="o">}</span>
+	<span class="nd">@Override</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">configureMessageBroker</span><span class="o">(</span><span class="nc">MessageBrokerRegistry</span> <span class="n">config</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">config</span><span class="o">.</span><span class="na">enableSimpleBroker</span><span class="o">(</span><span class="s">"/topic"</span><span class="o">);</span>
+		<span class="n">config</span><span class="o">.</span><span class="na">setApplicationDestinationPrefixes</span><span class="o">(</span><span class="s">"/app"</span><span class="o">);</span>
+	<span class="o">}</span> 
+<span class="o">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<h4 id="controller">Controller</h4>
+
+<ul>
+  <li><strong>@MessageMapping()</strong>: This annotation ensures that if a message is sent to the specified destination (for example chat.register) then the underlying handler method (register()) is called.</li>
+  <li><strong>@SendTo()</strong>: The response returned by the handler method is broadcast to all subscribers to the destination in the @SendTo annotation.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">javax.servlet.http.HttpSession</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.messaging.handler.annotation.MessageMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.messaging.handler.annotation.Payload</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.messaging.handler.annotation.SendTo</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.messaging.simp.SimpMessageHeaderAccessor</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.stereotype.Controller</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.ui.Model</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMapping</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestMethod</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.RequestParam</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.web.servlet.mvc.support.RedirectAttributes</span><span class="o">;</span>
+
+<span class="nd">@Controller</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">WebSocketChatServer</span> <span class="o">{</span>
+	
+	<span class="c1">//Root route displays the login page</span>
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">home</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="s">"login"</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="c1">// Route handles server side validation for empty username, redirects to /chat</span>
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">"/login"</span><span class="o">,</span><span class="n">method</span><span class="o">=</span><span class="nc">RequestMethod</span><span class="o">.</span><span class="na">POST</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">login</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">"username"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">username</span><span class="o">,</span> <span class="nc">HttpSession</span> <span class="n">session</span><span class="o">,</span><span class="nc">RedirectAttributes</span> <span class="n">redirectAttributes</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">if</span><span class="o">(</span><span class="n">username</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">username</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+			<span class="n">session</span><span class="o">.</span><span class="na">setAttribute</span><span class="o">(</span><span class="s">"username"</span><span class="o">,</span> <span class="n">username</span><span class="o">);</span>
+			<span class="k">return</span> <span class="s">"redirect:/chat"</span><span class="o">;</span>
+		<span class="o">}</span>
+		<span class="n">redirectAttributes</span><span class="o">.</span><span class="na">addFlashAttribute</span><span class="o">(</span><span class="s">"error"</span><span class="o">,</span><span class="s">"Please enter a username."</span><span class="o">);</span>
+		<span class="k">return</span> <span class="s">"redirect:/"</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="c1">//Route displays the chat form upon successful login</span>
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/chat"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">chat</span><span class="o">(</span><span class="nc">HttpSession</span> <span class="n">session</span><span class="o">,</span> <span class="nc">Model</span> <span class="n">model</span><span class="o">,</span><span class="nc">RedirectAttributes</span> <span class="n">redirectAttributes</span><span class="o">)</span> <span class="o">{</span>
+		
+		<span class="k">if</span><span class="o">(</span><span class="n">session</span><span class="o">.</span><span class="na">getAttribute</span><span class="o">(</span><span class="s">"username"</span><span class="o">)!=</span><span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+			<span class="nc">String</span> <span class="n">username</span> <span class="o">=</span> <span class="o">(</span><span class="nc">String</span><span class="o">)</span> <span class="n">session</span><span class="o">.</span><span class="na">getAttribute</span><span class="o">(</span><span class="s">"username"</span><span class="o">);</span>
+			<span class="n">model</span><span class="o">.</span><span class="na">addAttribute</span><span class="o">(</span><span class="s">"username"</span><span class="o">,</span><span class="n">username</span><span class="o">);</span>
+			<span class="k">return</span> <span class="s">"chat"</span><span class="o">;</span>
+		<span class="o">}</span>
+		
+		<span class="n">redirectAttributes</span><span class="o">.</span><span class="na">addFlashAttribute</span><span class="o">(</span><span class="s">"error"</span><span class="o">,</span><span class="s">"Please login first."</span><span class="o">);</span>
+		<span class="k">return</span> <span class="s">"redirect:/"</span><span class="o">;</span>
+				
+	<span class="o">}</span>
+	
+	<span class="c1">// User join</span>
+	<span class="nd">@MessageMapping</span><span class="o">(</span><span class="s">"/chat.register"</span><span class="o">)</span>
+	<span class="nd">@SendTo</span><span class="o">(</span><span class="s">"/topic/public"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="nc">ChatMessage</span> <span class="nf">register</span><span class="o">(</span><span class="nd">@Payload</span> <span class="nc">ChatMessage</span> <span class="n">chatMessage</span><span class="o">,</span><span class="nc">SimpMessageHeaderAccessor</span> <span class="n">headerAccessor</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">headerAccessor</span><span class="o">.</span><span class="na">getSessionAttributes</span><span class="o">().</span><span class="na">put</span><span class="o">(</span><span class="s">"username"</span><span class="o">,</span> <span class="n">chatMessage</span><span class="o">.</span><span class="na">getSender</span><span class="o">());</span>
+		<span class="nc">ChatMessage</span><span class="o">.</span><span class="na">addUser</span><span class="o">(</span><span class="n">chatMessage</span><span class="o">.</span><span class="na">getSender</span><span class="o">());</span>
+		<span class="k">return</span> <span class="n">chatMessage</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="c1">// User sends chat message</span>
+	<span class="nd">@MessageMapping</span><span class="o">(</span><span class="s">"/chat.send"</span><span class="o">)</span>
+	<span class="nd">@SendTo</span><span class="o">(</span><span class="s">"/topic/public"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="nc">ChatMessage</span> <span class="nf">sendMessage</span><span class="o">(</span><span class="nd">@Payload</span> <span class="nc">ChatMessage</span> <span class="n">chatMessage</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="n">chatMessage</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="c1">// User leaves the chatroom</span>
+	<span class="nd">@MessageMapping</span><span class="o">(</span><span class="s">"/chat.leave"</span><span class="o">)</span>
+	<span class="nd">@SendTo</span><span class="o">(</span><span class="s">"/topic/public"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="nc">ChatMessage</span> <span class="nf">leave</span><span class="o">(</span><span class="nd">@Payload</span> <span class="nc">ChatMessage</span> <span class="n">chatMessage</span><span class="o">,</span><span class="nc">SimpMessageHeaderAccessor</span> <span class="n">headerAccessor</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">headerAccessor</span><span class="o">.</span><span class="na">removeHeader</span><span class="o">(</span><span class="s">"username"</span><span class="o">);</span>
+		<span class="n">chatMessage</span><span class="o">.</span><span class="na">setContent</span><span class="o">(</span><span class="n">chatMessage</span><span class="o">.</span><span class="na">getSender</span><span class="o">()</span> <span class="o">+</span> <span class="s">" has left the chat."</span><span class="o">);</span>
+		<span class="nc">ChatMessage</span><span class="o">.</span><span class="na">removeUser</span><span class="o">(</span><span class="n">chatMessage</span><span class="o">.</span><span class="na">getSender</span><span class="o">());</span>
+		<span class="k">return</span> <span class="n">chatMessage</span><span class="o">;</span>
+	<span class="o">}</span>
+	
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/logout"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">logout</span><span class="o">(</span><span class="nc">HttpSession</span> <span class="n">session</span><span class="o">)</span> <span class="o">{</span>
+		<span class="n">session</span><span class="o">.</span><span class="na">invalidate</span><span class="o">();</span>
+		<span class="k">return</span> <span class="s">"redirect:/"</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+
+    		</div>
+    	</div>
+    </div>
+    <a id="button"></a>
+    <script>
+      $(document).ready(function(){
+        var btn = $('#button');
+
+        $(window).scroll(function() {
+          if ($(window).scrollTop() > 300) {
+            btn.addClass('show');
+          } else {
+            btn.removeClass('show');
+          }
+        });
+
+        btn.on('click', function(e) {
+          e.preventDefault();
+          $('html, body').animate({scrollTop:0}, '300');
+        });
+      })
+    </script>
+  </body>
+</html>

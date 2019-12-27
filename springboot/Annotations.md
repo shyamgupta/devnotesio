@@ -4,7 +4,7 @@ permalink: /springboot/Annotations/
 ---
 In this section we will learn about some useful annotations associated with the Spring framework.
 
-## Steteotype Annnotations: @Component
+## Stereotype Annnotations: @Component
 During initial release of Spring, all beans  used to be declared in an XML file. For a large project, this quickly becomes a massive task. In later versions of Spring, annotation-based dependency injection and Java-based configuration were provided which automatically scans and register classes as Spring bean that are annotated with @Component. Spring is able to auto scan, detect and instantiate your beans from pre-defined project package, no more tedious beans declaration in in XML file. Applying this annotation to class informs Spring that the class is a component and an object of this class can be instantiated and injected into another component.
 
 ***@Component is a generic stereotype for any Spring-managed component. @Repository, @Service, and @Controller are specializations of @Component*** for more specific use cases, for example:

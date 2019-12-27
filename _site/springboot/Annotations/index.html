@@ -37,6 +37,7 @@
           <a href="/springboot/Fundamentals/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Fundamentals</a>
           <a href="/springboot/Basics/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Spring Boot Basics</a>
           <a href="/springboot/Annotations/" class="text-decoration-none d-block mb-1 p-1 mt-1  activepage ">Annotations</a>
+          <a href="/springboot/Messaging/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Messaging</a>
            <a href="/springboot/SpringData/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Spring Data</a>
             <a href="/springboot/Hibernate/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Hibernate</a>
           <a href="#" class="text-decoration-none d-block mb-1 p-1">Microservices</a>
@@ -49,7 +50,7 @@
     		<div class="col-md-10 mx-auto p-3">
 				  <p>In this section we will learn about some useful annotations associated with the Spring framework.</p>
 
-<h2 id="steteotype-annnotations-component">Steteotype Annnotations: @Component</h2>
+<h2 id="stereotype-annnotations-component">Stereotype Annnotations: @Component</h2>
 <p>During initial release of Spring, all beans  used to be declared in an XML file. For a large project, this quickly becomes a massive task. In later versions of Spring, annotation-based dependency injection and Java-based configuration were provided which automatically scans and register classes as Spring bean that are annotated with @Component. Spring is able to auto scan, detect and instantiate your beans from pre-defined project package, no more tedious beans declaration in in XML file. Applying this annotation to class informs Spring that the class is a component and an object of this class can be instantiated and injected into another component.</p>
 
 <p><strong><em>@Component is a generic stereotype for any Spring-managed component. @Repository, @Service, and @Controller are specializations of @Component</em></strong> for more specific use cases, for example:</p>
