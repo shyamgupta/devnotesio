@@ -337,6 +337,10 @@ public class DogServiceImpl implements DogService {
 <br>
 
 #### Controller
+Note, we are making use of Java's `Optional` class which was introduced in Java 8. It is a class that encapsulates an optional value. You can view Optional as a single-value container that either contains a value or doesn't (it is then said to be "empty"). Its purpose is to help design more-comprehensible APIs so that by just reading the signature of a method, you can tell whether you can expect an optional value. This forces you to actively unwrap an Optional to deal with the absence of a value. Below are some of the useful methods in this class we are making use of:
+- `isPresent()`: Checks if there is a value inside the Optional object. A value is present only if we have created Optional with a non-null value. This method returns true if the wrapped value is not null.
+- `get()`: Retrieves the wrapped value only if the wrapped object is not null.
+
 ```java
 import java.util.List;
 import java.util.Optional;
