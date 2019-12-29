@@ -388,6 +388,12 @@ spring.datasource.url=jdbc:h2:mem:dogdata
 <p><br /></p>
 
 <h4 id="controller">Controller</h4>
+<p>Note, we are making use of Java’s <code class="highlighter-rouge">Optional</code> class which was introduced in Java 8. It is a class that encapsulates an optional value. You can view Optional as a single-value container that either contains a value or doesn’t (it is then said to be “empty”). Its purpose is to help design more-comprehensible APIs so that by just reading the signature of a method, you can tell whether you can expect an optional value. This forces you to actively unwrap an Optional to deal with the absence of a value. Below are some of the useful methods in this class we are making use of:</p>
+<ul>
+  <li><code class="highlighter-rouge">isPresent()</code>: Checks if there is a value inside the Optional object. A value is present only if we have created Optional with a non-null value. This method returns true if the wrapped value is not null.</li>
+  <li><code class="highlighter-rouge">get()</code>: Retrieves the wrapped value only if the wrapped object is not null.</li>
+</ul>
+
 <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
