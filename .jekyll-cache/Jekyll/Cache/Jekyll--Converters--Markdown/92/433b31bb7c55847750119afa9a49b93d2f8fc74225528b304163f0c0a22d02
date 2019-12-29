@@ -1,54 +1,4 @@
-<!doctype html>
-<html lang="en" class="h-100 w-100">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-     <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <title>DevNotes | SpringBoot</title>
-  </head>
-  <body class="h-100 w-100">
-    <!-- Navbar -->
-    <div class="container-fluid fixed-top">
-      <div class="row">
-        <div class="col-md-12 p-2 bg-dark text-light">
-          <p class="lead d-inline ml-2">Spring Boot</p>
-          <a href="/" class="float-right lead text-decoration-none mr-2 text-warning">Home</a>
-        </div>
-      </div>
-    </div>
-    <div class="container-fluid h-90 mt-5">
-    	<div class="row h-90">
-        <div class="col-md-2" id="navbar">
-          <!-- Side Navbar -->
-          <a href="/springboot/Fundamentals/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Fundamentals</a>
-          <a href="/springboot/Basics/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Spring Boot Basics</a>
-          <a href="/springboot/Annotations/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Annotations</a>
-          <a href="/springboot/Messaging/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Messaging</a>
-           <a href="/springboot/SpringData/" class="text-decoration-none d-block mb-1 p-1 mt-1  activepage ">Spring Data</a>
-            <a href="/springboot/Hibernate/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Hibernate</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Microservices</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Security</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Consuming REST</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Documentation</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Testing</a>
-        </div>
-        <!-- Content -->
-    		<div class="col-md-10 mx-auto p-3">
-				  <h2 id="introduction">Introduction</h2>
+I"Ÿ<h2 id="introduction">Introduction</h2>
 <p>Spring Data comes with a common programming model for persisting data in various types of database engine, ranging from traditional relational databases (SQL databases) to various types of NoSQL database engine, such as document databases (for example, MongoDB), key-value databases (for example, Redis), and graph databases (for example, Neo4J).</p>
 
 <p>The two core concepts of the programming model in Spring Data are entities and repositories. Entities and repositories generalize how data is stored and accessed from the various types of database.</p>
@@ -321,9 +271,8 @@ spring.datasource.url=jdbc:h2:mem:dogdata
 <span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
 
 <span class="kd">public</span> <span class="kd">interface</span> <span class="nc">DogService</span> <span class="o">{</span>
-	<span class="c1">//Create and Update</span>
-	<span class="nc">Dog</span> <span class="nf">createUpdateDog</span><span class="o">(</span><span class="nc">Dog</span> <span class="n">d</span><span class="o">);</span>
-	
+	<span class="c1">//Create</span>
+	<span class="nc">Dog</span> <span class="nf">createDog</span><span class="o">(</span><span class="nc">Dog</span> <span class="n">d</span><span class="o">);</span>
 	
 	<span class="c1">//Read</span>
 	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="nf">retrieveDogs</span><span class="o">();</span>
@@ -331,9 +280,6 @@ spring.datasource.url=jdbc:h2:mem:dogdata
 	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">retrieveDogBreeds</span><span class="o">();</span>
 	<span class="nc">String</span> <span class="nf">retrieveDogBreedById</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">);</span>
 	<span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">retrieveDogNames</span><span class="o">();</span>
-	
-	<span class="c1">//Delete</span>
-	<span class="kt">void</span> <span class="nf">deleteDog</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">);</span>
 <span class="o">}</span>
 </code></pre></div></div>
 
@@ -349,39 +295,20 @@ spring.datasource.url=jdbc:h2:mem:dogdata
 	<span class="nd">@Autowired</span>
 	<span class="kd">private</span> <span class="nc">DogRepository</span> <span class="n">dogRepository</span><span class="o">;</span>
 	
-	<span class="c1">//Get list of all Dogs</span>
 	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="nf">retrieveDogs</span><span class="o">(){</span>
 		<span class="k">return</span> <span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;)</span> <span class="n">dogRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">();</span>
 	<span class="o">}</span>
 	
-	<span class="c1">//Get Dog details by ID</span>
+	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">retrieveDogBreed</span><span class="o">(){</span>
+		<span class="k">return</span> <span class="o">(</span><span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;)</span> <span class="n">dogRepository</span><span class="o">.</span><span class="na">findAllBreed</span><span class="o">();</span>
+	<span class="o">};</span>
+	
+	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">retrieveDogBreedById</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="o">(</span><span class="nc">String</span><span class="o">)</span> <span class="n">dogRepository</span><span class="o">.</span><span class="na">findBreedById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+	<span class="o">};</span>
+	
 	<span class="kd">public</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="nf">retrieveDogById</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
 		<span class="k">return</span> <span class="o">(</span><span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;)</span> <span class="n">dogRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
-	<span class="o">}</span>
-	
-	<span class="c1">//Get list of Dog breeds</span>
-	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">retrieveDogBreeds</span><span class="o">(){</span>
-		<span class="k">return</span> <span class="n">dogRepository</span><span class="o">.</span><span class="na">findAllBreed</span><span class="o">();</span>
-	<span class="o">};</span>
-	
-	<span class="c1">//Get the breed for the specified id</span>
-	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">retrieveDogBreedById</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
-		<span class="k">return</span> <span class="n">dogRepository</span><span class="o">.</span><span class="na">findBreedById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
-	<span class="o">}</span>
-	
-	<span class="c1">//Get list of all dog names</span>
-	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">retrieveDogNames</span><span class="o">(){</span>
-		<span class="k">return</span> <span class="n">dogRepository</span><span class="o">.</span><span class="na">findAllNames</span><span class="o">();</span>
-	<span class="o">}</span>
-	
-	<span class="c1">//Create a new dog or and Update a existing Dog</span>
-	<span class="kd">public</span> <span class="nc">Dog</span> <span class="nf">createUpdateDog</span><span class="o">(</span><span class="nc">Dog</span> <span class="n">d</span><span class="o">)</span> <span class="o">{</span>
-		<span class="k">return</span> <span class="n">dogRepository</span><span class="o">.</span><span class="na">save</span><span class="o">(</span><span class="n">d</span><span class="o">);</span>
-	<span class="o">};</span>
-	
-	<span class="c1">//Delete a Dog</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteDog</span><span class="o">(</span><span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
-		<span class="n">dogRepository</span><span class="o">.</span><span class="na">deleteById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
 	<span class="o">}</span>
 <span class="o">}</span>
 </code></pre></div></div>
@@ -404,96 +331,32 @@ spring.datasource.url=jdbc:h2:mem:dogdata
 		<span class="k">this</span><span class="o">.</span><span class="na">dogService</span> <span class="o">=</span> <span class="n">dogService</span><span class="o">;</span>
 	<span class="o">}</span>
 	
-	<span class="c1">//Get list of all dogs as a JSON</span>
 	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/dogs"</span><span class="o">)</span>
 	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="nf">getAllDogs</span><span class="o">(){</span>
-		<span class="k">return</span> <span class="n">dogService</span><span class="o">.</span><span class="na">retrieveDogs</span><span class="o">();</span>
+		<span class="nc">List</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="n">dogs</span> <span class="o">=</span> <span class="n">dogService</span><span class="o">.</span><span class="na">retrieveDogs</span><span class="o">();</span>
+		<span class="k">return</span> <span class="n">dogs</span><span class="o">;</span>
 	<span class="o">}</span>
 	
-	<span class="c1">//Get dog details by ID as a JSON</span>
-	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/dogs/{id}"</span><span class="o">)</span>
-	<span class="kd">public</span> <span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="nf">retrieveDogById</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">){</span>
-		<span class="k">return</span> <span class="o">(</span><span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;)</span> <span class="n">dogService</span><span class="o">.</span><span class="na">retrieveDogById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
-	<span class="o">}</span>
-	
-	
-	<span class="c1">//Get list of Dog breeds</span>
 	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/dogs/breed"</span><span class="o">)</span>
-	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">retrieveDogBreeds</span><span class="o">(){</span>
-		<span class="k">return</span> <span class="n">dogService</span><span class="o">.</span><span class="na">retrieveDogBreeds</span><span class="o">();</span>
-	<span class="o">}</span>
+	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">retrieveDogBreed</span><span class="o">(){</span>
+		<span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="n">breed</span> <span class="o">=</span> <span class="n">dogService</span><span class="o">.</span><span class="na">retrieveDogBreed</span><span class="o">();</span>
+		<span class="k">return</span> <span class="n">breed</span><span class="o">;</span>
+	<span class="o">};</span>
 	
-	<span class="c1">//Get dog breed by id</span>
-	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/dogs/breed/{id}"</span><span class="o">)</span>
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/{id}/breed"</span><span class="o">)</span>
 	<span class="kd">public</span> <span class="nc">String</span> <span class="nf">retrieveDogBreedById</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
-		<span class="k">return</span> <span class="n">dogService</span><span class="o">.</span><span class="na">retrieveDogBreedById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
-	<span class="o">}</span>
+		<span class="nc">String</span> <span class="n">breed</span> <span class="o">=</span> <span class="n">dogService</span><span class="o">.</span><span class="na">retrieveDogBreedById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+		<span class="k">return</span> <span class="n">breed</span><span class="o">;</span>
+	<span class="o">};</span>
 	
-	<span class="c1">//Get list of all dog names</span>
-	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/dogs/names"</span><span class="o">)</span>
-	<span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">String</span><span class="o">&gt;</span> <span class="nf">retrieveDogNames</span><span class="o">(){</span>
-		<span class="k">return</span> <span class="n">dogService</span><span class="o">.</span><span class="na">retrieveDogNames</span><span class="o">();</span>
-	<span class="o">}</span>
-	
-	<span class="c1">//Create or add a new dog to the database</span>
-	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">"/dogs"</span><span class="o">,</span> <span class="n">method</span><span class="o">=</span><span class="nc">RequestMethod</span><span class="o">.</span><span class="na">POST</span><span class="o">)</span>
-	<span class="kd">public</span> <span class="nc">Dog</span> <span class="nf">createNewDog</span><span class="o">(</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">"name"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">name</span><span class="o">,</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">"breed"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">breed</span><span class="o">,</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">"origin"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">origin</span><span class="o">)</span> <span class="o">{</span>
-		<span class="nc">Dog</span> <span class="n">dog</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">Dog</span><span class="o">(</span><span class="n">name</span><span class="o">,</span><span class="n">breed</span><span class="o">,</span> <span class="n">origin</span><span class="o">);</span>
-		<span class="k">return</span> <span class="n">dogService</span><span class="o">.</span><span class="na">createDog</span><span class="o">(</span><span class="n">dog</span><span class="o">);</span>
-	<span class="o">}</span>
-
-	<span class="c1">//Update an existing Dog</span>
-	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">"/dogs/{id}"</span><span class="o">,</span> <span class="n">method</span><span class="o">=</span><span class="nc">RequestMethod</span><span class="o">.</span><span class="na">POST</span><span class="o">)</span>
-	<span class="kd">public</span> <span class="nc">Dog</span> <span class="nf">updateDog</span><span class="o">(</span><span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">,</span> <span class="nd">@RequestParam</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">"name"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">name</span><span class="o">,</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">"breed"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">breed</span><span class="o">,</span><span class="nd">@RequestParam</span><span class="o">(</span><span class="n">value</span><span class="o">=</span><span class="s">"origin"</span><span class="o">)</span> <span class="nc">String</span> <span class="n">origin</span><span class="o">)</span> <span class="o">{</span>
-		<span class="c1">//Retrieve the dog for the given id</span>
-		<span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="n">dog</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;)</span><span class="n">dogService</span><span class="o">.</span><span class="na">retrieveDogById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
-		<span class="c1">//Update the Dog</span>
-		<span class="k">if</span><span class="o">(</span><span class="n">dog</span><span class="o">.</span><span class="na">isPresent</span><span class="o">())</span> <span class="o">{</span>
-			<span class="nc">Dog</span> <span class="n">updatedDog</span> <span class="o">=</span> <span class="n">dog</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
-			<span class="n">updatedDog</span><span class="o">.</span><span class="na">setName</span><span class="o">(</span><span class="n">name</span><span class="o">);</span>
-			<span class="n">updatedDog</span><span class="o">.</span><span class="na">setBreed</span><span class="o">(</span><span class="n">breed</span><span class="o">);</span>
-			<span class="n">updatedDog</span><span class="o">.</span><span class="na">setOrigin</span><span class="o">(</span><span class="n">origin</span><span class="o">);</span>
-			<span class="k">return</span> <span class="n">dogService</span><span class="o">.</span><span class="na">createUpdateDog</span><span class="o">(</span><span class="n">updatedDog</span><span class="o">);</span>
-		<span class="o">}</span>
-		<span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
-	<span class="o">}</span>
-	
-	<span class="c1">//Delete a dog</span>
-	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/dogs/delete/{id}"</span><span class="o">)</span>
-	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">deleteDog</span><span class="o">(</span><span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"id"</span><span class="o">)</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
-		<span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="n">dog</span> <span class="o">=</span> <span class="o">(</span><span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;)</span> <span class="n">dogService</span><span class="o">.</span><span class="na">retrieveDogById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
-		<span class="k">if</span><span class="o">(</span><span class="n">dog</span><span class="o">.</span><span class="na">isPresent</span><span class="o">())</span> <span class="o">{</span>
-			<span class="nc">Dog</span> <span class="n">dogToBeDeleted</span> <span class="o">=</span> <span class="n">dog</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
-			<span class="n">dogService</span><span class="o">.</span><span class="na">deleteDog</span><span class="o">(</span><span class="n">dogToBeDeleted</span><span class="o">.</span><span class="na">getId</span><span class="o">());</span>
-		<span class="o">}</span>
-	<span class="o">}</span>
+	<span class="nd">@RequestMapping</span><span class="o">(</span><span class="s">"/{id}"</span><span class="o">)</span>
+	<span class="kd">public</span> <span class="nc">Optional</span> <span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="nf">retrieveDogById</span><span class="o">(</span><span class="nd">@PathVariable</span> <span class="nc">Long</span> <span class="n">id</span><span class="o">){</span>
+		<span class="nc">Optional</span><span class="o">&lt;</span><span class="nc">Dog</span><span class="o">&gt;</span> <span class="n">dog</span> <span class="o">=</span> <span class="n">dogService</span><span class="o">.</span><span class="na">retrieveDogById</span><span class="o">(</span><span class="n">id</span><span class="o">);</span>
+		<span class="k">return</span> <span class="n">dog</span><span class="o">;</span>
+	<span class="o">};</span>
 <span class="o">}</span>
 
 </code></pre></div></div>
 <p><br /></p>
 
-
-    		</div>
-    	</div>
-    </div>
-    <a id="button"></a>
-    <script>
-      $(document).ready(function(){
-        var btn = $('#button');
-
-        $(window).scroll(function() {
-          if ($(window).scrollTop() > 300) {
-            btn.addClass('show');
-          } else {
-            btn.removeClass('show');
-          }
-        });
-
-        btn.on('click', function(e) {
-          e.preventDefault();
-          $('html, body').animate({scrollTop:0}, '300');
-        });
-      })
-    </script>
-  </body>
-</html>
+:ET
