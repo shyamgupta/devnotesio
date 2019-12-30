@@ -1,0 +1,81 @@
+I"�<h2 id="introduction">Introduction</h2>
+<p>GraphQL is a query language for API’s or a syntax that describes how to ask for data and is generally used to load data from a server to a client. It is an alternative to REST and allows us to request data in the exact shape we want, and also make changes to our data. GraphQL is composed of two main parts:</p>
+<ul>
+  <li>GraphQL Query Language (which is what we will be focusing on) is used to request data</li>
+  <li>Framework which processes the queries.</li>
+</ul>
+
+<p>GraphQL benefits:</p>
+<ul>
+  <li>Allows us to specify the format in which we want our data</li>
+  <li>Self documenting API, i.e. by looking at the API’s schema, what the data coming out of if will look like, which queries will work &amp; which one’s wont. The schema looks a lot like JSON.</li>
+  <li>Ability to fetch deeply nested data in a single request.</li>
+  <li>Ability to mount GraphQL in front of any existing API.</li>
+  <li>Super flexible - for developing new API’s, we can start with scratch where our GraphQL server that communicates with our database. However, if we alreday have an API that communicates with the database, you can bolt GraphQL in front of that API.</li>
+  <li>GraphQL does not care where the data comes from, making it useful for a wide variety of applications</li>
+  <li>GraphQL is language agnostic, as its just a query language.</li>
+</ul>
+
+<p>With REST, the client hits an endpoint and gets a massive JSON object as the response. With GraphQL, instead of hitting a URL endpoint, GraphQL lets you write a query to request exactly the data we want and receive just that in the response.</p>
+
+<h2 id="rest-vs-graphql">REST vs. GraphQL</h2>
+<p>Let’s say we want to retrieve information related to authors: name, courses authored, rating, most recent (3) topics covered. With the REST approach, we will need to create the following endpoints:</p>
+
+<ul>
+  <li>/author/<id> : Provides the author information for a given id. This may also return additional fields we may not need.</id></li>
+  <li>/author/<id>/courses</id></li>
+  <li>/author/<id>/rating</id></li>
+  <li>/author/<id>/topics: Will retrieve all topics instead of 3 most recent topics we are interested in.</id></li>
+</ul>
+
+<p>Instead of having multiple endpoints that return fixed data structures, GraphQL APIs typically only expose a single endpoint.  This works because the structure of the data that’s returned is not  fixed. Instead, it’s completely flexible and lets the client decide what data is actually needed. That means that the client needs to send more information to the server to express its data needs - this information is called a query.</p>
+
+<p>With GraphQL, we can accomplish the above in a single request, by composing a query - the query (shown below) will ask for exactly what we need and we will receive the JSON object with the just the information requested. Note that we are only requesting the information we are interested in, for example the author name, course title etc - this means that the client does not have to filter the results (as with REST) to get what was requested, and its fast. All of this is done in just one query instead of multiple round trips.</p>
+
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">query</span><span class="p">{</span><span class="w">
+    </span><span class="n">author</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="mi">2000</span><span class="p">){</span><span class="w">
+        </span><span class="n">name</span><span class="w">
+        </span><span class="n">courses</span><span class="p">{</span><span class="w">
+            </span><span class="n">title</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+        </span><span class="n">rating</span><span class="w">
+        </span><span class="n">topics</span><span class="p">(</span><span class="n">last</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">){</span><span class="w">
+            </span><span class="n">name</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+<p><br /></p>
+
+<table class="table table-stripped">
+	<thead class="thead-dark">
+		<tr>
+			<th>REST</th>
+			<th>GraphQL</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Multiple round trips to collect the information from multiple sources.</td>
+			<td>One single request to collect the information by using the GraphQL query.</td>
+		</tr>
+		<tr>
+			<td>
+				Over fetching &amp; under fetching of data resources. We end up with data we don't need (as there's no way to filter out the request) or if we want something specific which is not part of the endpoint resulting in multiple round trips.
+			</td>
+			<td>
+				You get what you asked for by using tailor made queries.
+			</td>
+		</tr>
+		<tr>
+			<td>Front end teams rely heavily on backend teams to deliver APIs - the front end development could be stalled until the API is ready.</td>
+			<td>Frontend and backend teams can work independently, where the front end team can work on mock APIs, until the backend API is available.</td>
+		</tr>
+		<tr>
+			<td>Caching is built into HTTP.</td>
+			<td>Does not use HTTP for caching and its upto the developer to implement caching.</td>
+		</tr>
+	</tbody>
+</table>
+
+:ET

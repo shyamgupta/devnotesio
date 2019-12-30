@@ -1,0 +1,224 @@
+I",S<h2 id="introduction">Introduction</h2>
+<p>GraphQL is a query language for API’s or a syntax that describes how to ask for data and is generally used to load data from a server to a client. It is an alternative to REST and allows us to request data in the exact shape we want, and also make changes to our data. GraphQL is composed of two main parts:</p>
+<ul>
+  <li>GraphQL Query Language (which is what we will be focusing on) is used to request data</li>
+  <li>Framework which processes the queries.</li>
+</ul>
+
+<p>GraphQL benefits:</p>
+<ul>
+  <li>Allows us to specify the format in which we want our data</li>
+  <li>Self documenting API, i.e. by looking at the API’s schema, what the data coming out of if will look like, which queries will work &amp; which one’s wont. The schema looks a lot like JSON.</li>
+  <li>Ability to fetch deeply nested data in a single request.</li>
+  <li>Ability to mount GraphQL in front of any existing API.</li>
+  <li>Super flexible - for developing new API’s, we can start with scratch where our GraphQL server that communicates with our database. However, if we alreday have an API that communicates with the database, you can bolt GraphQL in front of that API.</li>
+  <li>GraphQL does not care where the data comes from, making it useful for a wide variety of applications</li>
+  <li>GraphQL is language agnostic, as its just a query language.</li>
+</ul>
+
+<p>With REST, the client hits an endpoint and gets a massive JSON object as the response. With GraphQL, instead of hitting a URL endpoint, GraphQL lets you write a query to request exactly the data we want and receive just that in the response.</p>
+
+<h2 id="rest-vs-graphql">REST vs. GraphQL</h2>
+<p>Let’s say we want to retrieve information related to authors: name, courses authored, rating, most recent (3) topics covered. With the REST approach, we will need to create the following endpoints:</p>
+
+<ul>
+  <li>/author/<id> : Provides the author information for a given id. This may also return additional fields we may not need.</id></li>
+  <li>/author/<id>/courses</id></li>
+  <li>/author/<id>/rating</id></li>
+  <li>/author/<id>/topics: Will retrieve all topics instead of 3 most recent topics we are interested in.</id></li>
+</ul>
+
+<p>Instead of having multiple endpoints that return fixed data structures, GraphQL APIs typically only expose a single endpoint.  This works because the structure of the data that’s returned is not  fixed. Instead, it’s completely flexible and lets the client decide what data is actually needed. That means that the client needs to send more information to the server to express its data needs - this information is called a query.</p>
+
+<p>With GraphQL, we can accomplish the above in a single request, by composing a query - the query (shown below) will ask for exactly what we need and we will receive the JSON object with the just the information requested. Note that we are only requesting the information we are interested in, for example the author name, course title etc - this means that the client does not have to filter the results (as with REST) to get what was requested, and its fast. All of this is done in just one query instead of multiple round trips.</p>
+
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">query</span><span class="p">{</span><span class="w">
+    </span><span class="n">author</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="mi">2000</span><span class="p">){</span><span class="w">
+        </span><span class="n">name</span><span class="w">
+        </span><span class="n">courses</span><span class="p">{</span><span class="w">
+            </span><span class="n">title</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+        </span><span class="n">rating</span><span class="w">
+        </span><span class="n">topics</span><span class="p">(</span><span class="n">last</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">){</span><span class="w">
+            </span><span class="n">name</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+<p><br /></p>
+
+<table class="table table-striped table-bordered table-hover table-responsive-sm">
+	<thead class="bg-danger text-light">
+		<tr>
+			<th>REST</th>
+			<th>GraphQL</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>Multiple round trips to collect the information from multiple sources.</td>
+			<td>One single request to collect the information by using the GraphQL query.</td>
+		</tr>
+		<tr>
+			<td>
+				Over fetching &amp; under fetching of data resources. We end up with data we don't need (as there's no way to filter out the request) or if we want something specific which is not part of the endpoint resulting in multiple round trips.
+			</td>
+			<td>
+				You get what you asked for by using tailor made queries.
+			</td>
+		</tr>
+		<tr>
+			<td>Front end teams rely heavily on backend teams to deliver APIs - the front end development could be stalled until the API is ready.</td>
+			<td>Frontend and backend teams can work independently, where the front end team can work on mock APIs, until the backend API is available.</td>
+		</tr>
+		<tr>
+			<td>Caching is built into HTTP.</td>
+			<td>Does not use HTTP for caching and its upto the developer to implement caching.</td>
+		</tr>
+	</tbody>
+</table>
+
+<h2 id="graphql-ecosystem-and-tools">GraphQL Ecosystem and Tools</h2>
+<ul>
+  <li><strong>GraphQL Clients</strong>:
+    <ul>
+      <li>Handles sending queries to the server, and receiving the JSON from the server.</li>
+      <li>Integrates with our view and updates the UI.</li>
+      <li>Handles caching the query results.</li>
+      <li>Error handling and schema validation</li>
+      <li>Some clients also provide local state management, caching, pagination</li>
+      <li>Popular GraphQL clients: Apollo (very popular), Relay (only for React)</li>
+    </ul>
+  </li>
+  <li><strong>GraphQL Server</strong>:
+    <ul>
+      <li>Primary purpose: Receive the query from the client and responds back.</li>
+      <li>We write Schema and Resolver functions on the GraphQL server. Resolver functions resolve a value for a type/field in the GraphQL schema. Resolvers can return scalars or objects.</li>
+      <li>GraphQL Execution Engine parses the query from the client, validates the schema and returns the JSON response back. It also executes resolvers for each field.</li>
+      <li>Popular GraphQL server libraries: Apollo Server (very popular), Express GraphQL, GraphQL Yoga</li>
+    </ul>
+  </li>
+  <li><strong>Database to GraphQL Server</strong>:  Prisma is a popular database to GraphQL server option, and it sits between the GraphQL server and the actual database. It bridges the gap between the database and resolvers, supports both SQL and NoSQL databases. It replaces the traditional ORM - it provides a data access layer that makes it easy for API servers to talk to database through Prisma.</li>
+  <li><strong>GraphQL Tools</strong>:
+    <ul>
+      <li>GraphiQL: Its an in-browser IDE for writing, validating and testing GraphQL queries. Supports live syntax and validation errors. GraphiQL is a simple web app that is able to communicate with any GraphQL Server and execute queries and mutations against it.</li>
+      <li>GraphQL Voyager: Represents a GraphQL API as an interactive graph. Also used during design of data model.</li>
+      <li>GraphQL Faker: Mock your API with realistic data from faker.js</li>
+      <li>GraphQL Visual Editor: Create schemas by joining visual blocks and the Visual Editor will transform them to actual code.</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="graphql-terminology">GraphQL Terminology</h2>
+<ul>
+  <li><strong>Queries</strong>: Queries specify the data we want to fetch from a GraphQL server.</li>
+  <li><strong>Fields</strong>: They are properties that make up the shape of our objects. Using fields, we can include or exclude properties of an object to craft a tailored response.</li>
+  <li><strong>Types</strong>: Types are collection of fields that make up a queryable object.</li>
+  <li><strong>Schema</strong>: The GraphQL schema defines the data points offered via an API. The schema contains the data types and relationships between them and the set of operations available, things like queries for retrieving data and mutations for creating, updating, and deleting data. <strong><em>Schema files names must end with <code class="highlighter-rouge">graphqls</code>. There can only be one root Query and one root Mutation per schema.</em></strong></li>
+  <li><strong>Resolvers</strong>: Let’s say our API is able to run two query operations, i.e one to retrieve an array of books and another to retrieve a book based on its id. The next step for us is to define how these queries get resolved so that the right fields are returned to the client. The way to do this is by defining a resolver function for every field in the schema.</li>
+</ul>
+
+<p>For example, if I’ve  movie and studio types, the movie field will have fields like name, release data, and studio type will have fields like an ID, name etc.</p>
+
+<h2 id="graphql-schema">GraphQL Schema</h2>
+<p>Schema describes the functionality available to the client applications that connect to it. Schema defines the server’s API, allowing clients to know which operations can be performed by the server. The schema is written using the GraphQL schema language (also called schema definition language, SDL). With it, you can define object types and fields to represent data that can be retrieved from the API as well as root types (query, mutation) that define the group of operations that the API allows. Generally, a schema is simply a collection of GraphQL types, with special root types (when developing an schema for an API).</p>
+
+<p>In the below example, we have defined a Book type with four fields and a root Query type with two fields. The two fields in the root Query type defines what queries/operations the server can execute. The books field returns a list of Book type, and the book field will return a Book type based on the id passed as an argument to the book query.</p>
+
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span><span class="w"> </span><span class="n">Book</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">!</span><span class="w">
+    </span><span class="n">title</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+    </span><span class="n">pages</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w">
+    </span><span class="n">chapters</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+
+</span><span class="k">type</span><span class="w"> </span><span class="n">Query</span><span class="w"> </span><span class="p">{</span><span class="w">
+	</span><span class="n">books</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Book</span><span class="p">!]</span><span class="w">
+	</span><span class="n">book</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="p">!):</span><span class="w"> </span><span class="n">Book</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+<p><br /></p>
+
+<h2 id="types">Types</h2>
+<p>GraphQL has a strongly typed schema - this schema acts as a contract between the client and the server. Below are the types that can be part of our schema:</p>
+
+<ul>
+  <li><strong>Scalar</strong>: Int, Float, String, Boolean, ID. The ID type is a unique identifier used to re-fetch an object or as the key for a cache.</li>
+  <li><strong>Object</strong>: This is a complex type with its own characteristic. For example, an Author object that has first name, last name, rating and number of courses authored.</li>
+  <li><strong>Enum</strong>: They are special scalar types that are restricted to a particular set of allowed values.</li>
+  <li><strong>Query</strong>: Queries specify the data we want to fetch from a GraphQL server.</li>
+  <li><strong>Mutation</strong>: This is for adding, updating or deleting data from the API. Query and Mutation types act as an entry point into the schema and are the same as any other GraphQL object type.</li>
+  <li><strong>Non-Nullable</strong>: By default, each of the scalar type can be set to null. To override this behavior and ensure that the field cannot be null, we add an exclamation mark. In the below example we have declared id and list of courses as a non-nullable fields.</li>
+</ul>
+
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span><span class="w"> </span><span class="n">Author</span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+    </span><span class="n">firstName</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">
+    </span><span class="n">lastName</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">
+    </span><span class="n">rating</span><span class="p">:</span><span class="w"> </span><span class="nb">Float</span><span class="w">
+    </span><span class="n">numOfCourses</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w">
+    </span><span class="n">courses</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="nb">String</span><span class="p">!]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+<p><br /></p>
+
+<h2 id="maven-dependencies">Maven Dependencies</h2>
+<p>To include GraphQL in your project, a couple of dependencies are needed:</p>
+<ul>
+  <li><strong>graphql-spring-boot-starter</strong>: It will add and automatically configure a GraphQL Servlet that you can access at <code class="highlighter-rouge">/graphql</code> . This starter will also use a GraphQL schema library to parse all schema files found on the classpath. The starter will also set up an endpoint that can access POST requests.</li>
+  <li><strong>graphql-java-tools</strong>: A helper library to parse the GraphQL schema.</li>
+  <li><strong>graphiql-spring-boot-starter</strong>: Although optional but extremely useful, GraphiQL is an in-browser IDE for writing, validating and testing GraphQL queries. Supports live syntax and validation errors. GraphiQL is a simple web app that is able to communicate with any GraphQL Server and execute queries and mutations against it.</li>
+</ul>
+
+<p>Note: These dependencies need to be “manually” added to the pom.xml file.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.graphql-java<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>graphql-spring-boot-starter<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>5.0.2<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.graphql-java<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>graphql-java-tools<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>5.2.4<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.graphql-java<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>graphiql-spring-boot-starter<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>5.0.2<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<p>In our <code class="highlighter-rouge">application.properties</code> file:</p>
+<ul>
+  <li>Enable H2, GraphQL and GraphiQL</li>
+  <li>Note: <code class="highlighter-rouge">graphql.servlet.mapping</code> and <code class="highlighter-rouge">graphiql.endpoint</code> values <strong><em>do need to match</em></strong>, as that is how GraphQL and GraphiQL will interact.</li>
+</ul>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">spring.h2.console.enabled</span><span class="p">=</span><span class="s">true</span>
+<span class="py">spring.h2.console.path</span><span class="p">=</span><span class="s">/h2</span>
+<span class="py">spring.datasource.url</span><span class="p">=</span><span class="s">jdbc:h2:mem:dbname</span>
+
+<span class="py">graphql.servlet.mapping</span><span class="p">=</span><span class="s">/graphql</span>
+<span class="py">graphql.servlet.enabled</span><span class="p">=</span><span class="s">true</span>
+<span class="py">graphql.servlet.corsEnabled</span><span class="p">=</span><span class="s">true</span>
+
+<span class="py">graphiql.enabled</span><span class="p">=</span><span class="s">true</span>
+<span class="py">graphiql.endpoint</span><span class="p">=</span><span class="s">/graphql</span>
+<span class="py">graphiql.mapping</span><span class="p">=</span><span class="s">graphiql</span>
+</code></pre></div></div>
+<p><br /></p>
+<h2 id="building-a-graphql-api">Building a GraphQL API</h2>
+<p><strong>Step 1: Add dependencies</strong>: Add Spring Web, JPA, H2, GraphQL and GraphiQL dependencies.
+<strong>Step 2: Data</strong>: We will store the below location data in an in-memory H2 database. Create a <code class="highlighter-rouge">data.sql</code> file under <code class="highlighter-rouge">/src/main/resources</code> with the below input:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">INSERT</span> <span class="k">INTO</span> <span class="k">location</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s1">'ATL Airport'</span><span class="p">,</span><span class="s1">'Atlanta airport location'</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="k">location</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="s1">'MIA Airport'</span><span class="p">,</span><span class="s1">'Miami airport location'</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="k">location</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s1">'LAX Airport'</span><span class="p">,</span><span class="s1">'Los Angeles airport location'</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="k">location</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="s1">'PHX Airport'</span><span class="p">,</span><span class="s1">'Phoenix airport location'</span><span class="p">);</span>
+<span class="k">INSERT</span> <span class="k">INTO</span> <span class="k">location</span> <span class="p">(</span><span class="n">id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">address</span><span class="p">)</span> <span class="k">VALUES</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="s1">'ORD Airport'</span><span class="p">,</span><span class="s1">'Chicago airport location'</span><span class="p">);</span>
+</code></pre></div></div>
+<p><br />
+<strong>Step 3</strong></p>
+:ET
