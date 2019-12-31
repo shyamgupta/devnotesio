@@ -1,0 +1,98 @@
+I"�$<h2 id="introduction">Introduction</h2>
+<p>Microservices are independently deployable services modeled around a business domain.
+The Microservices Architecture (MSA) decomposes systems into discrete, individual, standalone components that can communicate amongst themselves, working together or with external systems.</p>
+
+<p>What sets a microservices architecture apart from more traditional, monolithic approaches is how it breaks an app down into its core functions. Each function is called a service, self-contained and can be built and deployed independently, meaning individual services can function (and fail) without negatively affecting the others.</p>
+
+<p><img src="/assets/img/microservices.png" alt="Microservices" class="img-fluid img-thumbnail" /></p>
+
+<ul>
+  <li><strong>Independent Deployability</strong>: Independent deployability is the idea that we can make a change to a microservice and deploy it into a production environment without having to utilize any other services. To guarantee independent deployability, we need to ensure our services are loosely coupled—in other words, we need to be able to change one service without having to change anything else. This means we need explicit, well-defined, and stable contracts between services.</li>
+  <li><strong>Modeled Around a Business Domain</strong>: Rolling out a feature that requires changes to one or more microservices is expensive. You need to coordinate the work across each service (and potentially across separate teams) and carefully manage the order in which the new versions of these services are deployed. In a traditional 3-Tier archirecture, each layer represents a different service boundary, with each service boundary based on related technical functionality. Experience has shown that changes in functionality typically span multiple layers in these types of architectures—requiring changes in presentation, application, and data tiers. By making our services end-to-end slices of business functionality, as shown below, we ensure that our architecture is arranged to make changes to business functionality as efficient as possible. Each service, if needed, can encapsulate presentation, business logic, and data storage.</li>
+</ul>
+
+<p><img src="/assets/img/domain.png" alt="Business Domain" class="img-fluid img-thumbnail" /></p>
+
+<h2 id="service-registry">Service Registry</h2>
+<p>Microservices will interact with each other, and since they are interacting over the network, they need to know where to find each other. However, since you’ll have many microservices running, you may eventually have to change a port, or even move one of them to a different server.</p>
+
+<p>Having to change the configuration for all other microservices that use this component, just because it moved, isn’t really great. Luckily, there are solutions to that problem, such as a service registry.</p>
+
+<p>Service Registry is collective information of services along with related details including, the location of service and number of instances. Since service registry is the database of services available, it must be highly available. There are two stages of interaction with Service Registry-</p>
+
+<ul>
+  <li><strong>Registration</strong> — Whenever a new service or service instance scales in/out, it needs to register/de-register itself with Service Registry. There are two flavours of service registration:
+    <ul>
+      <li>Self Registration: The services own the responsibility of registering itself with Service Registry on startup and de-register on shutdown. An example implementation of self-registration is using Netflix’s Eureka client to register services itself with Eureka Service Registry. Spring has incorporated Eureka into Spring Cloud, making it easier to stand up a Eureka server which is responsible for registration and discovery of Microservices.</li>
+      <li>Third-Party Registration: Thrid-party registration allows delegation of service registration/de-registration task to Third-party registrar (service manager) component. On service instance start-up, service manager is responsible for registering the service with Service Registry. Similarly, it de-registers on service shutdown.</li>
+    </ul>
+  </li>
+  <li><strong>Discovery</strong> — Service discovery is the counter aspect of service registration. For the client to make calls to service instances, it first needs to locate the available service and its details and then proceed with actual call.</li>
+</ul>
+
+<h2 id="eureka-server">Eureka Server</h2>
+<p>Every microservice will be registered with the Eureka server. Eureka consists of a server and a client-side component.</p>
+<ul>
+  <li>The server component will be the registry in which all the microservices register their availability.</li>
+  <li>The microservices use the Eureka client to register; once the registration is complete, it notifies the server of its existence.</li>
+</ul>
+
+<p><img src="/assets/img/eureka.png" alt="Eureka Server" class="img-fluid img-thumbnail" /></p>
+
+<p>Below are the steps for standing up a Eureka server in Spring Boot</p>
+
+<p><strong>Step 1:Maven Dependencies</strong></p>
+
+<ul>
+  <li><strong>spring-cloud-starter-config</strong>: This initializes and sets up Spring Cloud</li>
+  <li><strong>spring-cloud-netflix-eureka-server</strong>: This auto configures the Eureka server</li>
+</ul>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-config<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>spring-cloud-netflix-eureka-server<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+<p><br />
+<strong>Step 2: Update the application.properties file</strong></p>
+
+<p>Below is our <code class="highlighter-rouge">application.properties</code> file where we are configuring our Eureka server name and port. Additionally, we’ve specified that the server should NOT register itself as a client (i.e. our application will act a Eureka server in this case) and logging have been enabled for Eureka server and discovery:</p>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">spring.application.name</span><span class="p">=</span><span class="s">eureka-server</span>
+<span class="py">server.port</span><span class="p">=</span><span class="s">8761</span>
+
+<span class="c">#dont register itself as a client
+</span><span class="py">eureka.client.register-with-eureka</span><span class="p">=</span><span class="s">false</span>
+<span class="py">eureka.client.fetch-registry</span><span class="p">=</span><span class="s">false</span>
+<span class="py">logging.level.com.netflix.eureka</span><span class="p">=</span><span class="s">ON</span>
+<span class="py">logging.level.com.netflix.discovery</span><span class="p">=</span><span class="s">ON</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<p><strong>Step 3:Add the @EnableEurekaServer annotation in your application Java file</strong></p>
+
+<p>Below is our <code class="highlighter-rouge">EurekaApplication.java</code> file - the only difference is the <code class="highlighter-rouge">@EnableEurekaServer</code> annotation which tells Spring to activate the Eureka server related configuration:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">org.springframework.boot.SpringApplication</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.cloud.netflix.eureka.server.EnableEurekaServer</span><span class="o">;</span>
+
+<span class="nd">@SpringBootApplication</span>
+<span class="nd">@EnableEurekaServer</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">EurekaApplication</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="nc">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="nc">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="nc">EurekaApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<p>At this point, you can visit <code class="highlighter-rouge">localhost:8761</code> to view the Eureka dashboard. Under the “Instances currently registered with Eureka” is where we will see Microservices once they have registered.</p>
+
+:ET
