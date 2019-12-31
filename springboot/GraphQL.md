@@ -387,7 +387,7 @@ public class LocationNotFoundException extends RuntimeException implements Graph
 <br>
 
 **Step 8: Run your application**: 
-- Navigate to `localhost:8080:/graphql/schema.json` - This will show all of the schemas on the GraphQL server.
+- Navigate to `localhost:8080/graphql/schema.json` - This will show all of the schemas on the GraphQL server.
 - If you want to use **Postman** to execute queries:
 	- Select `POST` as the request type to `localhost:8080/graphql` URL
 	- Header: Set `Content-Type` to `application/json`
