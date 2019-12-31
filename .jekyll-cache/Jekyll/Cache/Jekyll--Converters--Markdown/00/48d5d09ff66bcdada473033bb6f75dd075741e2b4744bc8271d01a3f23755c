@@ -1,4 +1,4 @@
-I"÷¤<h2 id="introduction">Introduction</h2>
+I"(«<h2 id="introduction">Introduction</h2>
 <p>GraphQL is a query language for APIâ€™s or a syntax that describes how to ask for data and is generally used to load data from a server to a client. It is an alternative to REST and allows us to request data in the exact shape we want, and also make changes to our data. GraphQL is composed of two main parts:</p>
 <ul>
   <li>GraphQL Query Language (which is what we will be focusing on) is used to request data</li>
@@ -397,7 +397,7 @@ For the update method, if the location we are trying to update does not exist, i
 
 <p><strong>Step 8: Run your application</strong>:</p>
 <ul>
-  <li>Navigate to <code class="highlighter-rouge">localhost:8080:/graphql/schema.json</code> - This will show all of the schemas on the GraphQL server.</li>
+  <li>Navigate to <code class="highlighter-rouge">localhost:8080/graphql/schema.json</code> - This will show all of the schemas on the GraphQL server.</li>
   <li>If you want to use <strong>Postman</strong> to execute queries:
     <ul>
       <li>Select <code class="highlighter-rouge">POST</code> as the request type to <code class="highlighter-rouge">localhost:8080/graphql</code> URL</li>
@@ -409,8 +409,28 @@ For the update method, if the location we are trying to update does not exist, i
   <li>If you want to use <strong>GraphiQL</strong> to execute queries:
     <ul>
       <li>Visit <code class="highlighter-rouge">localhost:8080/graphiql</code> in the browser</li>
-      <li>Enter the queries and mutations in the command window and click the Execute button to view the result.</li>
+      <li>Enter the queries and mutations in the command window and click the Execute button to view the result. In the below example, we are executing the mutation to create a new location in the database and we are requesting the id, name and address back:</li>
     </ul>
   </li>
 </ul>
+
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">mutation</span><span class="p">{</span><span class="w">
+	</span><span class="n">newLocation</span><span class="p">(</span><span class="w">
+		</span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="s2">"JFK Airport"</span><span class="p">,</span><span class="w">
+		</span><span class="n">address</span><span class="p">:</span><span class="w"> </span><span class="s2">"New York, New York airport location"</span><span class="p">){</span><span class="w">
+			</span><span class="n">id</span><span class="w">
+			</span><span class="n">name</span><span class="w">
+			</span><span class="n">address</span><span class="w">
+		</span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+<p><br /></p>
+
+<p>In the below mutation query, we can see how to delete an entry:</p>
+
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">mutation</span><span class="p">{</span><span class="w">
+	</span><span class="n">deleteLocation</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="mi">1</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+<p><br /></p>
 :ET
