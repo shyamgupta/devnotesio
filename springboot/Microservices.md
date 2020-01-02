@@ -63,8 +63,8 @@ server.port=8761
 #dont register itself as a client
 eureka.client.register-with-eureka=false
 eureka.client.fetch-registry=false
-logging.level.com.netflix.eureka=ON
-logging.level.com.netflix.discovery=ON
+logging.level.com.netflix.eureka=TRACE
+logging.level.com.netflix.discovery=TRACE
 ```
 <br>
 
@@ -90,6 +90,137 @@ public class EurekaApplication {
 <br>
 
 At this point, you can visit `localhost:8761` to view the Eureka dashboard. Under the **"Instances currently registered with Eureka"** is where we will see Microservices once they are created and registered.
+
+## Sping Data REST: Create REST endpoints
+
+Spring Data REST makes it easy to expose microservices. Spring Data REST builds on top of Spring Data repositories and automatically exports those as REST resources. Below is how Spring Data REST works - there is no need to create a controller or service layer:
+
+1. At application startup, Spring Data Rest finds all of the spring data repositories
+2. Then, Spring Data Rest creates an endpoint that matches the entity name
+3. Next, Spring Data Rest appends an S to the entity name in the endpoint. For example, if I have an ItemRepository which extends `CrudRepository<Item, Long>`, 
+	- Spring Data REST will expose a collection of resources at `http://localhost:8080/items/` - the path is derived from ***un-capitalized, pluralized simple class name of the Entity class*** being managed, in this case Item. 
+	- It also exposes `http://localhost:8080/items/{id}`, i.e an item resource for each of the items managed by the repository.
+4. Lastly, Spring Data Rest exposes CRUD (Create, Read, Update, and Delete) operations as RESTful APIs over HTTP
+
+**Step 1: Maven Dependency**
+
+Add the below dependency to use Spring Data REST:
+
+```xml
+<dependency>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-boot-starter-data-rest</artifactId>
+</dependency>
+```
+<br>
+
+**Step 2: Update application.properties file**
+
+```properties
+spring.h2.console.enabled=true
+spring.h2.console.path=/h2
+spring.datasource.url=jdbc:h2:mem:itemsdb
+```
+<br>
+
+**Step 3: Create the Entity**
+
+```java
+@Entity
+public class Item{
+	@Id
+	@GeneratedValue(strategy=GeneratiionType.IDENTITY)
+	private Long id;
+
+	private String name;
+	private String description;
+
+	public Item(){}
+
+	public Item(Long id,String name,String description){
+		this.id = id;
+		this.name=name;
+		this.description=description;
+	}
+
+	//add getters and setters
+}
+```
+<br>
+
+**Step 4: Create the Repository**
+
+```java
+public Interface ItemRepository extends CrudRepository<Item,Long>{
+
+}
+```
+<br>
+
+At this point, you can visit localhost:8080/items and localhost:8080/items/{id} to view the endpoints exposed by Spring Data REST.
+
+## Convert the Microservice to a Eureka Client and Register it with Eureka Server
+
+We will now convert the Microservice into a Eureka client - doing this will cause the service to act like a Spring discovery client and will register itself with the Eureka server. For a @SpringBootApplication to be discovery-aware, we need to add the below dependencies and use the @EnableEurekaClient annotation:
+
+**Step 1: Maven Dependency**
+
+Add the below dependencies:
+- **spring-cloud-starter-netflix-eureka-client**: This will make the service register itself with the Eureka server.
+- **spring-cloud-starter-config** 
+- **spring-cloud-starter-parent**
+
+```xml
+<dependency>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+<dependency>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter-config</artifactId>
+</dependency>
+<dependency>
+	<groupId>org.springframework.cloud</groupId>
+	<artifactId>spring-cloud-starter-parent</artifactId>
+	<version>Greenwich.RELEASE</version>
+	<type>pom</type>
+	<type>import</type>
+</dependency>
+```
+<br>
+
+**Step 2: Add the @EnableEurekaClient annotation**
+Annotate the main Spring application class with the @EnableEurekaClient annotation. @EnableEurekaClient is optional if the spring-cloud-starter-netflix-eureka-client dependency is on the classpath. 
+
+```java
+@SpringApplication
+@EnableEurekaClient
+public class ItemsApplication{
+	public static void main(String args[]){
+		...
+	}
+}
+```
+<br>
+
+**Step 3: Update application.properties File**
+
+spring.application.name uniquely identifies the client among the list of registered clients.
+
+```properties
+spring.application.name=item-service
+server.port=8762
+eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka/
+eureka.client.service-url.default-zone=http://localhost:8761/eureka/
+eureka.instance.prefer-ip-address=true
+```
+<br>
+
+At this point, when you run the Microservice, you should see the microservice listed in the Eureka dashboard. You can also visit http://localhost:8762:/items to view the endpoint.
+
+**Step 4 Update service URL**
+
+Now we want to discover and invoke our service without the hardcoded URL path - i.e. instead of using host and port information, http://localhost:8762/items to invoke our items-service, if we implement the below configuration changes, our service will be available using the service name at http://item-service/items.
 
 
 
