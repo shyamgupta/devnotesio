@@ -1,4 +1,4 @@
-I"¼j<h2 id="maven">Maven</h2>
+I"Ðp<h2 id="maven">Maven</h2>
 
 <p>Maven is a software project management and comprehension tool. With the help of Maven, Spring Boot will be able to configure and install dependencies, compile our Java code and run our class files. Below is how you can install it using Homebrew and check the version to verify for a successful installation.</p>
 
@@ -283,5 +283,25 @@ However, if we access our application without the query parameter now, it will c
 <span class="o">}</span>
 </code></pre></div></div>
 <p><br /></p>
+
+<h2 id="configuration-files">Configuration Files</h2>
+<p>Spring Boot provides the ability to easily customize and override default settings. The simplest way to do that is using configuration files, which are appended to the application fat JAR. Spring Boot automatically detects configuration files whose name start with the <code class="highlighter-rouge">application</code> prefix. Supported file types are <code class="highlighter-rouge">.properties</code> and <code class="highlighter-rouge">.yml</code>.</p>
+
+<p>Therefore, we can create configuration files, such as application.properties or application.yml, and even including profile-specific files such as, application-prod.properties or application-dev.yml</p>
+
+<p>When using properties or YAML files, they should be placed in one of the following locations:</p>
+
+<ul>
+  <li>A /config subdirectory of the current application directory</li>
+  <li>The current application directory</li>
+  <li>A classpath /config package (for example, inside your JAR)</li>
+  <li>The classpath root</li>
+</ul>
+
+<p>Inside configuration files, we can define two types of properties.</p>
+<ul>
+  <li>First, there is a group of common, predefined Spring Boot properties consumed by the underlying classes mostly from the spring-boot-autoconfigure library.</li>
+  <li>We can also define our own custom configuration properties, which are then injected into the application using the <code class="highlighter-rouge">@Value</code> or <code class="highlighter-rouge">@ConfigurationProperties</code> annotations.</li>
+</ul>
 
 :ET

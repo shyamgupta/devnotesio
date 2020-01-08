@@ -29,8 +29,8 @@ Service Registry is collective information of services along with related detail
 
 ## Eureka Server
 Every microservice will be registered with the Eureka server. Eureka consists of a server and a client-side component. 
-- The server component will be the registry in which all the microservices register their availability. 
-- The microservices use the Eureka client to register; once the registration is complete, it notifies the server of its existence. 
+- The server component will be the registry in which all the microservices register their availability. The registration typically includes service identity and its URLs.
+- The microservices use the Eureka client to register; once the registration is complete, it notifies the server of its existence. The client is always a part of an application and is responsible for connecting to a remote discovery server. Once the connection is established it should send a registration message with a service name and network location. The consuming components will also use the Eureka Client for discovering the service instances. When a microservice is bootstrapped, it reaches out to the Eureka Server and advertises its existence with the binding information. Once registered, the service endpoint sends ping requests to the registry every 30 seconds to renew its lease. The registry information is replicated to all Eureka clients so that the clients need to go to the remote Eureka Server for each and every request. Eureka clients fetch the registry information from the server and cache it locally. After that, the clients use that information to find other services. When a client wants to contact a microservice endpoint, the Eureka Client provides a list of currently available services based on the requested service ID. The communication between the Eureka Client and Eureka Server uses REST and JSON.
 
 <img src="/assets/img/eureka.png" alt="Eureka Server" class="img-fluid img-thumbnail">
 
@@ -70,7 +70,7 @@ logging.level.com.netflix.discovery=TRACE
 
 **Step 3:Add the @EnableEurekaServer annotation in your application Java file**
 
-Below is our `EurekaApplication.java` file - the only difference is the `@EnableEurekaServer` annotation which tells Spring to activate the Eureka server related configuration:
+Below is our `EurekaApplication.java` file - the only difference is the `@EnableEurekaServer` annotation which tells Spring to activate the Eureka server related configuration. The @EnableEurekaServer annotation will start the embedded Eureka server in our application and make it ready to use. It will enable the service registry in our application as well:
 
 ```java
 import org.springframework.boot.SpringApplication;

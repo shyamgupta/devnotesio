@@ -127,8 +127,65 @@ By inheriting from CrudRepository, we can call many methods without the need to 
 ## Service Layer
 Controllers are supposed to be "thin" and shouldn’t contain any real business logic. The controller's job is to simply handle the request and move the user into the correct view or return the response in an API call. We could have accessed the Repository from the Controller. However, as a best practice, it is much cleaner to have the Service Layer perform all of the access to the database. This practice refers to the Separation of Concerns pattern. The benefits a Service Layer provides is that it defines a common set of application operations available to different clients and coordinates the response in each operation.
 
+## REST API
+- REST is an architectural style for the web, a set of design criteria.
+- REST applications are defined based on the resource they represent.
+- A resource can be a document, a row in a database table etc
+- REST API's are defined around URIs (if there is no URI then we cannot talk about a resource)
+- Best practice is to have sub URIs as query parameters.
+- As per the expected REST API guidelines, creation of a new resource should post data to the root of our endpoint.
+
+To understand what REST is all about, it helps to break down the acronym into its constituent parts:
+
+- Representational: REST resources can be represented in virtually any form, including XML, JavaScript Object Notation (JSON), or even HTML—whatever form best suits the consumer of those resources.
+- State: When working with REST, you’re more concerned with the state of a resource than with the actions you can take against resources.
+- Transfer: REST involves transferring resource data, in some representational form, from one application to another.
+
+Resources in REST are identified and located with URIs. There are no strict rules regarding RESTful URI structure, but the  URI should identify a resource, not bark a command to the server. Again, the focus is on things, not actions.       
+
+For example, a blog post can be identified by the URI http://www.myblog.com/posts/restful-architecture . A resource can be a collection resource , which represents a grouped set of resources. For example, the URI http://www.myblog.com/posts/ represents the posts resource, which may contain zero or more Post resources, each of which can be identified by its own URI.
+
+REST is neither a specification nor a standard. It's a way of representing data and manipulating a resource that resides on the server.
+
 ## Example
-Let's see all of the above concepts in action - our application will consist of Dog data stored in an in-memory H2 database.
+Let's see all of the above concepts in action - our REST API will consist of Dog data stored in an in-memory H2 database and will have the below REST endpoints:
+
+<table class="table table-striped table-bordered table-hover table-responsive-sm">
+	<thead class="bg-danger text-light">
+		<tr>
+			<th>HTTP Verb</th>
+			<th>REST Endpoint</th>
+			<th>Description</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>GET</td>
+			<td><code>/api/dogs/</code></td>
+			<td>Returns a list of all dogs in the database</td>
+		</tr>
+		<tr>
+			<td>GET</td>
+			<td><code>/api/dogs/{id}</code></td>
+			<td>Returns the dog with the specified id</td>
+		</tr>
+		<tr>
+			<td>POST</td>
+			<td><code>/api/dogs/</code></td>
+			<td>Create a new entry (dog) in the database</td>
+		</tr>
+		<tr>
+			<td>PUT</td>
+			<td><code>/api/dogs/{id}</code></td>
+			<td>Update an existing entry (dog) in the database</td>
+		</tr>
+		<tr>
+			<td>DELETE</td>
+			<td><code>/api/dogs/{id}</code></td>
+			<td>Delete an entry (dog) from the database</td>
+		</tr>
+	</tbody>
+</table >
 
 #### Dependencies
 
@@ -157,7 +214,7 @@ In our `application.properties` file, we've enabled H2 database console and the 
 ```
 spring.h2.console.enabled=true
 spring.h2.console.path=/h2
-spring.datasource.url=jdbc:h2:mem:dogdata
+spring.datasource.url=jdbc:h2:mem:dogdb
 ```
 <br>
 
@@ -182,26 +239,27 @@ import javax.persistence.Id;
 
 @Entity
 public class Dog {
+	
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
 	private String name;
 	private String breed;
 	private String origin;
 	
-//Constructors	
+	//Constructors
 	public Dog() {}
-	
-	public Dog(Long id, String name, String breed, String origin) {
+
+	public Dog(String name, String breed, String origin) {
 		super();
-		this.id = id;
 		this.name = name;
 		this.breed = breed;
 		this.origin = origin;
 	}
+	
+	//Getters and Setters
 
-//Getters and Setters
 	public Long getId() {
 		return id;
 	}
@@ -232,7 +290,8 @@ public class Dog {
 
 	public void setOrigin(String origin) {
 		this.origin = origin;
-	}
+	};
+	
 	
 }
 ```
@@ -240,50 +299,48 @@ public class Dog {
 
 #### Repository
 ```java
-import java.util.List;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface DogRepository extends CrudRepository<Dog, Long> {
-	
-	//Query returns a list of dog breeds
-	@Query("select d.breed from Dog d")
-	List<String> findAllBreed();
-	
-	//Query returns the breed for the specified id
-	@Query("select d.breed from Dog d where d.id=:id")
-	String findBreedById(Long id);
-	
-	//Query returns list of all dog names
-	@Query("select d.id,d.name from Dog d")
-	List<String> findAllNames();
+import com.shyamgupta.entity.Dog;
+
+@Repository
+public interface DogRepository extends CrudRepository<Dog,Long>{
+
 }
 ```
 <br>
 
 #### Service Layer
-Below is the Service interface:
+Below is the Service interface.
+Note, we are making use of Java's `Optional` class which was introduced in Java 8. It is a class that encapsulates an optional value. You can view Optional as a single-value container that either contains a value or doesn't (it is then said to be "empty"). Its purpose is to help design more-comprehensible APIs so that by just reading the signature of a method, you can tell whether you can expect an optional value. This forces you to actively unwrap an Optional to deal with the absence of a value. Below are some of the useful methods in this class we are making use of:
+- `isPresent()`: Checks if there is a value inside the Optional object. A value is present only if we have created Optional with a non-null value. This method returns true if the wrapped value is not null.
+- `get()`: Retrieves the wrapped value only if the wrapped object is not null.
 
 ```java
 import java.util.List;
 import java.util.Optional;
 
+import com.shyamgupta.entity.Dog;
+
 public interface DogService {
-	//Create and Update
-	Dog createUpdateDog(Dog d);
 	
+	//CREATE
+	Dog createDog(Dog d);
 	
-	//Read
-	List<Dog> retrieveDogs();
-	Optional<Dog> retrieveDogById(Long id);
-	List<String> retrieveDogBreeds();
-	String retrieveDogBreedById(Long id);
-	List<String> retrieveDogNames();
+	//READ
+	List<Dog> getAllDogs();
+	Optional <Dog> getDog(Long id);
 	
-	//Delete
-	void deleteDog(Long id);
+	//UPDATE
+	Dog updateDog(Dog d, Long id);
+	
+	//DELETE
+	boolean deleteDog(Long id);
+
 }
 ```
+<br>
 
 Below is the implementation of the Service interface:
 
@@ -292,65 +349,94 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.shyamgupta.entity.Dog;
+import com.shyamgupta.repository.DogRepository;
 
 @Service
-public class DogServiceImpl implements DogService {
+public class DogServiceImpl implements DogService{
+	
 	@Autowired
 	private DogRepository dogRepository;
 	
-	//Get list of all Dogs
-	public List<Dog> retrieveDogs(){
+	//GET - Get list of all dogs in the database
+	public List<Dog> getAllDogs(){
 		return (List<Dog>) dogRepository.findAll();
-	}
-	
-	//Get Dog details by ID
-	public Optional<Dog> retrieveDogById(Long id) {
-		return (Optional<Dog>) dogRepository.findById(id);
-	}
-	
-	//Get list of Dog breeds
-	public List<String> retrieveDogBreeds(){
-		return dogRepository.findAllBreed();
 	};
 	
-	//Get the breed for the specified id
-	public String retrieveDogBreedById(Long id) {
-		return dogRepository.findBreedById(id);
+	//GET - Get dog by ID
+	public Optional <Dog> getDog(Long id){
+		Optional <Dog> dogFound = dogRepository.findById(id);
+		if(dogFound.isPresent()) {
+			return dogFound;
+		}else {
+			return null;
+		}
+		
 	}
 	
-	//Get list of all dog names
-	public List<String> retrieveDogNames(){
-		return dogRepository.findAllNames();
-	}
-	
-	//Create a new dog or and Update a existing Dog
-	public Dog createUpdateDog(Dog d) {
+	//POST - Create a new entry in the database
+	public Dog createDog(Dog d) {
 		return dogRepository.save(d);
-	};
-	
-	//Delete a Dog
-	public void deleteDog(Long id) {
-		dogRepository.deleteById(id);
 	}
+	
+	//PUT - Update an existing entry in the database
+	public Dog updateDog(Dog dogToUpdate, Long id) {
+		Optional <Dog> dogFound = dogRepository.findById(id);
+		if(dogFound.isPresent()) {
+			Dog dog = dogFound.get();
+			dog.setName(dogToUpdate.getName());
+			dog.setBreed(dogToUpdate.getBreed());
+			dog.setOrigin(dogToUpdate.getOrigin());
+			dogRepository.save(dog);
+			return dog;
+			
+		}else {
+			return null;
+		}
+	}
+	
+	//DELETE - Delete an entry from the database
+	public boolean deleteDog(Long id) {
+		Optional <Dog> dogFound = dogRepository.findById(id);
+		if(dogFound.isPresent()) {
+			dogRepository.deleteById(id);
+			return true;
+		}else {
+			return false;
+		}
+	}
+
 }
 ```
 <br>
 
 #### Controller
-Note, we are making use of Java's `Optional` class which was introduced in Java 8. It is a class that encapsulates an optional value. You can view Optional as a single-value container that either contains a value or doesn't (it is then said to be "empty"). Its purpose is to help design more-comprehensible APIs so that by just reading the signature of a method, you can tell whether you can expect an optional value. This forces you to actively unwrap an Optional to deal with the absence of a value. Below are some of the useful methods in this class we are making use of:
-- `isPresent()`: Checks if there is a value inside the Optional object. A value is present only if we have created Optional with a non-null value. This method returns true if the wrapped value is not null.
-- `get()`: Retrieves the wrapped value only if the wrapped object is not null.
+Our controller will have an entry point for our REST API - to achieve that, we will have a class level request mapping as shown <code>/api/dogs</code>. The path of this entry point should be descriptive as per the REST API guidelines. Since this is an API, our path starts with /api, followed by defining the resource that our controller controls, which is the dog entities in this case. 
 
 ```java
+package com.shyamgupta.controller;
+
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.shyamgupta.entity.Dog;
+import com.shyamgupta.service.DogService;
+
 @RestController
+@RequestMapping(path="/api/dogs/")
 public class DogController {
+	
+	
 	private DogService dogService;
 	
 	@Autowired
@@ -358,71 +444,39 @@ public class DogController {
 		this.dogService = dogService;
 	}
 	
-	//Get list of all dogs as a JSON
-	@RequestMapping("/dogs")
-	public List<Dog> getAllDogs(){
-		return dogService.retrieveDogs();
+	//CREATE a new Dog entry in the database
+	@PostMapping("")
+	public Dog createDog(@RequestParam(value="name") String name,@RequestParam(value="breed") String breed,@RequestParam(value="origin")String origin) {
+		Dog newDog = new Dog(name,breed, origin);
+		return dogService.createDog(newDog);
 	}
 	
-	//Get dog details by ID as a JSON
-	@RequestMapping("/dogs/{id}")
-	public Optional<Dog> retrieveDogById(@PathVariable Long id){
-		return (Optional<Dog>) dogService.retrieveDogById(id);
+	//READ - Get list of all dogs
+	@GetMapping("")
+	public List<Dog> retrieveAllDogs(){
+		return dogService.getAllDogs();
+	}
+	
+	//READ -Get Dog by ID
+	@GetMapping("{id}")
+	public Optional<Dog> getDogById(@PathVariable Long id){
+		return dogService.getDog(id);
+	}
+	
+	//UPDATE - Update an existing Dog
+	@PutMapping("{id}")
+	public Dog updateDog(@PathVariable Long id,@RequestParam(value="name") String name,@RequestParam(value="breed") String breed,@RequestParam(value="origin")String origin) {
+		Dog dog = new Dog(name, breed, origin);
+		return dogService.updateDog(dog, id);
 	}
 	
 	
-	//Get list of Dog breeds
-	@RequestMapping("/dogs/breed")
-	public List<String> retrieveDogBreeds(){
-		return dogService.retrieveDogBreeds();
-	}
-	
-	//Get dog breed by id
-	@RequestMapping("/dogs/breed/{id}")
-	public String retrieveDogBreedById(@PathVariable Long id) {
-		return dogService.retrieveDogBreedById(id);
-	}
-	
-	//Get list of all dog names
-	@RequestMapping("/dogs/names")
-	public List<String> retrieveDogNames(){
-		return dogService.retrieveDogNames();
-	}
-	
-	//Create or add a new dog to the database
-	@RequestMapping(value="/dogs", method=RequestMethod.POST)
-	public Dog createNewDog(@RequestParam(value="name") String name,@RequestParam(value="breed") String breed,@RequestParam(value="origin") String origin) {
-		Dog dog = new Dog(name,breed, origin);
-		return dogService.createDog(dog);
-	}
-
-	//Update an existing Dog
-	@RequestMapping(value="/dogs/{id}", method=RequestMethod.POST)
-	public Dog updateDog(@PathVariable("id") Long id, @RequestParam(value="name") String name,@RequestParam(value="breed") String breed,@RequestParam(value="origin") String origin) {
-		//Retrieve the dog for the given id
-		Optional<Dog> dog = (Optional<Dog>)dogService.retrieveDogById(id);
-		//Update the Dog
-		if(dog.isPresent()) {
-			Dog updatedDog = dog.get();
-			updatedDog.setName(name);
-			updatedDog.setBreed(breed);
-			updatedDog.setOrigin(origin);
-			return dogService.createUpdateDog(updatedDog);
-		}
-		return null;
-	}
-	
-	//Delete a dog
-	@RequestMapping("/dogs/delete/{id}")
-	public void deleteDog(@PathVariable("id") Long id) {
-		Optional<Dog> dog = (Optional<Dog>) dogService.retrieveDogById(id);
-		if(dog.isPresent()) {
-			Dog dogToBeDeleted = dog.get();
-			dogService.deleteDog(dogToBeDeleted.getId());
-		}
+	//DELETE an entry from the database
+	@DeleteMapping("{id}")
+	public boolean deleteEntry(@PathVariable Long id){
+		return dogService.deleteDog(id);
 	}
 }
-
 ```
 <br>
 

@@ -285,6 +285,22 @@ public String flashMessage(RedirectAttributes, redirectAttributes){
 ```
 <br>
 
+## Configuration Files
+Spring Boot provides the ability to easily customize and override default settings. The simplest way to do that is using configuration files, which are appended to the application fat JAR. Spring Boot automatically detects configuration files whose name start with the `application` prefix. Supported file types are `.properties` and `.yml`. 
+
+Therefore, we can create configuration files, such as application.properties or application.yml, and even including profile-specific files such as, application-prod.properties or application-dev.yml
+
+When using properties or YAML files, they should be placed in one of the following locations:
+
+- A /config subdirectory of the current application directory
+- The current application directory
+- A classpath /config package (for example, inside your JAR)
+- The classpath root
+
+Inside configuration files, we can define two types of properties. 
+- First, there is a group of common, predefined Spring Boot properties consumed by the underlying classes mostly from the spring-boot-autoconfigure library. 
+- We can also define our own custom configuration properties, which are then injected into the application using the `@Value` or `@ConfigurationProperties` annotations.
+
 
 
 

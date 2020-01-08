@@ -334,6 +334,26 @@ However, if we access our application without the query parameter now, it will c
 </code></pre></div></div>
 <p><br /></p>
 
+<h2 id="configuration-files">Configuration Files</h2>
+<p>Spring Boot provides the ability to easily customize and override default settings. The simplest way to do that is using configuration files, which are appended to the application fat JAR. Spring Boot automatically detects configuration files whose name start with the <code class="highlighter-rouge">application</code> prefix. Supported file types are <code class="highlighter-rouge">.properties</code> and <code class="highlighter-rouge">.yml</code>.</p>
+
+<p>Therefore, we can create configuration files, such as application.properties or application.yml, and even including profile-specific files such as, application-prod.properties or application-dev.yml</p>
+
+<p>When using properties or YAML files, they should be placed in one of the following locations:</p>
+
+<ul>
+  <li>A /config subdirectory of the current application directory</li>
+  <li>The current application directory</li>
+  <li>A classpath /config package (for example, inside your JAR)</li>
+  <li>The classpath root</li>
+</ul>
+
+<p>Inside configuration files, we can define two types of properties.</p>
+<ul>
+  <li>First, there is a group of common, predefined Spring Boot properties consumed by the underlying classes mostly from the spring-boot-autoconfigure library.</li>
+  <li>We can also define our own custom configuration properties, which are then injected into the application using the <code class="highlighter-rouge">@Value</code> or <code class="highlighter-rouge">@ConfigurationProperties</code> annotations.</li>
+</ul>
+
 
     		</div>
     	</div>

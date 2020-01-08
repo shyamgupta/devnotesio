@@ -1,54 +1,4 @@
-<!doctype html>
-<html lang="en" class="h-100 w-100">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-     <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <title>DevNotes | SpringBoot</title>
-  </head>
-  <body class="h-100 w-100">
-    <!-- Navbar -->
-    <div class="container-fluid fixed-top">
-      <div class="row">
-        <div class="col-md-12 p-2 bg-dark text-light">
-          <p class="lead d-inline ml-2">Spring Boot</p>
-          <a href="/" class="float-right lead text-decoration-none mr-2 text-warning">Home</a>
-        </div>
-      </div>
-    </div>
-    <div class="container-fluid h-90 mt-5">
-    	<div class="row h-90">
-        <div class="col-md-2" id="navbar">
-          <!-- Side Navbar -->
-          <a href="/springboot/Fundamentals/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Fundamentals</a>
-          <a href="/springboot/Basics/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Spring Boot Basics</a>
-          <a href="/springboot/Annotations/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Annotations</a>
-          <a href="/springboot/Messaging/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Messaging</a>
-           <a href="/springboot/SpringData/" class="text-decoration-none d-block mb-1 p-1 mt-1  activepage ">Spring Data</a>
-            <a href="/springboot/GraphQL/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">GraphQL</a>
-          <a href="/springboot/Microservices/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Microservices</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Security</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Consuming REST</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Documentation</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Testing</a>
-        </div>
-        <!-- Content -->
-    		<div class="col-md-10 mx-auto p-3">
-				  <h2 id="introduction">Introduction</h2>
+I"ÂÆ<h2 id="introduction">Introduction</h2>
 <p>Spring Data comes with a common programming model for persisting data in various types of database engine, ranging from traditional relational databases (SQL databases) to various types of NoSQL database engine, such as document databases (for example, MongoDB), key-value databases (for example, Redis), and graph databases (for example, Neo4J).</p>
 
 <p>The two core concepts of the programming model in Spring Data are entities and repositories. Entities and repositories generalize how data is stored and accessed from the various types of database.</p>
@@ -192,7 +142,7 @@
   <li>A resource can be a document, a row in a database table etc</li>
   <li>REST APIâ€™s are defined around URIs (if there is no URI then we cannot talk about a resource)</li>
   <li>Best practice is to have sub URIs as query parameters.</li>
-  <li>As per the expected REST API guidelines, creation of a new resource should post data to the root of our endpoint.</li>
+  <li>As per the expected REST API guidelines, to create a resource should post data to the root of our endpoint.</li>
 </ul>
 
 <p>To understand what REST is all about, it helps to break down the acronym into its constituent parts:</p>
@@ -398,7 +348,6 @@ Note, we are making use of Javaâ€™s <code class="highlighter-rouge">Optional</co
 
 <span class="o">}</span>
 </code></pre></div></div>
-<p><br /></p>
 
 <p>Below is the implementation of the Service interface:</p>
 
@@ -536,28 +485,4 @@ Note, we are making use of Javaâ€™s <code class="highlighter-rouge">Optional</co
 </code></pre></div></div>
 <p><br /></p>
 
-
-    		</div>
-    	</div>
-    </div>
-    <a id="button"></a>
-    <script>
-      $(document).ready(function(){
-        var btn = $('#button');
-
-        $(window).scroll(function() {
-          if ($(window).scrollTop() > 300) {
-            btn.addClass('show');
-          } else {
-            btn.removeClass('show');
-          }
-        });
-
-        btn.on('click', function(e) {
-          e.preventDefault();
-          $('html, body').animate({scrollTop:0}, '300');
-        });
-      })
-    </script>
-  </body>
-</html>
+:ET
