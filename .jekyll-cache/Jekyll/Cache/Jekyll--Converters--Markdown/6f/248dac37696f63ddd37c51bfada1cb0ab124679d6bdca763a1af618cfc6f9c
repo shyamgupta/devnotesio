@@ -1,0 +1,82 @@
+I"e<h2 id="basic-auth">Basic Auth</h2>
+<p>Basic Auth is the simplest protocol available for performing web service authentication over HTTP protocol.</p>
+<ul>
+  <li>Basic Auth requires a username and password.</li>
+  <li>The client calling the web service takes these two credentials, converts them to a single Base 64–encoded value and passes it along in the Authentication HTTP header.</li>
+  <li>The server compares the credentials passed to those stored. If it matches, the server fulfills the request and provides access to the data.</li>
+  <li>If the Authentication HTTP header is missing or the password doesn’t match the user name, the server denies access and returns a 401 status code, which means the request is Unauthorized.</li>
+</ul>
+
+<h2 id="spring-security">Spring Security</h2>
+<p>Spring Security is a part of the Spring Framework and provides authentication, authorization and other security features for Spring-based applications.</p>
+<ul>
+  <li><code class="highlighter-rouge">spring-boot-starter-security</code> - Maven dependency that adds security module.</li>
+  <li><code class="highlighter-rouge">@EnableWebSecurity</code> - Annotation that enables Spring Security’s support.</li>
+</ul>
+
+<p>In the below steps, we will see how to use Spring Security and Basic Auth to secure our APIs.</p>
+
+<p><strong>Step 1: Maven Dependencies</strong></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+	<span class="nt">&lt;groupId&gt;</span>org.springframework.boot<span class="nt">&lt;/groupId&gt;</span>
+	<span class="nt">&lt;artifactId&gt;</span>spring-boot-starter-security<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+<p><br /></p>
+
+<p><strong>Step 2: Create a Java Class that extends WebSecurityConfigurerAdapter</strong></p>
+
+<p>In the root package, create a config folder - within this, create a Java class that extends WebSecurityConfigurerAdapter</p>
+<ul>
+  <li>We’ve used the <code class="highlighter-rouge">@Configuration</code> annotation to indicate that this is a configuration class.</li>
+  <li>We’ve used <code class="highlighter-rouge">EnableWebSecurity</code> annotation to enable Spring Security support</li>
+  <li>We are overriding WebSecurityConfigurerAdapter’s configure() method, where we are specifying that we want to authorize all requests to our API and that we want to use Basic Auth.</li>
+  <li>In the configureGlobal() method, we are creating an in-memory user and specifying it’s password.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">shyamgupta</span><span class="o">.</span><span class="na">config</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Bean</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.context.annotation.Configuration</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.builders.HttpSecurity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.configuration.EnableWebSecurity</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">org.springframework.security.crypto.password.PasswordEncoder</span><span class="o">;</span>
+
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableWebSecurity</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringSecurityConfig</span> <span class="kd">extends</span> <span class="nc">WebSecurityConfigurerAdapter</span><span class="o">{</span>
+	<span class="nd">@Override</span>
+	<span class="kd">protected</span> <span class="kt">void</span> <span class="nf">configure</span><span class="o">(</span><span class="nc">HttpSecurity</span> <span class="n">http</span><span class="o">)</span> <span class="kd">throws</span> <span class="nc">Exception</span><span class="o">{</span>
+		<span class="n">http</span>
+		<span class="o">.</span><span class="na">csrf</span><span class="o">().</span><span class="na">disable</span><span class="o">()</span>
+		<span class="o">.</span><span class="na">authorizeRequests</span><span class="o">()</span>
+		<span class="o">.</span><span class="na">anyRequest</span><span class="o">()</span>
+		<span class="o">.</span><span class="na">authenticated</span><span class="o">()</span>
+		<span class="o">.</span><span class="na">and</span><span class="o">()</span>
+		<span class="o">.</span><span class="na">httpBasic</span><span class="o">();</span>
+		
+	<span class="o">}</span>
+	
+	<span class="nd">@Autowired</span>
+	<span class="c1">//method creates an in-memory user and password</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">configureGlobal</span><span class="o">(</span><span class="nc">AuthenticationManagerBuilder</span> <span class="n">auth</span><span class="o">)</span>
+		<span class="kd">throws</span> <span class="nc">Exception</span><span class="o">{</span>
+		<span class="n">auth</span><span class="o">.</span><span class="na">inMemoryAuthentication</span><span class="o">()</span>
+		<span class="o">.</span><span class="na">withUser</span><span class="o">(</span><span class="s">"admin"</span><span class="o">)</span>
+		<span class="o">.</span><span class="na">password</span><span class="o">(</span><span class="n">encoder</span><span class="o">().</span><span class="na">encode</span><span class="o">(</span><span class="s">"password"</span><span class="o">))</span>
+		<span class="o">.</span><span class="na">roles</span><span class="o">(</span><span class="s">"USER"</span><span class="o">);</span>
+		
+	<span class="o">}</span>
+	
+	<span class="nd">@Bean</span>
+	<span class="kd">public</span> <span class="nc">PasswordEncoder</span> <span class="nf">encoder</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="k">new</span> <span class="nf">BCryptPasswordEncoder</span><span class="o">();</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+:ET

@@ -41,7 +41,7 @@
            <a href="/springboot/SpringData/" class="text-decoration-none d-block mb-1 p-1 mt-1  activepage ">Spring Data</a>
             <a href="/springboot/GraphQL/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">GraphQL</a>
           <a href="/springboot/Microservices/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Microservices</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Security</a>
+          <a href="/springboot/SpringSecurity/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Spring Security</a>
           <a href="#" class="text-decoration-none d-block mb-1 p-1">Consuming REST</a>
           <a href="#" class="text-decoration-none d-block mb-1 p-1">Documentation</a>
           <a href="#" class="text-decoration-none d-block mb-1 p-1">Testing</a>
@@ -470,11 +470,8 @@ Note, we are making use of Java’s <code class="highlighter-rouge">Optional</co
 <h4 id="controller">Controller</h4>
 <p>Our controller will have an entry point for our REST API - to achieve that, we will have a class level request mapping as shown <code>/api/dogs</code>. The path of this entry point should be descriptive as per the REST API guidelines. Since this is an API, our path starts with /api, followed by defining the resource that our controller controls, which is the dog entities in this case.</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="n">com</span><span class="o">.</span><span class="na">shyamgupta</span><span class="o">.</span><span class="na">controller</span><span class="o">;</span>
-
-<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">java.util.Optional</span><span class="o">;</span>
-
 <span class="kn">import</span> <span class="nn">org.springframework.beans.factory.annotation.Autowired</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.DeleteMapping</span><span class="o">;</span>
 <span class="kn">import</span> <span class="nn">org.springframework.web.bind.annotation.GetMapping</span><span class="o">;</span>

@@ -414,11 +414,8 @@ public class DogServiceImpl implements DogService{
 Our controller will have an entry point for our REST API - to achieve that, we will have a class level request mapping as shown <code>/api/dogs</code>. The path of this entry point should be descriptive as per the REST API guidelines. Since this is an API, our path starts with /api, followed by defining the resource that our controller controls, which is the dog entities in this case. 
 
 ```java
-package com.shyamgupta.controller;
-
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

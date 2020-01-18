@@ -41,7 +41,7 @@
            <a href="/springboot/SpringData/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Spring Data</a>
             <a href="/springboot/GraphQL/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">GraphQL</a>
           <a href="/springboot/Microservices/" class="text-decoration-none d-block mb-1 p-1 mt-1  activepage ">Microservices</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Security</a>
+          <a href="/springboot/SpringSecurity/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Spring Security</a>
           <a href="#" class="text-decoration-none d-block mb-1 p-1">Consuming REST</a>
           <a href="#" class="text-decoration-none d-block mb-1 p-1">Documentation</a>
           <a href="#" class="text-decoration-none d-block mb-1 p-1">Testing</a>
@@ -271,10 +271,6 @@ Annotate the main Spring application class with the @EnableEurekaClient annotati
 <p><br /></p>
 
 <p>At this point, when you run the Microservice, you should see the microservice listed in the Eureka dashboard. You can also visit http://localhost:8762:/items to view the endpoint.</p>
-
-<p><strong>Step 4 Update service URL</strong></p>
-
-<p>Now we want to discover and invoke our service without the hardcoded URL path - i.e. instead of using host and port information, http://localhost:8762/items to invoke our items-service, if we implement the below configuration changes, our service will be available using the service name at http://item-service/items.</p>
 
 
     		</div>

@@ -218,9 +218,5 @@ eureka.instance.prefer-ip-address=true
 
 At this point, when you run the Microservice, you should see the microservice listed in the Eureka dashboard. You can also visit http://localhost:8762:/items to view the endpoint.
 
-**Step 4 Update service URL**
-
-Now we want to discover and invoke our service without the hardcoded URL path - i.e. instead of using host and port information, http://localhost:8762/items to invoke our items-service, if we implement the below configuration changes, our service will be available using the service name at http://item-service/items.
-
 
 
