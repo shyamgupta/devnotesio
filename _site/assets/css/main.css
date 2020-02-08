@@ -31,6 +31,8 @@ blockquote { background: #7A9E7E; border-left: 10px solid #31493C; color: white;
 
 #button.show { opacity: 1; visibility: visible; }
 
+strong em { font-weight: normal; color: #CE2D4F; }
+
 .highlight .hll { background-color: #49483e; }
 
 .highlight { background: #272822; color: #f8f8f2; }

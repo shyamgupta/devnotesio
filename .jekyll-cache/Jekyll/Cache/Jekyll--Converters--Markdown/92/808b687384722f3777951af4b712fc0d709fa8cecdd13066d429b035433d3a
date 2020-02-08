@@ -1,0 +1,35 @@
+I"2
+<h2 id="persistence-in-java-jpa">Persistence in Java: JPA</h2>
+<p>The Java Persistence API (JPA) specification and it’s implementations help developers in accessing, persisting and managing data between Java objects, classes and relational databases. Object Relational Mapping (ORM) connect Java and relational db’s.</p>
+
+<p>Relational databases store data in rows and columns, but Object-Oriented languages like Java does not know about rows and columns. Object Oriented languages organize data in objects, classes,packages, interfaces etc. and relational db’s know nothing about these Object Oriented concepts. ORM bridges this gap bewteen Object Oriented Languages and Relational Databases - it allows objects to be mapped to tables and tables can be mapped to objects.</p>
+
+<p>The process of ORM is often delegated to external tools or frameworks. In Java EE this framework is called JPA, which is a specification for accessing, persisting and managing data between Java objects, classes and relational databases.</p>
+
+<p>Using JPA, we can access a database without writing any SQL code. JPA is an abstraction over JDBC (Java Database Connectivity).</p>
+
+<h2 id="hibernate">Hibernate</h2>
+
+<p>JPA lives in the <code class="highlighter-rouge">javax.persistence</code> package, with different sub-packages, but most of the core API and annotations live in javax.persistence. Since JPA is a specification (set of empty methods and collection of interfaces) or a set of guidelines, it cannot do anything on its own. In order to be fullly functional, JPA needs an implementation, also known as an instance provider. Some of the JPA implementations are:</p>
+
+<ol>
+  <li>EclipseLink (Oracle)</li>
+  <li>Hibernate (JBOSS and RedHat): Spring with JPA uses Hibernate as the persistence provider.</li>
+  <li>OpenJPA (IBM)</li>
+  <li>Data Nucleus (JPOX)</li>
+</ol>
+
+<h2 id="jpa-metadata">JPA Metadata</h2>
+
+<p>The mapping between Java objects and database tables is defined via the persistence metadata, which is used by the JPA instance provider to perform correct database operations. There are two ways to define JPA metadata:</p>
+
+<ol>
+  <li><strong>Annotations</strong>: Using annotations in the Java class, @Entity, @Id, @Table, @Column etc. is the most common way and is what we will use. Spring can scan all packages looking for entities described by the @Entity annotation.</li>
+  <li><strong>XML</strong>: Alternatively, metadata can be defined in XML or a combination of XML and Annotations.</li>
+</ol>
+
+<p>JPA can be setup with no XML, which is very convenient.</p>
+
+<h2 id="entities">Entities</h2>
+
+:ET

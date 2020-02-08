@@ -1,0 +1,19 @@
+I"><h2 id="persistence-in-java-jpa">Persistence in Java: JPA</h2>
+<p>The Java Persistence API (JPA) specification and it’s implementations help developers in accessing, persisting and managing data between Java objects, classes and relational databases. Object Relational Mapping (ORM) connect Java and relational db’s.</p>
+
+<p>Relational databases store data in rows and columns, but Object-Oriented languages like Java does not know about rows and columns. OO languages organize data in objects and classes and relational db’s know nothing about these Object Oriented concepts. ORM bridges this gap bewteen Object Oriented Languages and Relational Databases - it allows objects to be mapped to tables and tables can be mapped to objects.</p>
+
+<p>The process of ORM is often delegated to external tools or frameworks. In Java EE this framework is called JPA, which is a specification for accessing, persisting and managing data between Java objects, classes and relational databases. ORM’s offer the following benefits:</p>
+
+<ul>
+  <li>Productivity, because a lot of data access code is generated for us.</li>
+  <li>Better application design.</li>
+  <li>Clean separation of code.</li>
+  <li>Easier code maintenane.</li>
+</ul>
+
+<p>Using JPA, we can access a database without writing any SQL code.</p>
+
+<h2 id="hibernate">Hibernate</h2>
+
+:ET
