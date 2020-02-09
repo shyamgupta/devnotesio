@@ -1,56 +1,4 @@
-<!doctype html>
-<html lang="en" class="h-100 w-100">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-     <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet"> 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/assets/css/main.css">
-    <title>DevNotes | SpringBoot</title>
-  </head>
-  <body class="h-100 w-100">
-    <!-- Navbar -->
-    <div class="container-fluid fixed-top">
-      <div class="row">
-        <div class="col-md-12 p-2 bg-dark text-light">
-          <p class="lead d-inline ml-2">Spring Boot</p>
-          <a href="/" class="float-right lead text-decoration-none mr-2 text-warning">Home</a>
-        </div>
-      </div>
-    </div>
-    <div class="container-fluid h-90 mt-5">
-    	<div class="row h-90">
-        <div class="col-md-2" id="navbar">
-          <!-- Side Navbar -->
-          <a href="/springboot/Fundamentals/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Fundamentals</a>
-          <a href="/springboot/Basics/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Spring Boot Basics</a>
-          <a href="/springboot/Annotations/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Annotations</a>
-          <a href="/springboot/Messaging/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Messaging</a>
-          <a href="/springboot/JPA/" class="text-decoration-none d-block mb-1 p-1 mt-1  activepage ">JPA</a>
-           <a href="/springboot/SpringData/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Spring Data</a>
-            <a href="/springboot/GraphQL/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">GraphQL</a>
-          <a href="/springboot/Microservices/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Microservices</a>
-          <a href="/springboot/SpringSecurity/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Spring Security</a>
-           <a href="/springboot/ConsumingREST/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Consuming REST</a>
-           <a href="/springboot/ConsumingSOAP/" class="text-decoration-none d-block mb-1 p-1 mt-1 ">Consuming SOAP</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Documentation</a>
-          <a href="#" class="text-decoration-none d-block mb-1 p-1">Testing</a>
-        </div>
-        <!-- Content -->
-    		<div class="col-md-10 mx-auto p-3">
-				  <h2 id="persistence-in-java-jpa">Persistence in Java: JPA</h2>
+I"Y:<h2 id="persistence-in-java-jpa">Persistence in Java: JPA</h2>
 <p>The Java Persistence API (JPA) specification and it’s implementations help developers in accessing, persisting and managing data between Java objects, classes and relational databases. Object Relational Mapping (ORM) connect Java and relational db’s.</p>
 
 <p>Relational databases store data in rows and columns, but Object-Oriented languages like Java does not know about rows and columns. Object Oriented languages organize data in objects, classes,packages, interfaces etc. and relational db’s know nothing about these Object Oriented concepts. ORM bridges this gap bewteen Object Oriented Languages and Relational Databases - it allows objects to be mapped to tables and tables can be mapped to objects.</p>
@@ -87,7 +35,7 @@
 
 <p>Once the entity has the correct mapping metadata, JPA allows us to query the entity in an object-oriented way. The entity manager, <code class="highlighter-rouge">javax.persistence.EntityManager</code> is responsible for orchestrating this process - it performs CRUD operatations, allowing is to persist, update, retrieve, and delete objects from a database. Enttity Manager API allows us to interact with the database without writing any JDBC or SQL code.</p>
 
-<p>JPA also comes with a more powerful language, <strong>Java Persistence Query Language (JPQL)</strong> - allowing us to retrieve data with an object-oriented query language. JPQL is a layer on top of SQL. It’s syntax is similar to SQL, but refers to entities and attributes instead of tables and columns.</p>
+<p>JPA also comes with a more powerful language, <strong>Java Persistence Query Language (JPQL)</strong> - allowing us to retrieve data with an object-oriented query language. JPQL is a layer on top of SQL.</p>
 
 <ol>
   <li>Note that <strong><em>results from a JPQL query are returned as a collection of entities</em></strong>.</li>
@@ -203,63 +151,4 @@
   <li>The Department entity has a list of courses that annotates with <code class="highlighter-rouge">@OneToMany</code>: one department has many courses. The <code class="highlighter-rouge">mappedBy="department"</code> parameter refers to the department attribute in the Course class. By default, OneToMany attributes are not automatically fetched from the database - this is callled Lazy Loading. The <code class="highlighter-rouge">FetchType.EAGER</code> setting overrides this default behavior, so when a department is ready from the database, JPA also populates the associated courses. The <code class="highlighter-rouge">cascade</code> parameter controls the state of the collection attribute - with <code class="highlighter-rouge">CascadeType.ALL</code>, any state changes to the department, should apply to its courses as well.</li>
 </ul>
 
-<p>Now, let’s look at the Enrollment table - notice the @OneToMany annotation where we are specifying the join table:</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Entity</span>
-<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"STUDENT"</span><span class="o">)</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Student</span> <span class="o">{</span>
-    <span class="nd">@Id</span>
-    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
-    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"student_id"</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="nc">Integer</span> <span class="n">studentId</span><span class="o">;</span>
-
-    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"student_name"</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
-
-    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"student_fulltime"</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">fullTime</span><span class="o">;</span>
-
-    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"student_age"</span><span class="o">)</span>
-    <span class="kd">private</span> <span class="nc">Integer</span> <span class="n">age</span><span class="o">;</span>
-
-    <span class="nd">@OneToMany</span><span class="o">(</span><span class="n">fetch</span> <span class="o">=</span> <span class="nc">FetchType</span><span class="o">.</span><span class="na">EAGER</span><span class="o">,</span><span class="n">cascade</span> <span class="o">=</span> <span class="nc">CascadeType</span><span class="o">.</span><span class="na">ALL</span><span class="o">)</span>
-    <span class="nd">@JoinTable</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"Enrollment"</span><span class="o">,</span><span class="n">joinColumns</span> <span class="o">=</span> <span class="o">{</span><span class="nd">@JoinColumn</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"student_id"</span><span class="o">)},</span>
-        <span class="n">inverseJoinColumns</span> <span class="o">={</span><span class="nd">@JoinColumn</span><span class="o">(</span><span class="n">name</span><span class="o">=</span><span class="s">"course_id"</span><span class="o">)})</span>
-    <span class="kd">private</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">Course</span><span class="o">&gt;</span> <span class="n">courses</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">ArrayList</span><span class="o">&lt;&gt;();</span>
-
-
-    <span class="kd">public</span> <span class="nf">Student</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">fullTime</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">age</span><span class="o">){</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">fullTime</span> <span class="o">=</span> <span class="n">fullTime</span><span class="o">;</span>
-        <span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
-    <span class="o">}</span>
-
-    <span class="c1">//getters</span>
-<span class="o">}</span>
-</code></pre></div></div>
-
-
-    		</div>
-    	</div>
-    </div>
-    <a id="button"></a>
-    <script>
-      $(document).ready(function(){
-        var btn = $('#button');
-
-        $(window).scroll(function() {
-          if ($(window).scrollTop() > 300) {
-            btn.addClass('show');
-          } else {
-            btn.removeClass('show');
-          }
-        });
-
-        btn.on('click', function(e) {
-          e.preventDefault();
-          $('html, body').animate({scrollTop:0}, '300');
-        });
-      })
-    </script>
-  </body>
-</html>
+:ET

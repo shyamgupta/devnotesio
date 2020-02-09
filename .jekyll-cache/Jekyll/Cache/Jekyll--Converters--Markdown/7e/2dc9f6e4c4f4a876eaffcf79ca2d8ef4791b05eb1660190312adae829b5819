@@ -1,0 +1,88 @@
+I" <h2 id="persistence-in-java-jpa">Persistence in Java: JPA</h2>
+<p>The Java Persistence API (JPA) specification and it’s implementations help developers in accessing, persisting and managing data between Java objects, classes and relational databases. Object Relational Mapping (ORM) connect Java and relational db’s.</p>
+
+<p>Relational databases store data in rows and columns, but Object-Oriented languages like Java does not know about rows and columns. Object Oriented languages organize data in objects, classes,packages, interfaces etc. and relational db’s know nothing about these Object Oriented concepts. ORM bridges this gap bewteen Object Oriented Languages and Relational Databases - it allows objects to be mapped to tables and tables can be mapped to objects.</p>
+
+<p>The process of ORM is often delegated to external tools or frameworks. In Java EE this framework is called JPA, which is a specification for accessing, persisting and managing data between Java objects, classes and relational databases.</p>
+
+<p>Using JPA, we can access a database without writing any SQL code. JPA is an abstraction over JDBC (Java Database Connectivity).</p>
+
+<h2 id="hibernate">Hibernate</h2>
+
+<p>JPA lives in the <code class="highlighter-rouge">javax.persistence</code> package, with different sub-packages, but most of the core API and annotations live in javax.persistence. Since JPA is a specification (set of empty methods and collection of interfaces) or a set of guidelines, it cannot do anything on its own. In order to be fullly functional, JPA needs an implementation, also known as an instance provider. Some of the JPA implementations are:</p>
+
+<ol>
+  <li>EclipseLink (Oracle)</li>
+  <li>Hibernate (JBOSS and RedHat): Spring with JPA uses Hibernate as the persistence provider.</li>
+  <li>OpenJPA (IBM)</li>
+  <li>Data Nucleus (JPOX)</li>
+</ol>
+
+<h2 id="jpa-metadata">JPA Metadata</h2>
+
+<p>The mapping between Java objects and database tables is defined via the persistence metadata, which is used by the JPA instance provider to perform correct database operations. There are two ways to define JPA metadata:</p>
+
+<ol>
+  <li><strong>Annotations</strong>: Using annotations in the Java class, @Entity, @Id, @Table, @Column etc. is the most common way and is what we will use. Spring can scan all packages looking for entities described by the @Entity annotation.</li>
+  <li><strong>XML</strong>: Alternatively, metadata can be defined in XML or a combination of XML and Annotations.</li>
+</ol>
+
+<p>JPA can be setup with no XML, which is very convenient.</p>
+
+<h2 id="entities">Entities</h2>
+
+<p>Entities are objects that live in a database and have the ability to be mapped to a database. They are defined by the <code class="highlighter-rouge">@Entity</code> annotation, and support inheritence, relationships etc and also have a unique identifier.</p>
+
+<p>Once the entity has the correct mapping metadata, JPA allows us to query the entity in an object-oriented way. The entity manager, <code class="highlighter-rouge">javax.persistence.EntityManager</code> is responsible for orchestrating this process - it performs CRUD operatations, allowing is to persist, update, retrieve, and delete objects from a database. Enttity Manager API allows us to interact with the database without writing any JDBC or SQL code.</p>
+
+<p>JPA also comes with a more powerful language, <strong>Java Persistence Query Language (JPQL)</strong> - allowing us to retrieve data with an object-oriented query language. JPQL is a layer on top of SQL.</p>
+
+<ol>
+  <li>Note that <strong><em>results from a JPQL query are returned as a collection of entities</em></strong>.</li>
+  <li>JPQL does NOT support schemaless or NoSQL databases. It also does not support JSON.</li>
+</ol>
+
+<p>Now, let’s see how to map a database table to a Java class: we’ve one database table (STUDENT) with 4 columns and we need to map it to one JPA entity:</p>
+
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">-- Table name: STUDENT</span>
+<span class="n">student_id</span> <span class="nb">INT</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span> <span class="o">&lt;</span><span class="c1">-- PRIMARY_KEY</span>
+<span class="n">student_name</span> <span class="nb">VARCHAR</span><span class="p">(</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">student_fulltime</span> <span class="nb">TINYINT</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">student_age</span> <span class="nb">INT</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+</code></pre></div></div>
+<p><br /></p>
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Entity</span>
+<span class="nd">@Table</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"STUDENT"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Student</span> <span class="o">{</span>
+    <span class="nd">@Id</span>
+    <span class="nd">@GeneratedValue</span><span class="o">(</span><span class="n">strategy</span> <span class="o">=</span> <span class="nc">GenerationType</span><span class="o">.</span><span class="na">IDENTITY</span><span class="o">)</span>
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"student_id"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Integer</span> <span class="n">studentId</span><span class="o">;</span>
+    
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"student_name"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">String</span> <span class="n">name</span><span class="o">;</span>
+    
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"student_fulltime"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="kt">boolean</span> <span class="n">fullTime</span><span class="o">;</span>
+    
+    <span class="nd">@Column</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"student_age"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="nc">Integer</span> <span class="n">age</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="nf">Student</span><span class="o">(</span><span class="nc">String</span> <span class="n">name</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">fullTime</span><span class="o">,</span> <span class="nc">Integer</span> <span class="n">age</span><span class="o">){</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">name</span> <span class="o">=</span> <span class="n">name</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">fullTime</span> <span class="o">=</span> <span class="n">fullTime</span><span class="o">;</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">age</span> <span class="o">=</span> <span class="n">age</span><span class="o">;</span>
+    <span class="o">}</span>
+</code></pre></div></div>
+
+<p>As you can see, the table columns have been mapped to a Java class with four attributes.</p>
+
+<ul>
+  <li><strong>@Entity</strong> annotation defines that a class can be mapped to a database table.</li>
+  <li><strong>@Table</strong> defines the table that the entity is mapped to.</li>
+  <li><strong>@Id</strong> marks a field as a primary key field. Entites must have this unique identifier field.</li>
+  <li><strong>@GeneratedValue</strong> generates a unique identifier for the entity, that’s why we don’t have the id attribute in the constructor as JPA will generate it.</li>
+  <li><strong>@Column</strong> changes the name or length of any column in the database.</li>
+</ul>
+
+:ET
